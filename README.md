@@ -1,6 +1,6 @@
-# OS-expert: xv6-riscv GraphRAG Assistant
+# xv6-graphRAG
 
-OS-expert is a GraphRAG-style assistant for exploring the [xv6-riscv](https://github.com/mit-pdos/xv6-riscv) kernel. The project has been refactored into a four-class pipeline with a unified runtime entrypoint.
+This project is a GraphRAG-style assistant for exploring the [xv6-riscv](https://github.com/mit-pdos/xv6-riscv) kernel. The project has been refactored into a four-class pipeline with a unified runtime entrypoint.
 
 ## Architecture
 
