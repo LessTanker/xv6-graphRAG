@@ -4,6 +4,8 @@ OS-expert is a GraphRAG-style assistant for exploring the [xv6-riscv](https://gi
 
 ## Architecture
 
+![Pipeline](pipeline.png)
+
 The `src` directory now keeps only the core modules:
 
 ```text
@@ -31,6 +33,17 @@ src/
    - `data/prompt.md`
 
 Index building is no longer a set of standalone scripts. It is part of the integrated pipeline executed by `main.py`.
+
+## Tech Stack
+
+- Retrieval architecture: GraphRAG (vector retrieval + graph traversal)
+- Embeddings: `sentence-transformers` (`BAAI/bge-small-en` by default)
+- Vector index: `faiss-cpu` (`IndexFlatL2`)
+- Code parsing: `libclang` Python bindings (`clang.cindex`) over xv6 compile DB
+- Graph construction: AST-based relations (`CALLS`, `USES_STRUCT`, `USES_GLOBAL`, `MACRO_USE`)
+- Query understanding: HyDE query expansion + LLM-based query planning
+- Prompting/answering: chat-completions style LLM API (configurable via `.env`)
+- Runtime: Python 3, `python-dotenv`, standard JSON/CLI pipeline
 
 ## Setup
 
