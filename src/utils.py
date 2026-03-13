@@ -59,7 +59,11 @@ def chunk_to_text(chunk: Dict[str, Any]) -> str:
     )
 
 
-def call_llm(query: str, context_markdown: str) -> Tuple[str, Optional[Dict[str, Any]]]:
+def call_llm(
+    query: str,
+    context_markdown: str,
+    response_language: str = "English",
+) -> Tuple[str, Optional[Dict[str, Any]]]:
     api_url = config.LLM_API_URL
     api_key = config.LLM_TOKEN
     model = config.LLM_MODEL
@@ -77,7 +81,8 @@ def call_llm(query: str, context_markdown: str) -> Tuple[str, Optional[Dict[str,
                 "role": "system",
                 "content": (
                     "You are an expert operating-systems assistant. Use the provided context to answer the user query. "
-                    "If context is insufficient, explicitly state uncertainty."
+                    "If context is insufficient, explicitly state uncertainty. "
+                    f"Respond in {response_language}."
                 ),
             },
             {

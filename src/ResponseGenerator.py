@@ -22,7 +22,14 @@ class ResponseGenerator:
         }
         self.adjacency = self._build_undirected_adj(self.edges)
 
-    def generate(self, query: str, plan: Dict[str, Any], seeds, related_chunks) -> Dict[str, Any]:
+    def generate(
+        self,
+        query: str,
+        plan: Dict[str, Any],
+        seeds,
+        related_chunks,
+        answer_language: str = config.LLM_RESPONSE_LANGUAGE,
+    ) -> Dict[str, Any]:
         output = {
             "query": query,
             "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -55,7 +62,11 @@ class ResponseGenerator:
         prompt_markdown = self._build_prompt_markdown(output)
         config.PROMPT_PATH.write_text(prompt_markdown, encoding="utf-8")
 
-        llm_answer, _raw = utils.call_llm(query, prompt_markdown)
+        llm_answer, _raw = utils.call_llm(
+            query,
+            prompt_markdown,
+            response_language=answer_language,
+        )
         output["llm_response"] = llm_answer
         utils.save_json(config.SEARCH_RESULTS_PATH, output)
         return output

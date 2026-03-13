@@ -26,6 +26,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run unified GraphRAG pipeline for xv6.")
     parser.add_argument("query", help="Natural language query")
     parser.add_argument(
+        "--answer-language",
+        default=config.LLM_RESPONSE_LANGUAGE,
+        help="Language for LLM outputs (default: English)",
+    )
+    parser.add_argument(
         "--rebuild-index",
         action="store_true",
         help="Force rebuild chunks, graph, and FAISS index before querying",
@@ -58,7 +63,7 @@ def main() -> None:
     indexer = KnowledgeIndexer(source_root=config.PROJECT_ROOT, model=model)
     indexer.ensure_ready(force_rebuild=args.rebuild_index)
 
-    query_processor = QueryProcessor(model=model)
+    query_processor = QueryProcessor(model=model, response_language=args.answer_language)
     query_bundle = query_processor.process(args.query)
 
     retriever = GraphRetriever(model=model)
@@ -70,6 +75,7 @@ def main() -> None:
         plan=query_bundle.plan,
         seeds=retrieval.seeds,
         related_chunks=retrieval.related_chunks,
+        answer_language=args.answer_language,
     )
 
     top_count = len(final_output.get("top3_nodes", []))

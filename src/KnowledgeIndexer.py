@@ -26,6 +26,8 @@ REL_CALLS = "CALLS"
 REL_USES_STRUCT = "USES_STRUCT"
 REL_USES_GLOBAL = "USES_GLOBAL"
 REL_MACRO_USE = "MACRO_USE"
+REL_USER_TO_KERNEL = "USER_TO_KERNEL"
+REL_KERNEL_TO_USER = "KERNEL_TO_USER"
 
 
 class KnowledgeIndexer:
@@ -181,6 +183,16 @@ class KnowledgeIndexer:
                             for dst_id in funcs_by_name.get(callee, set()):
                                 self._add_edge(edges, src_id, dst_id, REL_CALLS)
 
+                            # User-mode call sites that target syscall wrappers are linked
+                            # directly to kernel sys_* handlers as transition edges.
+                            if rel_file.startswith("user/"):
+                                for dst_id in funcs_by_name.get(f"sys_{callee}", set()):
+                                    self._add_edge(edges, src_id, dst_id, REL_USER_TO_KERNEL)
+
+                                # Also capture the trap entry transition to syscall dispatcher.
+                                for dst_id in funcs_by_name.get("syscall", set()):
+                                    self._add_edge(edges, src_id, dst_id, REL_USER_TO_KERNEL)
+
                     elif node.kind == cindex.CursorKind.TYPE_REF:
                         ref = node.referenced
                         if ref and ref.kind == cindex.CursorKind.STRUCT_DECL and ref.spelling:
@@ -194,6 +206,19 @@ class KnowledgeIndexer:
                             if parent and parent.kind == cindex.CursorKind.TRANSLATION_UNIT:
                                 for dst_id in globals_by_name.get(ref.spelling, set()):
                                     self._add_edge(edges, src_id, dst_id, REL_USES_GLOBAL)
+
+        # Kernel-mode return path back to user mode is modeled explicitly.
+        return_targets = set(funcs_by_name.get("usertrapret", set()))
+        if not return_targets:
+            return_targets = set(funcs_by_name.get("userret", set()))
+
+        if return_targets:
+            for func_name, src_ids in funcs_by_name.items():
+                if not func_name.startswith("sys_") and func_name != "syscall":
+                    continue
+                for src_id in src_ids:
+                    for dst_id in return_targets:
+                        self._add_edge(edges, src_id, dst_id, REL_KERNEL_TO_USER)
 
         return [
             {"from": src, "to": dst, "type": rel}

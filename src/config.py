@@ -28,6 +28,7 @@ PROMPT_BUILDER_PATH = SRC_DIR / "prompt_builder.py"
 LLM_API_URL = os.getenv("LLM_API_URL")
 LLM_TOKEN = os.getenv("LLM_TOKEN")
 LLM_MODEL = os.getenv("LLM_MODEL")
+LLM_RESPONSE_LANGUAGE = os.getenv("LLM_RESPONSE_LANGUAGE", "Chinese")
 
 # Embedding generation configuration
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "BAAI/bge-small-en")

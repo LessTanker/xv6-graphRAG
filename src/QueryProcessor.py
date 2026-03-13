@@ -69,8 +69,9 @@ class LLMClient:
 class QueryProcessor:
     _DYNAMIC_STRATEGY_PATTERN = re.compile(r"^embedding \+ (callees|bfs) depth=(\d+)$")
 
-    def __init__(self, model: SentenceTransformer):
+    def __init__(self, model: SentenceTransformer, response_language: str = config.LLM_RESPONSE_LANGUAGE):
         self.model = model
+        self.response_language = response_language
         self.llm_client = LLMClient(config.LLM_API_URL, config.LLM_TOKEN, config.LLM_MODEL)
         self.strategy_config = config.STRATEGY_CONFIG or {}
         self.valid_query_types = set(self.strategy_config.get("valid_query_types", {"UNKNOWN"}))
@@ -96,8 +97,7 @@ class QueryProcessor:
 
         prompt = (
             "You are an expert in the xv6 operating system. "
-            "Always respond in Chinese. "
-            "Given the user question, first provide the likely function call chain.\n"
+            f"Always respond in {self.response_language}. "
             f"User Query: {query}\n"
             "Hypothetical Answer:"
         )
