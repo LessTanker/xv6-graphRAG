@@ -1,0 +1,7 @@
+sentence-transformers
+faiss-cpu
+numpy
+tqdm
+python-dotenv
+transformers
+libclang
