@@ -99,8 +99,9 @@ class KnowledgeIndexer:
                 if not raw_code.strip():
                     continue
 
-                code = self._compact(raw_code, elem_type)
-                dedup_key = (elem_type, name, rel_file, code)
+                raw_code = raw_code.strip()
+                code_compact = self._compact(raw_code, elem_type)
+                dedup_key = (elem_type, name, rel_file, code_compact)
                 if dedup_key in seen:
                     continue
                 seen.add(dedup_key)
@@ -113,8 +114,7 @@ class KnowledgeIndexer:
                         "file": rel_file,
                         "summary": "",
                         "keywords": [],
-                        "code": code,
-                        "full_code": raw_code.strip(),
+                        "code": raw_code,
                     }
                 )
                 next_id += 1

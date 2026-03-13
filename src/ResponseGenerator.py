@@ -82,6 +82,15 @@ class ResponseGenerator:
             return ["```c", "// Code not found for this node id.", "```"]
         return ["```c", code, "```"]
 
+    def _get_chunk_code_by_id(self, node_id: Any) -> str:
+        if not isinstance(node_id, int):
+            return ""
+        chunk = self.chunks_by_id.get(node_id)
+        if not isinstance(chunk, dict):
+            return ""
+        # Always source code from the canonical chunk store to avoid stale display fields.
+        return self._safe_text(chunk.get("code"), "")
+
     def _build_prompt_markdown(self, query_result: Dict[str, Any]) -> str:
         top_nodes = query_result.get("top3_nodes", [])
         related_nodes = query_result.get("directly_related_nodes", [])
@@ -112,17 +121,14 @@ class ResponseGenerator:
             lines.append(f"- ID: `{self._safe_text(center.get('id'), 'N/A')}`")
             lines.append(f"- Type: `{self._safe_text(center.get('type'), 'N/A')}`")
             lines.append(f"- File: `{self._safe_text(center.get('file'), 'N/A')}`")
-            if center.get("summary"):
-                lines.append(f"- Summary: {center['summary']}")
             if "similarity" in center:
                 lines.append(f"- Similarity: `{center['similarity']}`")
             if "distance" in center:
                 lines.append(f"- Distance: `{center['distance']}`")
 
-            center_chunk = self.chunks_by_id.get(center_id, {}) if isinstance(center_id, int) else {}
-            center_code = self._safe_text(center_chunk.get("code"), "")
+            center_code = self._get_chunk_code_by_id(center_id)
             lines.append("")
-            lines.append("#### Code")
+            lines.append("#### Core Source Code")
             lines.extend(self._render_code_block(center_code))
             lines.append("")
 

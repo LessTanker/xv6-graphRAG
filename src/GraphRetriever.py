@@ -52,22 +52,36 @@ class GraphRetriever:
     def _enrich_and_refresh(self, top_results, related_nodes, query_embedding, plan: Dict[str, Any], k: int):
         all_selected_chunks = [chunk for chunk, _, _ in top_results] + related_nodes
         metadata_updated = False
+        missing_summary_chunks = [chunk for chunk in all_selected_chunks if not chunk.get("summary")]
 
-        for chunk in all_selected_chunks:
-            if chunk.get("summary"):
-                continue
+        if missing_summary_chunks:
+            print(
+                f"[summary] {len(missing_summary_chunks)} chunk(s) missing summary. "
+                "Generating summaries with LLM..."
+            )
+
+        for idx, chunk in enumerate(missing_summary_chunks, start=1):
+            print(
+                f"[summary] ({idx}/{len(missing_summary_chunks)}) "
+                f"chunk id={chunk.get('id')} name={chunk.get('name')}"
+            )
             summary, keywords = self._get_llm_summary_for_chunk(chunk)
             if not summary:
+                print(f"[summary] skip chunk id={chunk.get('id')} (empty LLM output)")
                 continue
             chunk["summary"] = summary
             chunk["keywords"] = keywords
             metadata_updated = True
 
         if not metadata_updated:
+            if missing_summary_chunks:
+                print("[summary] No new summaries were saved.")
             return top_results, related_nodes
 
+        print("[summary] Saving updated metadata to data/chunks_metadata.json")
         utils.save_json(config.CHUNKS_METADATA_PATH, self.chunks)
 
+        print("[index] Recomputing embeddings for updated metadata...")
         all_texts = [utils.chunk_to_text(c) for c in self.chunks]
         all_embeddings = self.model.encode(
             all_texts,
@@ -79,18 +93,20 @@ class GraphRetriever:
         self.index = faiss.IndexFlatL2(dim)
         self.index.add(all_embeddings)
         faiss.write_index(self.index, str(config.FAISS_INDEX_PATH))
+        print("[index] FAISS index refreshed. Re-running retrieval with updated embeddings...")
 
         seed_results = self._embedding_search(query_embedding=query_embedding, k=k)
         top_results = seed_results[:3]
         related_ids = self._apply_traversal_plan(plan=plan, top_embedding_results=seed_results)
         related_nodes = [self.chunks_by_id[nid] for nid in sorted(related_ids) if nid in self.chunks_by_id]
+        print("[summary] Summary enrichment complete.")
         return top_results, related_nodes
 
     def _get_llm_summary_for_chunk(self, chunk: Dict[str, Any]) -> Tuple[str, List[str]]:
         if not config.LLM_API_URL or not config.LLM_TOKEN or not config.LLM_MODEL:
             return "", []
 
-        source_code = chunk.get("full_code") or chunk.get("code", "")
+        source_code = chunk.get("code", "")
         prompt = (
             "Analyze the following xv6 code to generate a concise summary and a few relevant keywords.\n"
             f"NAME: {chunk.get('name')}\n"

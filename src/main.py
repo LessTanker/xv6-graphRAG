@@ -1,4 +1,6 @@
 import argparse
+import contextlib
+import io
 import logging
 import os
 
@@ -36,15 +38,22 @@ def configure_runtime() -> None:
     os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
     os.environ["TQDM_DISABLE"] = "1"
     hf_logging.set_verbosity_error()
+    hf_logging.disable_progress_bar()
     logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
     logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+
+
+def load_embedding_model_silent(model_name: str) -> SentenceTransformer:
+    # Some backends print progress bars directly to stdout/stderr during model load.
+    with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+        return SentenceTransformer(model_name)
 
 
 def main() -> None:
     args = parse_args()
     configure_runtime()
 
-    model = SentenceTransformer(config.EMBEDDING_MODEL_NAME)
+    model = load_embedding_model_silent(config.EMBEDDING_MODEL_NAME)
 
     indexer = KnowledgeIndexer(source_root=config.PROJECT_ROOT, model=model)
     indexer.ensure_ready(force_rebuild=args.rebuild_index)

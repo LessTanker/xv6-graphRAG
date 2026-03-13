@@ -47,15 +47,15 @@ def load_edges(path: Path) -> List[Dict[str, Any]]:
 
 def chunk_to_text(chunk: Dict[str, Any]) -> str:
     kws = ", ".join(chunk.get("keywords", []))
-    code = chunk.get("code", "")
-    code = "\n".join(code.splitlines()[:8])
+    code = chunk.get("code") or ""
+    code = str(code)
     return (
         f"Kernel {chunk['type']} in xv6\n\n"
         f"Name: {chunk['name']}\n"
         f"File: {chunk['file']}\n\n"
         f"Summary:\n{chunk.get('summary', '')}\n\n"
         f"Keywords:\n{kws}\n\n"
-        f"Code snippet:\n{code}"
+        f"Code:\n{code}"
     )
 
 
