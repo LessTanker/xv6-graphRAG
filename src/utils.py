@@ -125,6 +125,16 @@ def call_llm(
         return f"LLM call failed: {e}", None
 
 
+def call_llm_api(
+    query: str,
+    context_markdown: str,
+    response_language: str = "English",
+) -> str:
+    """Thin wrapper that returns only text content for simple LLM utility calls."""
+    content, _ = call_llm(query=query, context_markdown=context_markdown, response_language=response_language)
+    return content
+
+
 def to_rel_xv6(abs_path: str) -> Optional[str]:
     norm = os.path.normpath(abs_path)
     marker = f"xv6-riscv{os.sep}"

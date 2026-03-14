@@ -32,6 +32,7 @@ class GraphRetriever:
         self.index = faiss.read_index(str(config.FAISS_INDEX_PATH))
         self.chunks_by_id = {chunk.get("id"): chunk for chunk in self.chunks if "id" in chunk}
         self.graph = self._build_graph_indices(self.edges)
+        self.node_to_community = self._build_node_community_map()
 
     def retrieve(self, query_embedding, plan: Dict[str, Any], k: int = 10) -> RetrievalResult:
         seed_results = self._embedding_search(query_embedding=query_embedding, k=k)
@@ -210,7 +211,9 @@ class GraphRetriever:
             results.append((chunk, similarity, distance))
         return results
 
-    def _bfs_expand(self, start_ids: List[int], adjacency: Dict[int, Set[int]], depth: int) -> Set[int]:
+    def _bfs_expand(self, start_ids: List[int], adjacency: Dict[int, Set[int]], depth: int, node_filter=None) -> Set[int]:
+        if node_filter is not None:
+            start_ids = [nid for nid in start_ids if node_filter(nid)]
         visited = set(start_ids)
         queue = deque((nid, 0) for nid in start_ids)
         expanded = set()
@@ -220,6 +223,8 @@ class GraphRetriever:
             if d >= depth:
                 continue
             for nxt in adjacency.get(node_id, set()):
+                if node_filter is not None and not node_filter(nxt):
+                    continue
                 if nxt in visited:
                     continue
                 visited.add(nxt)
@@ -227,7 +232,9 @@ class GraphRetriever:
                 queue.append((nxt, d + 1))
         return expanded
 
-    def _shortest_path_between(self, a: int, b: int, adjacency: Dict[int, Set[int]], max_depth: int = 4) -> List[int]:
+    def _shortest_path_between(self, a: int, b: int, adjacency: Dict[int, Set[int]], max_depth: int = 4, node_filter=None) -> List[int]:
+        if node_filter is not None and (not node_filter(a) or not node_filter(b)):
+            return []
         if a == b:
             return [a]
         queue = deque([(a, [a])])
@@ -237,6 +244,8 @@ class GraphRetriever:
             if len(path) - 1 >= max_depth:
                 continue
             for nxt in adjacency.get(node_id, set()):
+                if node_filter is not None and not node_filter(nxt):
+                    continue
                 if nxt in visited:
                     continue
                 new_path = path + [nxt]
@@ -259,11 +268,53 @@ class GraphRetriever:
                 file_counter[file_name] += 1
         return {name for name, _ in file_counter.most_common(2)}
 
+    def _build_node_community_map(self) -> Dict[int, Set[int]]:
+        if not config.COMMUNITIES_PATH.exists():
+            return {}
+
+        try:
+            data = utils.load_json_object(config.COMMUNITIES_PATH, "communities.json")
+            mapping = data.get("community_id_to_node_ids", {})
+            if not isinstance(mapping, dict):
+                return {}
+
+            node_to_community: Dict[int, Set[int]] = defaultdict(set)
+            for community_id, members in mapping.items():
+                if not isinstance(members, list):
+                    continue
+                if not str(community_id).isdigit():
+                    continue
+                cid = int(community_id)
+                for node_id in members:
+                    if isinstance(node_id, int):
+                        node_to_community[node_id].add(cid)
+            return dict(node_to_community)
+        except Exception as exc:
+            logging.warning("Failed to load communities for retriever scope control: %s", exc)
+            return {}
+
     def _apply_traversal_plan(self, plan: Dict[str, Any], top_embedding_results) -> Set[int]:
         strategy = plan["traversal_strategy"]
         seed_ids = [c.get("id") for c, _, _ in top_embedding_results if c.get("id") is not None]
         seed_set = set(seed_ids)
         related_ids: Set[int] = set()
+        query_type = str(plan.get("query_type", "UNKNOWN")).upper()
+
+        restricted_raw = plan.get("restricted_community_id")
+        if isinstance(restricted_raw, int):
+            restricted_community_id = restricted_raw
+        elif isinstance(restricted_raw, str) and restricted_raw.strip().isdigit():
+            restricted_community_id = int(restricted_raw.strip())
+        else:
+            restricted_community_id = None
+
+        def community_filter(node_id: int) -> bool:
+            if restricted_community_id is None:
+                return True
+            return restricted_community_id in self.node_to_community.get(node_id, set())
+
+        seed_ids = [nid for nid in seed_ids if community_filter(nid)]
+        seed_set = set(seed_ids)
 
         outgoing_calls = self.graph["outgoing_by_type"].get("CALLS", {})
         incoming_struct = self.graph["incoming_by_type"].get("USES_STRUCT", {})
@@ -271,13 +322,18 @@ class GraphRetriever:
         undirected = self.graph["undirected"]
         calls_indegree = self.graph.get("calls_indegree", {})
 
+        if not seed_ids:
+            return related_ids
+
         if strategy == "embedding_only":
             return related_ids
 
         callee_match = re.match(r"^embedding \+ callees depth=(\d+)$", strategy)
         if callee_match:
             depth = max(1, int(callee_match.group(1)))
-            callee_ids = self._bfs_expand(seed_ids[:3], outgoing_calls, depth=depth)
+            if query_type == "FILE_OR_MODULE" and restricted_community_id is not None:
+                depth += 1
+            callee_ids = self._bfs_expand(seed_ids[:3], outgoing_calls, depth=depth, node_filter=community_filter)
             callee_ids = {
                 nid
                 for nid in callee_ids
@@ -288,7 +344,9 @@ class GraphRetriever:
         bfs_match = re.match(r"^embedding \+ bfs depth=(\d+)$", strategy)
         if bfs_match:
             depth = max(1, int(bfs_match.group(1)))
-            bfs_ids = self._bfs_expand(seed_ids[:3], outgoing_calls, depth=depth)
+            if query_type == "FILE_OR_MODULE" and restricted_community_id is not None:
+                depth += 1
+            bfs_ids = self._bfs_expand(seed_ids[:3], outgoing_calls, depth=depth, node_filter=community_filter)
             return bfs_ids - seed_set
 
         if strategy == "struct_reference_expansion":
@@ -300,15 +358,23 @@ class GraphRetriever:
                         if self.chunks_by_id.get(candidate, {}).get("type") == "struct":
                             struct_ids.add(candidate)
 
+            if restricted_community_id is not None:
+                struct_ids = {sid for sid in struct_ids if community_filter(sid)}
+
             related_ids.update(struct_ids)
             referrers: Set[int] = set()
             for sid in struct_ids:
                 referrers.update(incoming_struct.get(sid, set()))
+            if restricted_community_id is not None:
+                referrers = {rid for rid in referrers if community_filter(rid)}
             related_ids.update(referrers)
 
             for rid in list(referrers):
                 if self.chunks_by_id.get(rid, {}).get("type") == "function":
-                    related_ids.update(outgoing_calls.get(rid, set()))
+                    callees = set(outgoing_calls.get(rid, set()))
+                    if restricted_community_id is not None:
+                        callees = {nid for nid in callees if community_filter(nid)}
+                    related_ids.update(callees)
 
             return related_ids - seed_set
 
@@ -320,13 +386,14 @@ class GraphRetriever:
                         candidate_seeds[i],
                         candidate_seeds[j],
                         undirected,
-                        max_depth=4,
+                        max_depth=5 if query_type == "FILE_OR_MODULE" and restricted_community_id is not None else 4,
+                        node_filter=community_filter,
                     )
                     if path:
                         related_ids.update(path)
 
             if not related_ids:
-                related_ids = self._bfs_expand(candidate_seeds, undirected, depth=1)
+                related_ids = self._bfs_expand(candidate_seeds, undirected, depth=1, node_filter=community_filter)
             return related_ids - seed_set
 
         if strategy == "module_nodes_expansion":
@@ -334,9 +401,12 @@ class GraphRetriever:
             for node_id, chunk in self.chunks_by_id.items():
                 file_name = str(chunk.get("file", "")).strip().lower()
                 if file_name in target_files:
+                    if restricted_community_id is not None and not community_filter(node_id):
+                        continue
                     related_ids.add(node_id)
 
-            module_depth_one = self._bfs_expand(list(related_ids), undirected, depth=1)
+            depth = 2 if restricted_community_id is not None else 1
+            module_depth_one = self._bfs_expand(list(related_ids), undirected, depth=depth, node_filter=community_filter)
             related_ids.update(module_depth_one)
             return related_ids - seed_set
 

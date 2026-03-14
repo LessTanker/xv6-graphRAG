@@ -5,3 +5,6 @@ tqdm
 python-dotenv
 transformers
 libclang
+networkx
+igraph
+leidenalg

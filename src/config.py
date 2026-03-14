@@ -19,6 +19,15 @@ COMPILE_COMMANDS_PATH = DATA_DIR / "compile_commands.json"
 PROMPT_PATH = DATA_DIR / "prompt.md"
 EMBEDDINGS_CACHE_PATH = DATA_DIR / "embeddings_cache.npz"
 EMBEDDING_STATE_PATH = DATA_DIR / "embedding_state.json"
+COMMUNITIES_PATH = DATA_DIR / "communities.json"
+COMMUNITY_FAISS_INDEX_PATH = DATA_DIR / "community_faiss.index"
+COMMUNITY_EMBEDDINGS_CACHE_PATH = DATA_DIR / "community_embeddings_cache.npz"
+COMMUNITY_USE_STATIC_PATH_PARTITION = os.getenv("COMMUNITY_USE_STATIC_PATH_PARTITION", "false").lower() in {
+	"1",
+	"true",
+	"yes",
+	"on",
+}
 
 # Source directory
 SRC_DIR = PROJECT_ROOT / "src"

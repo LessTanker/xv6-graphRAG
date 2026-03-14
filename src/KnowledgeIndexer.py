@@ -16,9 +16,11 @@ except ImportError as exc:
 
 try:
     from src import config, utils
+    from src.CommunityManager import CommunityManager
 except ImportError:
     import config  # type: ignore
     import utils  # type: ignore
+    from CommunityManager import CommunityManager  # type: ignore
 
 
 TARGET_TYPES = {"function", "struct", "global_var", "macro"}
@@ -46,6 +48,20 @@ class KnowledgeIndexer:
         ]
         if force_rebuild or any(not p.exists() for p in required_paths):
             self.build_all()
+
+        if force_rebuild or not config.COMMUNITIES_PATH.exists():
+            manager = CommunityManager(
+                edges_path=config.GRAPH_EDGES_PATH,
+                chunks_path=config.CHUNKS_METADATA_PATH,
+                output_path=config.COMMUNITIES_PATH,
+                prefer_static_partition=config.COMMUNITY_USE_STATIC_PATH_PARTITION,
+            )
+            manager.run_leiden_algorithm()
+            manager.summarize_communities()
+            manager.save_communities()
+
+        if force_rebuild or not config.COMMUNITY_FAISS_INDEX_PATH.exists():
+            self._build_and_save_community_embeddings()
 
     def build_all(self) -> None:
         compile_db = utils.load_json_array(config.COMPILE_COMMANDS_PATH, "compile_commands.json")
@@ -254,6 +270,41 @@ class KnowledgeIndexer:
         np.savez_compressed(
             str(config.EMBEDDINGS_CACHE_PATH),
             ids=np.array([int(chunk["id"]) for chunk in chunks], dtype=np.int64),
+            embeddings=embeddings,
+        )
+
+    def _build_and_save_community_embeddings(self) -> None:
+        data = utils.load_json_object(config.COMMUNITIES_PATH, "communities.json")
+        community_nodes = data.get("Community_Nodes", [])
+        if not isinstance(community_nodes, list) or not community_nodes:
+            raise SystemExit("No Community_Nodes found; cannot build community FAISS index.")
+
+        community_ids: List[str] = []
+        texts: List[str] = []
+        for item in community_nodes:
+            if not isinstance(item, dict):
+                continue
+            cid = item.get("community_id")
+            summary = str(item.get("summary", "")).strip()
+            if cid is None or not summary:
+                continue
+            community_ids.append(str(cid))
+            texts.append(summary)
+
+        if not texts:
+            raise SystemExit("Community summaries are empty; cannot build community FAISS index.")
+
+        embeddings = self.model.encode(texts, batch_size=max(1, config.EMBEDDING_BATCH_SIZE), convert_to_numpy=True)
+        embeddings = embeddings.astype("float32")
+
+        dim = embeddings.shape[1]
+        index = faiss.IndexFlatL2(dim)
+        index.add(embeddings)
+        faiss.write_index(index, str(config.COMMUNITY_FAISS_INDEX_PATH))
+
+        np.savez_compressed(
+            str(config.COMMUNITY_EMBEDDINGS_CACHE_PATH),
+            community_ids=np.array([int(cid) if str(cid).isdigit() else -1 for cid in community_ids], dtype=np.int64),
             embeddings=embeddings,
         )
 
