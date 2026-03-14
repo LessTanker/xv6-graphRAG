@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # Load .env once so every script importing config shares the same variables.
-load_dotenv(PROJECT_ROOT / ".env")
+# `override=True` ensures .env values are honored even if the shell has stale exports.
+load_dotenv(PROJECT_ROOT / ".env", override=True)
 
 # Data directory and files
 DATA_DIR = PROJECT_ROOT / "data"
@@ -42,6 +43,13 @@ LLM_RESPONSE_LANGUAGE = os.getenv("LLM_RESPONSE_LANGUAGE", "Chinese")
 # Embedding generation configuration
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "BAAI/bge-small-en")
 EMBEDDING_BATCH_SIZE = int(os.getenv("EMBEDDING_BATCH_SIZE", "64"))
+
+# Community detection and module routing tunables
+COMMUNITY_TARGET_MIN = int(os.getenv("COMMUNITY_TARGET_MIN", "8"))
+COMMUNITY_TARGET_MAX = int(os.getenv("COMMUNITY_TARGET_MAX", "15"))
+COMMUNITY_MIN_SIZE = int(os.getenv("COMMUNITY_MIN_SIZE", "3"))
+COMMUNITY_GLOBAL_TOP_PERCENT = float(os.getenv("COMMUNITY_GLOBAL_TOP_PERCENT", "0.05"))
+ROUTING_STRONG_MODULE_SIMILARITY = float(os.getenv("ROUTING_STRONG_MODULE_SIMILARITY", "0.35"))
 
 # Query planner strategy templates and mappings.
 # `template` supports a `{depth}` placeholder for dynamic traversal depth.

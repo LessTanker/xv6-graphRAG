@@ -82,12 +82,17 @@ def call_llm(
                 "content": (
                     "You are an expert operating-systems assistant. Use the provided context to answer the user query. "
                     "If context is insufficient, explicitly state uncertainty. "
-                    f"Respond in {response_language}."
+                    f"Language requirement: your entire answer MUST be written in {response_language}. "
+                    f"Do not switch to any other language."
                 ),
             },
             {
                 "role": "user",
-                "content": f"User query:\n{query}\n\nContext (prompt.md):\n{context_markdown}",
+                "content": (
+                    f"User query:\n{query}\n\n"
+                    f"Output language MUST be {response_language}.\n\n"
+                    f"Context (prompt.md):\n{context_markdown}"
+                ),
             },
         ],
         "temperature": 0.2,

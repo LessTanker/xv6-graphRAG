@@ -5,4 +5,3 @@
 3. Expand it to more powerful kernel like Linux
 4. Try to speed up response time
 5. Enable interactive mode
-6. Create subgraph for precise BFS

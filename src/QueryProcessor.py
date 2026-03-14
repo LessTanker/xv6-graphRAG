@@ -71,7 +71,7 @@ class LLMClient:
 
 class QueryProcessor:
     _DYNAMIC_STRATEGY_PATTERN = re.compile(r"^embedding \+ (callees|bfs) depth=(\d+)$")
-    _STRONG_MODULE_SIMILARITY = 0.35
+    _STRONG_MODULE_SIMILARITY = config.ROUTING_STRONG_MODULE_SIMILARITY
 
     def __init__(self, model: SentenceTransformer, response_language: str = config.LLM_RESPONSE_LANGUAGE):
         self.model = model

@@ -24,10 +24,10 @@ class CommunityManager:
 
     GLOBAL_COMMUNITY_NAME = "Global Kernel Utilities"
     MISC_COMMUNITY_NAME = "MISC"
-    TARGET_COMMUNITY_MIN = 8
-    TARGET_COMMUNITY_MAX = 15
-    MIN_COMMUNITY_SIZE = 3
-    GLOBAL_TOP_PERCENT = 0.05
+    TARGET_COMMUNITY_MIN = config.COMMUNITY_TARGET_MIN
+    TARGET_COMMUNITY_MAX = config.COMMUNITY_TARGET_MAX
+    MIN_COMMUNITY_SIZE = config.COMMUNITY_MIN_SIZE
+    GLOBAL_TOP_PERCENT = config.COMMUNITY_GLOBAL_TOP_PERCENT
 
     def __init__(
         self,
@@ -98,7 +98,7 @@ class CommunityManager:
         if self.global_node_ids:
             print(
                 f"[community] Identified {len(self.global_node_ids)} GLOBAL_SHARED node(s) "
-                f"(top 5% by in-degree, threshold={indegree_threshold}).",
+                f"(top {self.GLOBAL_TOP_PERCENT * 100:.1f}% by in-degree, threshold={indegree_threshold}).",
                 flush=True,
             )
 

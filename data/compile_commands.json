@@ -9,9 +9,9 @@
       "kernel/entry.o",
       "kernel/entry.S"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/entry.S",
-    "output": "xv6-riscv/kernel/entry.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/entry.S",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/entry.o"
   },
   {
     "arguments": [
@@ -53,9 +53,9 @@
       "kernel/start.o",
       "kernel/start.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/start.c",
-    "output": "xv6-riscv/kernel/start.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/start.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/start.o"
   },
   {
     "arguments": [
@@ -97,9 +97,9 @@
       "kernel/console.o",
       "kernel/console.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/console.c",
-    "output": "xv6-riscv/kernel/console.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/console.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/console.o"
   },
   {
     "arguments": [
@@ -141,9 +141,9 @@
       "kernel/printf.o",
       "kernel/printf.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/printf.c",
-    "output": "xv6-riscv/kernel/printf.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/printf.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/printf.o"
   },
   {
     "arguments": [
@@ -185,9 +185,9 @@
       "kernel/uart.o",
       "kernel/uart.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/uart.c",
-    "output": "xv6-riscv/kernel/uart.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/uart.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/uart.o"
   },
   {
     "arguments": [
@@ -229,9 +229,9 @@
       "kernel/kalloc.o",
       "kernel/kalloc.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/kalloc.c",
-    "output": "xv6-riscv/kernel/kalloc.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/kalloc.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/kalloc.o"
   },
   {
     "arguments": [
@@ -273,9 +273,9 @@
       "kernel/spinlock.o",
       "kernel/spinlock.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/spinlock.c",
-    "output": "xv6-riscv/kernel/spinlock.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/spinlock.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/spinlock.o"
   },
   {
     "arguments": [
@@ -317,9 +317,9 @@
       "kernel/string.o",
       "kernel/string.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/string.c",
-    "output": "xv6-riscv/kernel/string.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/string.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/string.o"
   },
   {
     "arguments": [
@@ -361,9 +361,9 @@
       "kernel/main.o",
       "kernel/main.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/main.c",
-    "output": "xv6-riscv/kernel/main.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/main.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/main.o"
   },
   {
     "arguments": [
@@ -405,9 +405,9 @@
       "kernel/vm.o",
       "kernel/vm.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/vm.c",
-    "output": "xv6-riscv/kernel/vm.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/vm.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/vm.o"
   },
   {
     "arguments": [
@@ -449,9 +449,9 @@
       "kernel/proc.o",
       "kernel/proc.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/proc.c",
-    "output": "xv6-riscv/kernel/proc.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/proc.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/proc.o"
   },
   {
     "arguments": [
@@ -463,9 +463,9 @@
       "kernel/swtch.o",
       "kernel/swtch.S"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/swtch.S",
-    "output": "xv6-riscv/kernel/swtch.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/swtch.S",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/swtch.o"
   },
   {
     "arguments": [
@@ -477,9 +477,9 @@
       "kernel/trampoline.o",
       "kernel/trampoline.S"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/trampoline.S",
-    "output": "xv6-riscv/kernel/trampoline.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/trampoline.S",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/trampoline.o"
   },
   {
     "arguments": [
@@ -521,9 +521,9 @@
       "kernel/trap.o",
       "kernel/trap.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/trap.c",
-    "output": "xv6-riscv/kernel/trap.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/trap.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/trap.o"
   },
   {
     "arguments": [
@@ -565,9 +565,9 @@
       "kernel/syscall.o",
       "kernel/syscall.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/syscall.c",
-    "output": "xv6-riscv/kernel/syscall.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/syscall.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/syscall.o"
   },
   {
     "arguments": [
@@ -609,9 +609,9 @@
       "kernel/sysproc.o",
       "kernel/sysproc.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/sysproc.c",
-    "output": "xv6-riscv/kernel/sysproc.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/sysproc.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/sysproc.o"
   },
   {
     "arguments": [
@@ -653,9 +653,9 @@
       "kernel/bio.o",
       "kernel/bio.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/bio.c",
-    "output": "xv6-riscv/kernel/bio.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/bio.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/bio.o"
   },
   {
     "arguments": [
@@ -697,9 +697,9 @@
       "kernel/fs.o",
       "kernel/fs.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/fs.c",
-    "output": "xv6-riscv/kernel/fs.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/fs.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/fs.o"
   },
   {
     "arguments": [
@@ -741,9 +741,9 @@
       "kernel/log.o",
       "kernel/log.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/log.c",
-    "output": "xv6-riscv/kernel/log.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/log.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/log.o"
   },
   {
     "arguments": [
@@ -785,9 +785,9 @@
       "kernel/sleeplock.o",
       "kernel/sleeplock.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/sleeplock.c",
-    "output": "xv6-riscv/kernel/sleeplock.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/sleeplock.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/sleeplock.o"
   },
   {
     "arguments": [
@@ -829,9 +829,9 @@
       "kernel/file.o",
       "kernel/file.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/file.c",
-    "output": "xv6-riscv/kernel/file.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/file.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/file.o"
   },
   {
     "arguments": [
@@ -873,9 +873,9 @@
       "kernel/pipe.o",
       "kernel/pipe.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/pipe.c",
-    "output": "xv6-riscv/kernel/pipe.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/pipe.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/pipe.o"
   },
   {
     "arguments": [
@@ -917,9 +917,9 @@
       "kernel/exec.o",
       "kernel/exec.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/exec.c",
-    "output": "xv6-riscv/kernel/exec.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/exec.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/exec.o"
   },
   {
     "arguments": [
@@ -961,9 +961,9 @@
       "kernel/sysfile.o",
       "kernel/sysfile.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/sysfile.c",
-    "output": "xv6-riscv/kernel/sysfile.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/sysfile.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/sysfile.o"
   },
   {
     "arguments": [
@@ -975,9 +975,9 @@
       "kernel/kernelvec.o",
       "kernel/kernelvec.S"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/kernelvec.S",
-    "output": "xv6-riscv/kernel/kernelvec.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/kernelvec.S",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/kernelvec.o"
   },
   {
     "arguments": [
@@ -1019,9 +1019,9 @@
       "kernel/plic.o",
       "kernel/plic.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/plic.c",
-    "output": "xv6-riscv/kernel/plic.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/plic.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/plic.o"
   },
   {
     "arguments": [
@@ -1063,8 +1063,8 @@
       "kernel/virtio_disk.o",
       "kernel/virtio_disk.c"
     ],
-    "directory": "xv6-riscv",
-    "file": "xv6-riscv/kernel/virtio_disk.c",
-    "output": "xv6-riscv/kernel/virtio_disk.o"
+    "directory": "/home/lesstanker/self/OS-expert/xv6-riscv",
+    "file": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/virtio_disk.c",
+    "output": "/home/lesstanker/self/OS-expert/xv6-riscv/kernel/virtio_disk.o"
   }
 ]

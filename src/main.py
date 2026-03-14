@@ -24,22 +24,28 @@ except ImportError:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run unified GraphRAG pipeline for xv6.")
-    parser.add_argument("query", help="Natural language query")
+    parser.add_argument("query", nargs="?", help="Natural language query")
     parser.add_argument(
         "--answer-language",
-        default=config.LLM_RESPONSE_LANGUAGE,
-        help="Language for LLM outputs (default: English)",
+        default=None,
+        help="Language for LLM outputs (defaults to LLM_RESPONSE_LANGUAGE from .env)",
     )
     parser.add_argument(
         "--rebuild-index",
         action="store_true",
         help="Force rebuild chunks, graph, and FAISS index before querying",
     )
+    parser.add_argument(
+        "--index-only",
+        action="store_true",
+        help="Only (re)build index artifacts and exit without running query/LLM",
+    )
     return parser.parse_args()
 
 
 def configure_runtime() -> None:
-    load_dotenv(config.PROJECT_ROOT / ".env")
+    # Refresh env at runtime and prefer .env values over stale shell exports.
+    load_dotenv(config.PROJECT_ROOT / ".env", override=True)
     os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
     os.environ["TQDM_DISABLE"] = "1"
     hf_logging.set_verbosity_error()
@@ -57,14 +63,23 @@ def load_embedding_model_silent(model_name: str) -> SentenceTransformer:
 def main() -> None:
     args = parse_args()
     configure_runtime()
+    answer_language = args.answer_language or os.getenv("LLM_RESPONSE_LANGUAGE", config.LLM_RESPONSE_LANGUAGE)
+    print(f"Using answer language: {answer_language}")
+
+    if not args.index_only and not args.query:
+        raise SystemExit("query is required unless --index-only is set")
 
     model = load_embedding_model_silent(config.EMBEDDING_MODEL_NAME)
 
     indexer = KnowledgeIndexer(source_root=config.PROJECT_ROOT, model=model)
     indexer.ensure_ready(force_rebuild=args.rebuild_index)
 
-    query_processor = QueryProcessor(model=model, response_language=args.answer_language)
-    query_bundle = query_processor.process(args.query)
+    if args.index_only:
+        print("Index build complete. Skipped query processing and LLM answering (--index-only).")
+        return
+
+    query_processor = QueryProcessor(model=model, response_language=answer_language)
+    query_bundle = query_processor.process(args.query or "")
 
     retriever = GraphRetriever(model=model)
     retrieval = retriever.retrieve(query_bundle.query_embedding, query_bundle.plan)
@@ -75,7 +90,7 @@ def main() -> None:
         plan=query_bundle.plan,
         seeds=retrieval.seeds,
         related_chunks=retrieval.related_chunks,
-        answer_language=args.answer_language,
+        answer_language=answer_language,
     )
 
     top_count = len(final_output.get("top3_nodes", []))
