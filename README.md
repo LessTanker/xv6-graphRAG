@@ -12,6 +12,7 @@ In short, this project helps you ask natural language questions about xv6 and ge
 ### Prerequisites
 
 - Python `3.10+`
+- Node.js `18+` (for Vite + React frontend)
 - `bear` (for `compile_commands.json` generation)
 - `libclang` runtime/dev package
 - xv6 build toolchain available on your machine
@@ -29,6 +30,11 @@ sudo apt install -y bear libclang-dev
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+
+# Frontend (Vite + React + Tailwind)
+cd src/frontend
+npm install
+cd ../..
 ```
 
 ### Full Rebuild
@@ -71,6 +77,25 @@ make query Q="how does the trap path reach usertrap?"
 If you change `LLM_RESPONSE_LANGUAGE` in `.env`, you do **not** need `make rebuild`.
 Just run `make query ...` again in a new command invocation.
 
+### 3. Use The Web UI
+
+Start backend API and Vite frontend in two terminals:
+
+```bash
+make backend-server
+make frontend-server
+```
+
+Then open `http://127.0.0.1:3000` in your browser.
+
+Frontend API URL defaults to `http://127.0.0.1:8001/api/query`.
+To override it, set environment variable before starting frontend:
+
+```bash
+cd src/frontend
+VITE_API_URL="http://127.0.0.1:8002/api/query" npm run dev -- --host 127.0.0.1 --port 3000
+```
+
 
 ## Pipeline And Tech Stack
 
@@ -110,31 +135,37 @@ Just run `make query ...` again in a new command invocation.
 
 ### Main Components
 
-- `src/KnowledgeIndexer.py`
+- `src/backend/core/KnowledgeIndexer.py`
   - Offline indexing pipeline
   - Builds chunks, graph edges, base FAISS
   - Ensures community artifacts and community FAISS are ready
 
-- `src/CommunityManager.py`
+- `src/backend/core/CommunityManager.py`
   - Community detection and post-processing
   - Hierarchical summarization
   - Writes `data/communities.json`
 
-- `src/QueryProcessor.py`
+- `src/backend/core/QueryProcessor.py`
   - HyDE generation
   - Query embedding
   - Planner JSON generation
   - Module routing and global-context injection
 
-- `src/GraphRetriever.py`
+- `src/backend/core/GraphRetriever.py`
   - Base vector recall + graph traversal expansion
   - Community-restricted traversal when applicable
   - Full-graph fallback when no strong module route exists
 
-- `src/ResponseGenerator.py`
+- `src/backend/core/ResponseGenerator.py`
   - Prompt assembly
   - Final LLM answer generation
   - Writes final retrieval/answer output files
+
+- `src/backend/PipelineService.py`
+  - Shared orchestration service used by both HTTP and CLI entrypoints
+
+- `src/backend/WebApp.py`
+  - HTTP API entrypoint for browser requests
 
 ### Key Data Artifacts (`data/`)
 
@@ -154,6 +185,8 @@ make help
 make clean
 make rebuild
 make query Q="your question"
+make backend-server
+make frontend-server
 ```
 
 ## License

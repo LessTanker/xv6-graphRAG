@@ -1,3 +1,7 @@
+# Frontend npm packages are managed in src/frontend/package.json:
+# react, react-dom, vite, typescript, tailwindcss, postcss, autoprefixer,
+# marked, highlight.js, dompurify
+
 sentence-transformers
 faiss-cpu
 numpy

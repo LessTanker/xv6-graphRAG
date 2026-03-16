@@ -1,8 +1,9 @@
 PYTHON ?= .venv/bin/python
 DATA_DIR := data
 XV6_DIR := xv6-riscv
+PYTHONPATH := src
 
-.PHONY: clean rebuild query help
+.PHONY: clean rebuild query backend-server frontend-server frontend-build help
 
 clean:
 	@echo "Cleaning $(DATA_DIR)/ ..."
@@ -14,18 +15,31 @@ rebuild: clean
 	@mkdir -p $(DATA_DIR)
 	@cd $(XV6_DIR) && make clean && bear -- make
 	@mv $(XV6_DIR)/compile_commands.json $(DATA_DIR)/compile_commands.json
-	@$(PYTHON) -m src.main --rebuild-index --index-only
+	@PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m backend.main --rebuild-index --index-only
 
 query:
 	@if [ -z "$(Q)" ]; then \
 		echo "Usage: make query Q='how does scheduler work?'"; \
 		exit 1; \
 	fi
-	@$(PYTHON) -m src.main "$(Q)"
+	@PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m backend.main "$(Q)"
+
+backend-server:
+	@PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m backend.WebApp
+
+frontend-server:
+	@cd src/frontend && npm run dev -- --host 127.0.0.1 --port 3000
+
+frontend-build:
+	@cd src/frontend && npm run build
 
 help:
 	@echo "Available targets:"
 	@echo "  make clean                 Remove all files under data/"
 	@echo "  make rebuild               Rebuild compile_commands.json and regenerate all data artifacts"
 	@echo "  make query Q=\"...\"        Run a question through the full online pipeline"
+	@echo "  make backend-server        Start backend API server (default http://127.0.0.1:8001)"
+	@echo "                               Override port: BACKEND_PORT=8002 make backend-server"
+	@echo "  make frontend-server       Start Vite + React frontend dev server on http://127.0.0.1:3000"
+	@echo "  make frontend-build        Build frontend production assets"
 	@echo "  make help                  Show this help"
