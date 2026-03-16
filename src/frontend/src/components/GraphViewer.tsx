@@ -11,6 +11,7 @@ interface GraphNode {
   role: GraphRole;
   color: string;
   size: number;
+  raw: RagNode;
   x?: number;
   y?: number;
 }
@@ -27,11 +28,12 @@ interface GraphViewerProps {
   allEdges: RagEdge[];
   topNodes: RagNode[];
   relatedNodes: RagNode[];
+  onNodeSelect?: (node: RagNode) => void;
   height?: number;
   borderless?: boolean;
 }
 
-export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes, height = 280, borderless = false }: GraphViewerProps) {
+export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes, onNodeSelect, height = 280, borderless = false }: GraphViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [graphWidth, setGraphWidth] = useState(0);
   const [graphHeight, setGraphHeight] = useState(0);
@@ -90,7 +92,8 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
           type: node.type ?? "unknown",
           role: "ambient",
           color: "#d8a277",
-          size: 3.4
+          size: 3.4,
+          raw: node
         });
       }
     });
@@ -279,8 +282,15 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
               nodeCanvasObjectMode={() => "replace"}
               nodeCanvasObject={drawGlowNode}
               autoPauseRedraw={false}
+              enableNodeDrag={false}
               nodeLabel={() => ""}
               onNodeHover={(node) => setHoveredNode((node as GraphNode | null) ?? null)}
+              onNodeClick={(node) => {
+                const clickedNode = node as GraphNode | null;
+                if (clickedNode && onNodeSelect) {
+                  onNodeSelect(clickedNode.raw);
+                }
+              }}
               linkColor={(link) => {
                 const graphLink = link as GraphLink;
                 if (graphLink.kind === "top") {

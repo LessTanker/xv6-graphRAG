@@ -4,8 +4,11 @@ export interface RagNode {
   name?: string;
   file?: string;
   summary?: string;
+  keywords?: string[];
+  code?: string;
   similarity?: number;
   distance?: number;
+  [key: string]: unknown;
 }
 
 export interface RagEdge {
