@@ -31,7 +31,7 @@ export function useRagQuery() {
       const payload = (await response.json()) as Partial<RagResponse> & { error?: string };
 
       if (!response.ok) {
-        throw new Error(payload.error ?? "请求失败");
+        throw new Error(payload.error ?? "request failure");
       }
 
       setResult({
@@ -43,7 +43,7 @@ export function useRagQuery() {
       });
       setStatus("success");
     } catch (err) {
-      const message = err instanceof Error ? err.message : "未知错误";
+      const message = err instanceof Error ? err.message : "unknown error";
       setError(message);
       setStatus("error");
     }
@@ -51,20 +51,19 @@ export function useRagQuery() {
 
   const statusText = useMemo(() => {
     if (status === "loading") {
-      return "正在请求后端...";
+      return "requesting backend";
     }
     if (status === "success") {
-      return "已完成";
+      return "done";
     }
     if (status === "error") {
-      return "出错";
+      return "error";
     }
-    return "等待输入";
+    return "wait for input";
   }, [status]);
 
   return {
     ask,
-    status,
     statusText,
     result,
     error,
