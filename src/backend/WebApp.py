@@ -4,8 +4,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Tuple
 
 try:
+    from backend import config
     from backend.PipelineService import pipeline_service
 except ImportError:
+    import config  # type: ignore
     from PipelineService import pipeline_service  # type: ignore
 
 
@@ -15,7 +17,7 @@ def _json_response(handler: BaseHTTPRequestHandler, status: int, payload: dict) 
     handler.send_header("Content-Type", "application/json; charset=utf-8")
     handler.send_header("Content-Length", str(len(body)))
     handler.send_header("Access-Control-Allow-Origin", "*")
-    handler.send_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+    handler.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
     handler.send_header("Access-Control-Allow-Headers", "Content-Type")
     handler.end_headers()
     handler.wfile.write(body)
@@ -28,6 +30,56 @@ class QueryHandler(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self) -> None:
         _json_response(self, 200, {"ok": True})
+
+    def do_GET(self) -> None:
+        if self.path == "/api/nodes":
+            try:
+                with open(config.CHUNKS_METADATA_PATH, "r", encoding="utf-8") as f:
+                    nodes = json.load(f)
+            except FileNotFoundError:
+                _json_response(self, 404, {"error": "chunks metadata not found"})
+                return
+            except json.JSONDecodeError:
+                _json_response(self, 500, {"error": "chunks metadata is invalid"})
+                return
+            except Exception as exc:
+                _json_response(self, 500, {"error": f"failed to load nodes: {exc}"})
+                return
+
+            if not isinstance(nodes, list):
+                _json_response(self, 500, {"error": "chunks metadata format is invalid"})
+                return
+
+            _json_response(self, 200, {"nodes": nodes})
+            return
+
+        if self.path == "/api/edges":
+            try:
+                with open(config.GRAPH_EDGES_PATH, "r", encoding="utf-8") as f:
+                    edge_data = json.load(f)
+            except FileNotFoundError:
+                _json_response(self, 404, {"error": "graph edges not found"})
+                return
+            except json.JSONDecodeError:
+                _json_response(self, 500, {"error": "graph edges is invalid"})
+                return
+            except Exception as exc:
+                _json_response(self, 500, {"error": f"failed to load edges: {exc}"})
+                return
+
+            if not isinstance(edge_data, dict):
+                _json_response(self, 500, {"error": "graph edges format is invalid"})
+                return
+
+            edges = edge_data.get("edges", [])
+            if not isinstance(edges, list):
+                _json_response(self, 500, {"error": "graph edges list is invalid"})
+                return
+
+            _json_response(self, 200, {"edges": edges})
+            return
+
+        _json_response(self, 404, {"error": "Not Found"})
 
     def do_POST(self) -> None:
         if self.path != "/api/query":

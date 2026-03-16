@@ -1,7 +1,9 @@
-import { useCallback, useMemo, useState } from "react";
-import type { RagResponse } from "../types/rag";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { RagEdge, RagResponse } from "../types/rag";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8001/api/query";
+const NODES_API_URL = import.meta.env.VITE_NODES_API_URL ?? "http://127.0.0.1:8001/api/nodes";
+const EDGES_API_URL = import.meta.env.VITE_EDGES_API_URL ?? "http://127.0.0.1:8001/api/edges";
 
 type QueryStatus = "idle" | "loading" | "success" | "error";
 
@@ -9,6 +11,59 @@ export function useRagQuery() {
   const [status, setStatus] = useState<QueryStatus>("idle");
   const [result, setResult] = useState<RagResponse | null>(null);
   const [error, setError] = useState<string>("");
+  const [allNodes, setAllNodes] = useState<RagResponse["directly_related_nodes"]>([]);
+  const [allEdges, setAllEdges] = useState<RagEdge[]>([]);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadGraph = async () => {
+      const [nodesResult, edgesResult] = await Promise.allSettled([
+        fetch(NODES_API_URL, { method: "GET" }),
+        fetch(EDGES_API_URL, { method: "GET" })
+      ]);
+
+      if (isCancelled) {
+        return;
+      }
+
+      if (nodesResult.status === "fulfilled") {
+        try {
+          const nodesPayload = (await nodesResult.value.json()) as { nodes?: RagResponse["directly_related_nodes"]; error?: string };
+          if (nodesResult.value.ok) {
+            setAllNodes(Array.isArray(nodesPayload.nodes) ? nodesPayload.nodes : []);
+          } else {
+            setAllNodes([]);
+          }
+        } catch {
+          setAllNodes([]);
+        }
+      } else {
+        setAllNodes([]);
+      }
+
+      if (edgesResult.status === "fulfilled") {
+        try {
+          const edgesPayload = (await edgesResult.value.json()) as { edges?: RagEdge[]; error?: string };
+          if (edgesResult.value.ok) {
+            setAllEdges(Array.isArray(edgesPayload.edges) ? edgesPayload.edges : []);
+          } else {
+            setAllEdges([]);
+          }
+        } catch {
+          setAllEdges([]);
+        }
+      } else {
+        setAllEdges([]);
+      }
+    };
+
+    void loadGraph();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   const ask = useCallback(async (query: string) => {
     const clean = query.trim();
@@ -66,6 +121,8 @@ export function useRagQuery() {
     ask,
     statusText,
     result,
+    allNodes,
+    allEdges,
     error,
     isLoading: status === "loading"
   };

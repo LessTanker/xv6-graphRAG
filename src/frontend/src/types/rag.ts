@@ -8,6 +8,12 @@ export interface RagNode {
   distance?: number;
 }
 
+export interface RagEdge {
+  from: number;
+  to: number;
+  type?: string;
+}
+
 export interface RagQueryPlan {
   query_type?: string;
   traversal_strategy?: string;
