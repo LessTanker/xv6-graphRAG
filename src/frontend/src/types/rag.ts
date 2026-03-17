@@ -33,3 +33,15 @@ export interface RagResponse {
   directly_related_nodes: RagNode[];
   query_plan: RagQueryPlan;
 }
+
+export interface ExpertPath {
+  theme: string;
+  path_summary: string;
+  node_ids: number[];
+  source?: string;
+}
+
+export interface ExpertPathsResponse {
+  paths: ExpertPath[];
+  path_count: number;
+}

@@ -3,7 +3,7 @@ import os
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 try:
     from backend import config
@@ -33,6 +33,76 @@ def load_json_object(path: Path, name: str = "JSON file") -> Dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError(f"{name} must contain a JSON object")
     return data
+
+
+# Load compile_commands.json and supplement with user-mode entries if missing.
+def load_compile_db(path: Path, source_root: Path) -> List[Dict[str, Any]]:
+    # Attempt to find xv6-riscv root more flexibly if direct path fails
+    xv6_root = source_root / "xv6-riscv"
+    if not xv6_root.exists():
+        # Heuristic: search for kernel/defs.h to identify xv6 root
+        potential_roots = list(source_root.glob("**/kernel/defs.h"))
+        if potential_roots:
+            xv6_root = potential_roots[0].parent.parent
+        else:
+            print(f"Warning: Could not locate xv6-riscv source root under {source_root}")
+            return []
+
+    if not path.exists():
+        print(f"Warning: {path} not found. Building skeleton compile db from disk scan.")
+        compile_db = []
+    else:
+        compile_db = load_json_array(path, "compile_commands.json")
+
+    user_dir = xv6_root / "user"
+    if not user_dir.exists():
+        return compile_db
+
+    augmented = list(compile_db)
+    existing_user_files: Set[str] = set()
+
+    for entry in compile_db:
+        src_file = str(entry.get("file", "")).strip()
+        if not src_file.endswith(".c"):
+            continue
+        rel_file = to_rel_xv6(src_file)
+        if rel_file and rel_file.startswith("user/"):
+            existing_user_files.add(rel_file)
+
+    supplement_count = 0
+    # Supplement missing user-mode entries. Makefile-generated compile_commands.json 
+    # often omits standalone user programs, which are critical for cross-mode 
+    # call-graph analysis (e.g., tracing syscalls from sh.c to sysfile.c).
+    for c_file in sorted(user_dir.glob("*.c")):
+        rel_file = f"user/{c_file.name}"
+        if rel_file in existing_user_files:
+            continue
+
+        augmented.append(
+            {
+                "directory": str(xv6_root),
+                "file": rel_file,
+                "arguments": [
+                    "clang",
+                    "-I.",
+                    "-I./kernel",
+                    "-I./user",
+                    "-x",
+                    "c",
+                    "-std=c11",
+                    "-ffreestanding",
+                    "-fno-builtin",
+                    "-c",
+                    rel_file,
+                ],
+            }
+        )
+        supplement_count += 1
+    
+    if supplement_count > 0:
+        print(f"Info: Supplemented {supplement_count} missing user-mode entries in compile database.")
+        
+    return augmented
 
 
 def load_metadata(path: Path) -> List[Dict[str, Any]]:
@@ -140,6 +210,8 @@ def call_llm_api(
     return content
 
 
+# Convert an absolute path under the xv6-riscv source tree to a relative path, keeping only files under kernel/ or user/.
+# Used to unify indexing and display format, hiding absolute path differences across environments.
 def to_rel_xv6(abs_path: str) -> Optional[str]:
     norm = os.path.normpath(abs_path)
     marker = f"xv6-riscv{os.sep}"
@@ -151,6 +223,9 @@ def to_rel_xv6(abs_path: str) -> Optional[str]:
     return None
 
 
+# Clean up and reorganize compiler arguments from compile_commands.json to make
+# them suitable for LibClang static analysis (e.g., removing output files and 
+# dependency generation flags, while ensuring proper working directory).
 def sanitize_compile_args(args: List[str], src_file: str, directory_abs: str) -> List[str]:
     if not args:
         return []

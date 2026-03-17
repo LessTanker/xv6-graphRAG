@@ -2,7 +2,7 @@ import ForceGraph2D from "react-force-graph-2d";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { RagEdge, RagNode } from "../types/rag";
 
-type GraphRole = "top" | "related" | "ambient";
+type GraphRole = "top" | "expert" | "related" | "ambient";
 
 interface GraphNode {
   id: string;
@@ -19,7 +19,7 @@ interface GraphNode {
 interface GraphLink {
   source: string;
   target: string;
-  kind: "top" | "related" | "ambient";
+  kind: "top" | "expert" | "related" | "ambient";
   edgeType?: string;
 }
 
@@ -27,13 +27,14 @@ interface GraphViewerProps {
   allNodes: RagNode[];
   allEdges: RagEdge[];
   topNodes: RagNode[];
+  expertPathIds: number[];
   relatedNodes: RagNode[];
   onNodeSelect?: (node: RagNode) => void;
   height?: number;
   borderless?: boolean;
 }
 
-export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes, onNodeSelect, height = 280, borderless = false }: GraphViewerProps) {
+export default function GraphViewer({ allNodes, allEdges, topNodes, expertPathIds, relatedNodes, onNodeSelect, height = 280, borderless = false }: GraphViewerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [graphWidth, setGraphWidth] = useState(0);
   const [graphHeight, setGraphHeight] = useState(0);
@@ -111,6 +112,10 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
       const resolved = resolveGraphId(node, index, "related");
       if (resolved) {
         relatedIds.add(resolved);
+        const graphNode = nodes.get(resolved);
+        if (graphNode) {
+          graphNode.raw = { ...graphNode.raw, ...node };
+        }
       }
     });
 
@@ -119,6 +124,18 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
       const resolved = resolveGraphId(node, index, "top");
       if (resolved) {
         topIds.add(resolved);
+        const graphNode = nodes.get(resolved);
+        if (graphNode) {
+          graphNode.raw = { ...graphNode.raw, ...node };
+        }
+      }
+    });
+
+    const expertIds = new Set<string>();
+    expertPathIds.forEach((idNum) => {
+      const resolved = idNumberToGraphId.get(idNum);
+      if (resolved) {
+        expertIds.add(resolved);
       }
     });
 
@@ -127,6 +144,10 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
         graphNode.role = "top";
         graphNode.color = "#a72323";
         graphNode.size = 8.6;
+      } else if (expertIds.has(id)) {
+        graphNode.role = "expert";
+        graphNode.color = "#5f7a72"; // Muted pine for expert
+        graphNode.size = 7.8;
       } else if (relatedIds.has(id)) {
         graphNode.role = "related";
         graphNode.color = "#b6462a";
@@ -134,7 +155,7 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
       }
     });
 
-    const centerIds = Array.from(new Set([...Array.from(topIds), ...Array.from(relatedIds)]));
+    const centerIds = Array.from(new Set([...Array.from(topIds), ...Array.from(expertIds), ...Array.from(relatedIds)]));
 
     centerIds.forEach((id, index) => {
       const graphNode = nodes.get(id);
@@ -142,7 +163,10 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
         return;
       }
       const angle = (index / Math.max(centerIds.length, 1)) * Math.PI * 2;
-      const radius = graphNode.role === "top" ? 30 : 62;
+      let radius = 62;
+      if (graphNode.role === "top") radius = 30;
+      else if (graphNode.role === "expert") radius = 45;
+      
       graphNode.x = Math.cos(angle) * radius;
       graphNode.y = Math.sin(angle) * radius;
     });
@@ -161,6 +185,7 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
 
     const topSet = new Set(topIds);
     const relatedSet = new Set(relatedIds);
+    const expertSet = new Set(expertIds);
     const seenEdge = new Set<string>();
 
     allEdges.forEach((edge) => {
@@ -182,13 +207,17 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
 
       const sourceIsTop = topSet.has(source);
       const targetIsTop = topSet.has(target);
+      const sourceIsExpert = expertSet.has(source);
+      const targetIsExpert = expertSet.has(target);
       const sourceIsRelated = relatedSet.has(source);
       const targetIsRelated = relatedSet.has(target);
 
       let kind: GraphLink["kind"] = "ambient";
       if (sourceIsTop && targetIsTop) {
         kind = "top";
-      } else if ((sourceIsTop && targetIsRelated) || (sourceIsRelated && targetIsTop) || (sourceIsRelated && targetIsRelated)) {
+      } else if (sourceIsExpert && targetIsExpert) {
+        kind = "expert";
+      } else if ((sourceIsTop && targetIsRelated) || (sourceIsRelated && targetIsTop) || (sourceIsRelated && targetIsRelated) || (sourceIsExpert && targetIsRelated) || (targetIsExpert && sourceIsRelated)) {
         kind = "related";
       }
 
@@ -199,7 +228,7 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
       nodes: Array.from(nodes.values()),
       links
     };
-  }, [allEdges, allNodes, relatedNodes, topNodes]);
+  }, [allEdges, allNodes, expertPathIds, relatedNodes, topNodes]);
 
   const isEmpty = allNodes.length === 0;
   const renderHeight = graphHeight || height;
@@ -220,6 +249,11 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
       glowRadius = 17;
       glowInnerColor = "rgba(255, 45, 45, 1.0)";
       glowMidColor = "rgba(255, 45, 45, 0.46)";
+    } else if (graphNode.role === "expert") {
+      coreRadius = 2.6;
+      glowRadius = 11;
+      glowInnerColor = "rgba(95, 122, 114, 0.42)";
+      glowMidColor = "rgba(95, 122, 114, 0.14)";
     } else if (graphNode.role === "related") {
       coreRadius = 2.4;
       glowRadius = 14;
@@ -296,6 +330,9 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
                 if (graphLink.kind === "top") {
                   return "rgba(255, 60, 60, 0.92)";
                 }
+                if (graphLink.kind === "expert") {
+                  return "rgba(95, 122, 114, 0.34)";
+                }
                 if (graphLink.kind === "related") {
                   return "rgba(255, 92, 92, 0.72)";
                 }
@@ -306,18 +343,30 @@ export default function GraphViewer({ allNodes, allEdges, topNodes, relatedNodes
                 if (graphLink.kind === "top") {
                   return 1.9;
                 }
+                if (graphLink.kind === "expert") {
+                  return 1.5;
+                }
                 if (graphLink.kind === "related") {
                   return 1.35;
                 }
                 return 0.45;
               }}
               linkDirectionalParticles={1}
-              linkDirectionalParticleWidth={0.8}
-              linkDirectionalParticleSpeed={0.0015}
+              linkDirectionalParticleWidth={(link) => {
+                const graphLink = link as GraphLink;
+                return graphLink.kind === "expert" ? 0.9 : 0.8;
+              }}
+              linkDirectionalParticleSpeed={(link) => {
+                const graphLink = link as GraphLink;
+                return graphLink.kind === "expert" ? 0.0018 : 0.0015;
+              }}
               linkDirectionalParticleColor={(link) => {
                 const graphLink = link as GraphLink;
                 if (graphLink.kind === "top") {
                   return "rgba(255, 50, 50, 0.9)";
+                }
+                if (graphLink.kind === "expert") {
+                  return "rgba(146, 177, 167, 0.38)";
                 }
                 if (graphLink.kind === "related") {
                   return "rgba(255, 78, 78, 0.74)";

@@ -79,6 +79,20 @@ class QueryHandler(BaseHTTPRequestHandler):
             _json_response(self, 200, {"edges": edges})
             return
 
+        if (self.path == "/api/expert-paths"):
+            try:
+                with open(config.EXPERT_PATHS_PATH, "r", encoding="utf-8") as f:
+                    expert_data = json.load(f)
+            except FileNotFoundError:
+                _json_response(self, 404, {"error": "expert paths not found"})
+                return
+            except Exception as exc:
+                _json_response(self, 500, {"error": f"failed to load expert paths: {exc}"})
+                return
+
+            _json_response(self, 200, expert_data)
+            return
+
         _json_response(self, 404, {"error": "Not Found"})
 
     def do_POST(self) -> None:

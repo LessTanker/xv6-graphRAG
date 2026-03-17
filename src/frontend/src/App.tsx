@@ -8,8 +8,18 @@ import { useMemo, useState } from "react";
 import type { RagNode } from "./types/rag";
 
 export default function App() {
-  const { ask, statusText, result, allNodes, allEdges, error, isLoading } = useRagQuery();
+  const { ask, statusText, result, allNodes, allEdges, globalExpertPathIds, error, isLoading } = useRagQuery();
   const [selectedNode, setSelectedNode] = useState<RagNode | null>(null);
+
+  const expertPathIds = useMemo(() => {
+    // Priority 1: Current query's expert path
+    const currentMatch = result?.query_plan?.expert_path_match?.node_ids;
+    if (Array.isArray(currentMatch) && currentMatch.length > 0) {
+      return currentMatch;
+    }
+    // Priority 2: All global expert paths (for initial rendering)
+    return globalExpertPathIds;
+  }, [result, globalExpertPathIds]);
 
   const highlightedCodeHtml = useMemo(() => {
     const rawCode = typeof selectedNode?.code === "string" ? selectedNode.code.trim() : "";
@@ -34,6 +44,7 @@ export default function App() {
               allNodes={allNodes}
               allEdges={allEdges}
               topNodes={result?.top3_nodes ?? []}
+              expertPathIds={expertPathIds}
               relatedNodes={result?.directly_related_nodes ?? []}
               onNodeSelect={setSelectedNode}
               height={260}
