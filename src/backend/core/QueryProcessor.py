@@ -284,6 +284,77 @@ class QueryProcessor:
         )
         return plan
 
+    def _load_expert_paths(self) -> list:
+        if not config.EXPERT_PATHS_PATH.exists():
+            return []
+        try:
+            data = utils.load_json_object(config.EXPERT_PATHS_PATH, "expert_path.json")
+        except Exception as exc:
+            logging.warning("Failed to load expert_path.json: %s", exc)
+            return []
+        paths = data.get("expert_paths", [])
+        return paths if isinstance(paths, list) else []
+
+    def _match_expert_path(self, query: str, query_embedding: np.ndarray) -> Optional[Dict[str, Any]]:
+        expert_paths = self._load_expert_paths()
+        if not expert_paths:
+            return None
+
+        texts = []
+        normalized_paths = []
+        for item in expert_paths:
+            if not isinstance(item, dict):
+                continue
+            node_ids = item.get("node_ids", [])
+            if not isinstance(node_ids, list) or len(node_ids) < 2:
+                continue
+            title = str(item.get("title", "")).strip()
+            desc = str(item.get("description", "")).strip()
+            node_names = item.get("node_names", [])
+            if not isinstance(node_names, list):
+                node_names = []
+            text = (
+                f"title: {title}\n"
+                f"description: {desc}\n"
+                f"chain: {' -> '.join(str(x) for x in node_names)}"
+            )
+            texts.append(text)
+            normalized_paths.append(item)
+
+        if not texts:
+            return None
+
+        path_embeddings = self.model.encode(texts, convert_to_numpy=True).astype("float32")
+        query_vec = query_embedding.reshape(-1).astype("float32")
+        query_norm = float(np.linalg.norm(query_vec))
+        if query_norm == 0.0:
+            return None
+
+        best_idx = -1
+        best_score = -1.0
+        for idx, emb in enumerate(path_embeddings):
+            denom = float(np.linalg.norm(emb)) * query_norm
+            if denom == 0.0:
+                continue
+            score = float(np.dot(query_vec, emb) / denom)
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+
+        if best_idx < 0 or best_score < config.EXPERT_PATH_MIN_SIMILARITY:
+            return None
+
+        matched = normalized_paths[best_idx]
+        return {
+            "id": str(matched.get("id", "")).strip(),
+            "title": str(matched.get("title", "")).strip(),
+            "description": str(matched.get("description", "")).strip(),
+            "node_ids": [nid for nid in matched.get("node_ids", []) if isinstance(nid, int)],
+            "node_names": [str(name) for name in matched.get("node_names", [])],
+            "similarity": best_score,
+            "query": query,
+        }
+
     def build_planner_prompt(self, community_context: str = "") -> str:
         query_types = ", ".join(sorted(self.valid_query_types))
         strategy_examples = []
@@ -374,13 +445,18 @@ class QueryProcessor:
         }
 
     def plan(self, query: str, query_embedding: np.ndarray) -> Dict[str, Any]:
+        expert_match = self._match_expert_path(query=query, query_embedding=query_embedding)
+
         routed = self._get_relevant_communities(query_embedding=query_embedding)
         relevant_communities = routed.get("communities", []) if isinstance(routed, dict) else []
         global_summary = str(routed.get("global_summary", "")) if isinstance(routed, dict) else ""
 
         if not self.llm_client.is_configured():
             fallback = self.fallback_plan(query)
-            return self._apply_module_routing_bias(fallback, routed)
+            plan = self._apply_module_routing_bias(fallback, routed)
+            if expert_match is not None:
+                plan["expert_path_match"] = expert_match
+            return plan
 
         community_lines = []
         if global_summary:
@@ -406,8 +482,14 @@ class QueryProcessor:
             content = self.llm_client.chat(messages=messages, temperature=0.0, timeout=30)
             parsed = self.parse_json_object_from_text(content)
             plan = self.sanitize_plan(parsed, query)
-            return self._apply_module_routing_bias(plan, routed)
+            plan = self._apply_module_routing_bias(plan, routed)
+            if expert_match is not None:
+                plan["expert_path_match"] = expert_match
+            return plan
         except Exception as exc:
             logging.error("Planner LLM call failed: %s", exc)
             fallback = self.fallback_plan(query)
-            return self._apply_module_routing_bias(fallback, routed)
+            plan = self._apply_module_routing_bias(fallback, routed)
+            if expert_match is not None:
+                plan["expert_path_match"] = expert_match
+            return plan

@@ -34,6 +34,7 @@ class ResponseGenerator:
             "query": query,
             "timestamp": datetime.now().isoformat(timespec="seconds"),
             "query_plan": plan,
+            "expert_path_match": plan.get("expert_path_match") if isinstance(plan.get("expert_path_match"), dict) else None,
             "top3_nodes": [
                 {
                     "id": chunk.get("id"),
@@ -41,6 +42,8 @@ class ResponseGenerator:
                     "name": chunk.get("name"),
                     "file": chunk.get("file"),
                     "summary": chunk.get("summary"),
+                    "keywords": chunk.get("keywords"),
+                    "code": chunk.get("code"),
                     "similarity": similarity,
                     "distance": distance,
                 }
@@ -53,6 +56,8 @@ class ResponseGenerator:
                     "name": chunk.get("name"),
                     "file": chunk.get("file"),
                     "summary": chunk.get("summary"),
+                    "keywords": chunk.get("keywords"),
+                    "code": chunk.get("code"),
                 }
                 for chunk in related_chunks
             ],
@@ -105,6 +110,7 @@ class ResponseGenerator:
     def _build_prompt_markdown(self, query_result: Dict[str, Any]) -> str:
         top_nodes = query_result.get("top3_nodes", [])
         related_nodes = query_result.get("directly_related_nodes", [])
+        expert_path_match = query_result.get("expert_path_match")
         related_by_id = {
             node.get("id"): node
             for node in related_nodes
@@ -121,7 +127,35 @@ class ResponseGenerator:
         lines.append(f"- Timestamp: `{self._safe_text(query_result.get('timestamp'), 'N/A')}`")
         lines.append(f"- Top center nodes: `{len(top_nodes)}`")
         lines.append(f"- Directly related nodes: `{len(related_by_id)}`")
+
+        if isinstance(expert_path_match, dict):
+            path_title = self._safe_text(expert_path_match.get("title"), "Unnamed expert path")
+            path_similarity = expert_path_match.get("similarity")
+            lines.append(f"- Expert path matched: `{path_title}`")
+            if isinstance(path_similarity, (int, float)):
+                lines.append(f"- Expert path similarity: `{path_similarity:.4f}`")
+
         lines.append("")
+        if isinstance(expert_path_match, dict):
+            lines.append("## Expert Path Context (Forced)")
+            lines.append("")
+            lines.append(self._safe_text(expert_path_match.get("description"), ""))
+            lines.append("")
+
+            node_ids = expert_path_match.get("node_ids", [])
+            if isinstance(node_ids, list):
+                for rank, node_id in enumerate(node_ids, 1):
+                    if not isinstance(node_id, int):
+                        continue
+                    chunk = self.chunks_by_id.get(node_id, {})
+                    lines.append(f"### Path Node {rank}")
+                    lines.append(f"- Name: `{self._safe_text(chunk.get('name'), 'unknown')}`")
+                    lines.append(f"- ID: `{node_id}`")
+                    lines.append(f"- Type: `{self._safe_text(chunk.get('type'), 'N/A')}`")
+                    lines.append(f"- File: `{self._safe_text(chunk.get('file'), 'N/A')}`")
+                    lines.extend(self._render_code_block(self._safe_text(chunk.get("code"), "")))
+                    lines.append("")
+
         lines.append("## Hierarchical Code Context")
         lines.append("")
 

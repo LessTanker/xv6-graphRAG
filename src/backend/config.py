@@ -23,6 +23,7 @@ EMBEDDING_STATE_PATH = DATA_DIR / "embedding_state.json"
 COMMUNITIES_PATH = DATA_DIR / "communities.json"
 COMMUNITY_FAISS_INDEX_PATH = DATA_DIR / "community_faiss.index"
 COMMUNITY_EMBEDDINGS_CACHE_PATH = DATA_DIR / "community_embeddings_cache.npz"
+EXPERT_PATHS_PATH = DATA_DIR / "expert_path.json"
 COMMUNITY_USE_STATIC_PATH_PARTITION = os.getenv("COMMUNITY_USE_STATIC_PATH_PARTITION", "false").lower() in {
 	"1",
 	"true",
@@ -50,6 +51,8 @@ COMMUNITY_TARGET_MAX = int(os.getenv("COMMUNITY_TARGET_MAX", "15"))
 COMMUNITY_MIN_SIZE = int(os.getenv("COMMUNITY_MIN_SIZE", "3"))
 COMMUNITY_GLOBAL_TOP_PERCENT = float(os.getenv("COMMUNITY_GLOBAL_TOP_PERCENT", "0.05"))
 ROUTING_STRONG_MODULE_SIMILARITY = float(os.getenv("ROUTING_STRONG_MODULE_SIMILARITY", "0.35"))
+EXPERT_PATH_MIN_SIMILARITY = float(os.getenv("EXPERT_PATH_MIN_SIMILARITY", "0.34"))
+EXPERT_PATH_MAX_COUNT = int(os.getenv("EXPERT_PATH_MAX_COUNT", "20"))
 
 # Query planner strategy templates and mappings.
 # `template` supports a `{depth}` placeholder for dynamic traversal depth.

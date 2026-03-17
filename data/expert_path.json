@@ -1,0 +1,311 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-03-17T12:43:31",
+  "path_count": 12,
+  "expert_paths": [
+    {
+      "id": "expert_1",
+      "title": "Process Creation via Fork",
+      "description": "System call fork creates a new process by copying parent's memory and setting up kernel structures.",
+      "node_ids": [
+        318,
+        257,
+        251,
+        253
+      ],
+      "node_names": [
+        "sys_fork",
+        "kfork",
+        "allocproc",
+        "proc_pagetable"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "process",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_2",
+      "title": "Program Execution via Exec",
+      "description": "System call exec replaces current process memory with new program image from filesystem.",
+      "node_ids": [
+        425,
+        403,
+        253
+      ],
+      "node_names": [
+        "sys_exec",
+        "kexec",
+        "proc_pagetable"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "process",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_3",
+      "title": "Process Exit and Cleanup",
+      "description": "Process termination with resource cleanup, parent notification, and memory deallocation.",
+      "node_ids": [
+        316,
+        259,
+        258
+      ],
+      "node_names": [
+        "sys_exit",
+        "kexit",
+        "reparent"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "process",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_4",
+      "title": "Process Waiting for Children",
+      "description": "Parent waits for child process termination and retrieves exit status.",
+      "node_ids": [
+        319,
+        260,
+        270
+      ],
+      "node_names": [
+        "sys_wait",
+        "kwait",
+        "killed"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "process",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_5",
+      "title": "Kernel Trap Handling",
+      "description": "Handles kernel-mode exceptions and timer interrupts.",
+      "node_ids": [
+        282,
+        284,
+        283,
+        267,
+        249
+      ],
+      "node_names": [
+        "kerneltrap",
+        "devintr",
+        "clockintr",
+        "wakeup",
+        "myproc"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS",
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "process",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_6",
+      "title": "Virtual Memory Allocation",
+      "description": "Grows process heap memory via sbrk system call.",
+      "node_ids": [
+        320,
+        256,
+        227,
+        224
+      ],
+      "node_names": [
+        "sys_sbrk",
+        "growproc",
+        "uvmalloc",
+        "mappages"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "memory",
+        "process",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_7",
+      "title": "Page Fault Handling",
+      "description": "Handles page faults during memory access operations.",
+      "node_ids": [
+        236,
+        224,
+        222,
+        191,
+        198
+      ],
+      "node_names": [
+        "vmfault",
+        "mappages",
+        "walk",
+        "kalloc",
+        "memset"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS",
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "memory"
+      ]
+    },
+    {
+      "id": "expert_8",
+      "title": "File Read Operation",
+      "description": "Reads data from file through filesystem layers.",
+      "node_ids": [
+        413,
+        394,
+        352
+      ],
+      "node_names": [
+        "sys_read",
+        "fileread",
+        "ilock"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "filesystem",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_9",
+      "title": "File Write Operation",
+      "description": "Writes data to file through filesystem layers.",
+      "node_ids": [
+        414,
+        395,
+        352
+      ],
+      "node_names": [
+        "sys_write",
+        "filewrite",
+        "ilock"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "filesystem",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_10",
+      "title": "Block Cache Read",
+      "description": "Reads block from disk into buffer cache.",
+      "node_ids": [
+        329,
+        328,
+        383
+      ],
+      "node_names": [
+        "bread",
+        "bget",
+        "acquiresleep"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "filesystem"
+      ]
+    },
+    {
+      "id": "expert_11",
+      "title": "File Creation",
+      "description": "Creates new file with directory entry and inode allocation.",
+      "node_ids": [
+        421,
+        420,
+        348
+      ],
+      "node_names": [
+        "sys_open",
+        "create",
+        "ialloc"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "filesystem",
+        "syscall_trap"
+      ]
+    },
+    {
+      "id": "expert_12",
+      "title": "Logging Transaction Commit",
+      "description": "Filesystem transaction commit with write-ahead logging.",
+      "node_ids": [
+        378,
+        380,
+        379
+      ],
+      "node_names": [
+        "end_op",
+        "commit",
+        "write_log"
+      ],
+      "edge_types": [
+        "CALLS",
+        "CALLS"
+      ],
+      "source": "llm_inferred",
+      "themes": [
+        "filesystem"
+      ]
+    }
+  ]
+}

@@ -38,6 +38,7 @@ class GraphRetriever:
         seed_results = self._embedding_search(query_embedding=query_embedding, k=k)
         top_results = seed_results[:3]
         related_ids = self._apply_traversal_plan(plan=plan, top_embedding_results=seed_results)
+        related_ids.update(self._get_forced_expert_path_node_ids(plan))
         related_nodes = [self.chunks_by_id[nid] for nid in sorted(related_ids) if nid in self.chunks_by_id]
 
         top_results, related_nodes = self._enrich_and_refresh(
@@ -53,11 +54,20 @@ class GraphRetriever:
     def _enrich_and_refresh(self, top_results, related_nodes, query_embedding, plan: Dict[str, Any], k: int):
         all_selected_chunks = [chunk for chunk, _, _ in top_results] + related_nodes
         metadata_updated = False
-        missing_summary_chunks = [chunk for chunk in all_selected_chunks if not chunk.get("summary")]
+        
+        # Deduplicate chunks by ID and filter those missing a summary
+        seen_ids = set()
+        missing_summary_chunks = []
+        for chunk in all_selected_chunks:
+            chunk_id = chunk.get("id")
+            if chunk_id is not None and chunk_id not in seen_ids:
+                seen_ids.add(chunk_id)
+                if not chunk.get("summary"):
+                    missing_summary_chunks.append(chunk)
 
         if missing_summary_chunks:
             print(
-                f"[summary] {len(missing_summary_chunks)} chunk(s) missing summary. "
+                f"[summary] {len(missing_summary_chunks)} unique chunk(s) missing summary. "
                 "Generating summaries with LLM..."
             )
 
@@ -99,9 +109,19 @@ class GraphRetriever:
         seed_results = self._embedding_search(query_embedding=query_embedding, k=k)
         top_results = seed_results[:3]
         related_ids = self._apply_traversal_plan(plan=plan, top_embedding_results=seed_results)
+        related_ids.update(self._get_forced_expert_path_node_ids(plan))
         related_nodes = [self.chunks_by_id[nid] for nid in sorted(related_ids) if nid in self.chunks_by_id]
         print("[summary] Summary enrichment complete.")
         return top_results, related_nodes
+
+    def _get_forced_expert_path_node_ids(self, plan: Dict[str, Any]) -> Set[int]:
+        match = plan.get("expert_path_match")
+        if not isinstance(match, dict):
+            return set()
+        node_ids = match.get("node_ids", [])
+        if not isinstance(node_ids, list):
+            return set()
+        return {nid for nid in node_ids if isinstance(nid, int)}
 
     def _get_llm_summary_for_chunk(self, chunk: Dict[str, Any]) -> Tuple[str, List[str]]:
         if not config.LLM_API_URL or not config.LLM_TOKEN or not config.LLM_MODEL:
