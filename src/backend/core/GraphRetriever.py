@@ -255,6 +255,29 @@ class GraphRetriever:
                 queue.append((nxt, new_path))
         return []
 
+    def _query_mentions_node(self, node_id: int, query_text: str) -> bool:
+        if not query_text:
+            return False
+        chunk = self.chunks_by_id.get(node_id, {})
+        name = str(chunk.get("name", "")).strip().lower()
+        if not name:
+            return False
+        # Match full identifier-like names (e.g. panic, printf) to avoid broad substring hits.
+        return re.search(rf"(?<![a-zA-Z0-9_]){re.escape(name)}(?![a-zA-Z0-9_])", query_text) is not None
+
+    def _filter_common_nodes(self, node_ids: Set[int], calls_indegree: Dict[int, int], query_text: str) -> Set[int]:
+        if not node_ids:
+            return set()
+
+        filtered: Set[int] = set()
+        for nid in node_ids:
+            if calls_indegree.get(nid, 0) < self._HIGH_INDEGREE_THRESHOLD:
+                filtered.add(nid)
+                continue
+            if self._query_mentions_node(nid, query_text):
+                filtered.add(nid)
+        return filtered
+
     def _resolve_module_seed_files(self, top_embedding_results, target_entity: str) -> Set[str]:
         if target_entity:
             normalized = target_entity.strip().lower().replace("\\", "/")
@@ -321,6 +344,14 @@ class GraphRetriever:
         outgoing_struct = self.graph["outgoing_by_type"].get("USES_STRUCT", {})
         undirected = self.graph["undirected"]
         calls_indegree = self.graph.get("calls_indegree", {})
+        query_text = " ".join(
+            part.strip().lower()
+            for part in [
+                str(plan.get("raw_query", "")),
+                str(plan.get("target_entity", "")),
+            ]
+            if part and part.strip()
+        )
 
         if not seed_ids:
             return related_ids
@@ -334,11 +365,7 @@ class GraphRetriever:
             if query_type == "FILE_OR_MODULE" and restricted_community_id is not None:
                 depth += 1
             callee_ids = self._bfs_expand(seed_ids[:3], outgoing_calls, depth=depth, node_filter=community_filter)
-            callee_ids = {
-                nid
-                for nid in callee_ids
-                if calls_indegree.get(nid, 0) < self._HIGH_INDEGREE_THRESHOLD
-            }
+            callee_ids = self._filter_common_nodes(callee_ids, calls_indegree, query_text)
             return callee_ids - seed_set
 
         bfs_match = re.match(r"^embedding \+ bfs depth=(\d+)$", strategy)
@@ -347,6 +374,7 @@ class GraphRetriever:
             if query_type == "FILE_OR_MODULE" and restricted_community_id is not None:
                 depth += 1
             bfs_ids = self._bfs_expand(seed_ids[:3], outgoing_calls, depth=depth, node_filter=community_filter)
+            bfs_ids = self._filter_common_nodes(bfs_ids, calls_indegree, query_text)
             return bfs_ids - seed_set
 
         if strategy == "struct_reference_expansion":
@@ -376,6 +404,7 @@ class GraphRetriever:
                         callees = {nid for nid in callees if community_filter(nid)}
                     related_ids.update(callees)
 
+            related_ids = self._filter_common_nodes(related_ids, calls_indegree, query_text)
             return related_ids - seed_set
 
         if strategy == "multi_seed_connection_search":
@@ -394,6 +423,7 @@ class GraphRetriever:
 
             if not related_ids:
                 related_ids = self._bfs_expand(candidate_seeds, undirected, depth=1, node_filter=community_filter)
+            related_ids = self._filter_common_nodes(related_ids, calls_indegree, query_text)
             return related_ids - seed_set
 
         if strategy == "module_nodes_expansion":
@@ -408,6 +438,7 @@ class GraphRetriever:
             depth = 2 if restricted_community_id is not None else 1
             module_depth_one = self._bfs_expand(list(related_ids), undirected, depth=depth, node_filter=community_filter)
             related_ids.update(module_depth_one)
+            related_ids = self._filter_common_nodes(related_ids, calls_indegree, query_text)
             return related_ids - seed_set
 
         return related_ids

@@ -361,6 +361,7 @@ class QueryProcessor:
             "reasoning": str(plan.get("reasoning", "")).strip(),
             "target_entity": str(plan.get("target_entity", "")).strip(),
             "restricted_community_id": restricted_community_id,
+            "raw_query": query_text,
         }
 
     def fallback_plan(self, query_text: str) -> Dict[str, Any]:
@@ -369,6 +370,7 @@ class QueryProcessor:
             **DEFAULT_PLAN,
             "query_type": query_type,
             "traversal_strategy": self._strategy_from_query_type(query_type, query_text),
+            "raw_query": query_text,
         }
 
     def plan(self, query: str, query_embedding: np.ndarray) -> Dict[str, Any]:
