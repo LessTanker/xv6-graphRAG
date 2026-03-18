@@ -1,6 +1,37 @@
 # xv6-graphRAG
 
-## What This Project Is
+**A retrieval-and-reasoning assistant for the xv6-riscv kernel codebase**
+
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+## Quick Start
+
+```bash
+# Clone and setup
+git clone <repository-url>
+cd xv6-graphRAG
+
+# Install dependencies
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your LLM API credentials
+
+# Rebuild the knowledge base
+make rebuild
+
+# Ask a question
+make query Q="how does fork work in xv6?"
+
+# Or use the web interface
+make backend-server
+make frontend-server
+# Open http://127.0.0.1:3000
+```
 
 `xv6-graphRAG` is a retrieval-and-reasoning assistant for the `xv6-riscv` kernel codebase.
 It combines vector retrieval with graph traversal, community detection, and LLM planning to answer system-level questions such as execution flow, subsystem responsibilities, and function interactions.
@@ -124,12 +155,13 @@ VITE_API_URL="http://127.0.0.1:8002/api/query" npm run dev -- --host 127.0.0.1 -
 - Planner outputs `restricted_community_id` when a strong module hit is detected
 - If module hit is weak, retrieval falls back to full global graph
 
-### On-demand Summary Generation
+### Expert Path Generation
 
-- CommunityManager generates:
-  - global shared utility summary
-  - per-community module summaries (English)
-- GraphRetriever can enrich missing chunk summaries on demand and refresh FAISS index
+- Uses LLM to identify core xv6 call chains from function catalog
+- Creates coherent learning paths focused on kernel behaviors
+- Ensures path connectivity and removes utility functions (panic, printf, etc.)
+- Covers key subsystems: scheduler, process lifecycle, syscall/trap path, memory management, filesystem I/O
+- Outputs structured paths with themes, node IDs, and descriptions
 
 ## How It Is Implemented
 
@@ -156,10 +188,14 @@ VITE_API_URL="http://127.0.0.1:8002/api/query" npm run dev -- --host 127.0.0.1 -
   - Community-restricted traversal when applicable
   - Full-graph fallback when no strong module route exists
 
-- `src/backend/core/ResponseGenerator.py`
-  - Prompt assembly
-  - Final LLM answer generation
-  - Writes final retrieval/answer output files
+### Expert Path Analysis
+
+- `src/backend/core/ExpertPathManager.py`
+  - Identifies core kernel call chains using LLM analysis
+  - Generates expert learning paths for understanding xv6 subsystems
+  - Validates path connectivity and removes utility function tails
+  - Detects themes (scheduler, process, syscall_trap, memory, filesystem)
+  - Provides modular API: `prepare_data()`, `generate_catalog()`, `call_llm_for_paths()`, `process_paths()`, `save_paths()`
 
 - `src/backend/PipelineService.py`
   - Shared orchestration service used by both HTTP and CLI entrypoints
@@ -176,7 +212,7 @@ VITE_API_URL="http://127.0.0.1:8002/api/query" npm run dev -- --host 127.0.0.1 -
 - `communities.json`: global nodes + community nodes + memberships + summaries
 - `community_faiss.index`: index built from community summaries
 - `prompt.md`: final context passed to answer generation
-- `search_results_with_graph.json`: final retrieval + plan + answer payload
+- `expert_path.json`: expert learning paths for xv6 kernel understanding
 
 ## Make Commands
 
@@ -188,6 +224,35 @@ make query Q="your question"
 make backend-server
 make frontend-server
 ```
+
+## Recent Improvements
+
+### ExpertPathManager Refactoring (March 2026)
+
+The `ExpertPathManager` class has been refactored to follow modern software engineering practices:
+
+1. **Modular Design**: Split monolithic `_extract_with_llm()` method into focused public methods:
+   - `prepare_data()` - Loads chunks and builds graph structures
+   - `generate_catalog()` - Creates function catalog for LLM
+   - `call_llm_for_paths()` - Calls LLM API for initial paths
+   - `process_paths()` - Validates and processes LLM-generated paths
+   - `save_paths()` - Saves final paths to JSON
+
+2. **Comprehensive Logging**: Added logging infrastructure similar to CommunityManager:
+   - Dedicated log file: `log/backend/ExpertPathManager.log`
+   - Detailed progress tracking at each pipeline stage
+   - Error handling with appropriate log levels
+
+3. **Configuration Management**: Moved hardcoded constants to class-level:
+   - `MIN_CHAIN_LEN = 3`
+   - `CATALOG_SIZE = 420`
+   - `UTILITY_NAMES` set for filtering utility functions
+
+4. **Improved Documentation**: Added CommunityManager-style docstrings to all methods with clear descriptions of parameters, return types, and purpose.
+
+5. **Backward Compatibility**: Maintained `build_and_save()` wrapper for convenience while exposing granular API for better control.
+
+This refactoring improves maintainability, debuggability, and consistency with the existing codebase architecture.
 
 ## License
 

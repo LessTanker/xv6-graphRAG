@@ -28,6 +28,7 @@ def load_json_array(path: Path, name: str = "JSON file") -> List[Any]:
     return data
 
 
+# Load and validate a JSON object from file.
 def load_json_object(path: Path, name: str = "JSON file") -> Dict[str, Any]:
     data = load_json(path)
     if not isinstance(data, dict):
@@ -105,10 +106,13 @@ def load_compile_db(path: Path, source_root: Path) -> List[Dict[str, Any]]:
     return augmented
 
 
+
+# Load the code chunk metadata from a JSON file and return as a list of dictionaries.
 def load_metadata(path: Path) -> List[Dict[str, Any]]:
     return load_json_array(path, "chunks_metadata.json")
 
 
+# Load edge list from a graph_edges.json file.
 def load_edges(path: Path) -> List[Dict[str, Any]]:
     data = load_json_object(path, "graph_edges.json")
     edges = data.get("edges", [])

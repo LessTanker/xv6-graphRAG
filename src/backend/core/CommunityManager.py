@@ -1,20 +1,28 @@
+# Standard library imports
+import logging
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
+# Third-party library imports
 import networkx as nx
 import numpy as np
 
+# Optional graph analysis libraries for community detection
 try:
     import igraph as ig  # type: ignore
     import leidenalg  # type: ignore
 except Exception:
+    # Gracefully handle missing igraph or leidenalg
     ig = None
     leidenalg = None
 
+# Local module imports with fallback for different execution contexts
 try:
+    # When running as part of the backend package
     from backend import config, utils
 except ImportError:
+    # When running as standalone script or from different context
     import config  # type: ignore
     import utils  # type: ignore
 
@@ -58,8 +66,44 @@ class CommunityManager:
         self.global_summary: str = ""
         self.global_metadata: Dict[str, Any] = {}
 
+        # Configure logger
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.INFO)
+
+        # Remove existing handlers to avoid duplicates
+        for handler in self.logger.handlers[:]:
+            self.logger.removeHandler(handler)
+
+        # Create file handler
+        log_dir = Path("log/backend")
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / "CommunityManager.log"
+
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+
+        # Create formatter
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+
+        # Add handler to logger
+        self.logger.addHandler(file_handler)
+
+        self.logger.info(f"CommunityManager initialized with edges_path={edges_path}, chunks_path={chunks_path}, output_path={output_path}, prefer_static_partition={prefer_static_partition}")
+
+    # This function executes the full community detection pipeline:
+    # 1. Build directed and undirected graphs from edge data
+    # 2. Identify global shared nodes (high in-degree utilities)
+    # 3. Partition remaining normal nodes using Leiden algorithm or static path partitioning
+    # 4. Post-process communities (merge small, coarsen to target size)
+    # 5. Build community records and update internal state
+    # Returns: Dict[int, List[int]] - Mapping from community ID to list of node IDs
     def run_leiden_algorithm(self) -> Dict[int, List[int]]:
+        self.logger.info("Starting community detection pipeline")
+
         edges = utils.load_edges(self.edges_path)
+        self.logger.info(f"Loaded edges from {self.edges_path}")
+
         undirected_graph = nx.Graph()
         directed_graph = nx.DiGraph()
 
@@ -67,6 +111,7 @@ class CommunityManager:
             undirected_graph.add_node(node_id)
             directed_graph.add_node(node_id)
 
+        edge_count = 0
         for edge in edges:
             src = edge.get("from")
             dst = edge.get("to")
@@ -82,11 +127,16 @@ class CommunityManager:
                 directed_graph[src][dst]["weight"] += 1.0
             else:
                 directed_graph.add_edge(src, dst, weight=1.0)
+            edge_count += 1
+
+        self.logger.info(f"Graphs built with {undirected_graph.number_of_nodes()} nodes and {edge_count} edges")
 
         if undirected_graph.number_of_nodes() == 0:
+            self.logger.warning("Empty graph detected, returning empty communities")
             self.community_id_to_node_ids = {}
             return self.community_id_to_node_ids
 
+        self.logger.info("Identifying global shared nodes based on in-degree")
         global_nodes, indegree_threshold = self._identify_global_nodes(directed_graph)
         self.global_node_ids = global_nodes
         self.global_metadata = {
@@ -96,31 +146,45 @@ class CommunityManager:
         }
 
         if self.global_node_ids:
-            print(
-                f"[community] Identified {len(self.global_node_ids)} GLOBAL_SHARED node(s) "
-                f"(top {self.GLOBAL_TOP_PERCENT * 100:.1f}% by in-degree, threshold={indegree_threshold}).",
-                flush=True,
+            self.logger.info(
+                f"Identified {len(self.global_node_ids)} GLOBAL_SHARED node(s) "
+                f"(top {self.GLOBAL_TOP_PERCENT * 100:.1f}% by in-degree, threshold={indegree_threshold})"
             )
+        else:
+            self.logger.info("No global shared nodes identified")
 
+        self.logger.info("Creating normal subgraph (excluding global nodes)")
         normal_node_ids = [nid for nid in undirected_graph.nodes() if nid not in set(self.global_node_ids)]
         normal_graph = undirected_graph.subgraph(normal_node_ids).copy()
+        self.logger.info(f"Normal subgraph has {normal_graph.number_of_nodes()} nodes")
 
         if self.prefer_static_partition:
+            self.logger.info("Using static path-based partitioning")
             partition_map = self._build_static_path_partitions(normal_node_ids)
         else:
+            self.logger.info("Using Leiden algorithm for dynamic partitioning")
             partition_map = self._build_leiden_partitions(normal_graph)
 
+        self.logger.info(f"Initial partitioning created {len(partition_map)} communities")
+
+        self.logger.info(f"Merging small communities (min_size={self.MIN_COMMUNITY_SIZE})")
         partition_map = self._merge_small_communities(
             partition_map=partition_map,
             graph=normal_graph,
             min_size=self.MIN_COMMUNITY_SIZE,
         )
+
+        self.logger.info(f"Coarsening communities to target max (target_max={self.TARGET_COMMUNITY_MAX})")
         partition_map = self._coarsen_communities(
             partition_map=partition_map,
             graph=normal_graph,
             target_max=self.TARGET_COMMUNITY_MAX,
         )
 
+        final_communities = len(partition_map)
+        self.logger.info(f"Post-processing complete: {final_communities} final communities")
+
+        self.logger.info("Building community records")
         self.community_records = self._build_community_records(
             partition_map=partition_map,
             graph=undirected_graph,
@@ -138,13 +202,20 @@ class CommunityManager:
             for nid in effective_nodes:
                 self.node_memberships[nid].add(cid)
 
-        print(
-            f"[community] Built {len(self.community_records)} merged community(ies).",
-            flush=True,
+        self.logger.info(
+            f"Built {len(self.community_records)} merged community(ies) with {len(self.global_node_ids)} global shared nodes"
         )
+        self.logger.info("Community detection pipeline completed successfully")
 
         return self.community_id_to_node_ids
 
+    # Generate LLM summaries for each community and the global shared nodes.
+    #    1. Ensures community detection has been run
+    #    2. Summarizes global shared utility nodes (e.g., printf, panic)
+    #    3. Iterates through each community, collecting evidence and calling LLM
+    #    4. Stores summaries in both self.community_summaries and community_records
+    # Returns:
+    #    Dict[int, str]: Mapping from community ID to LLM-generated summary
     def summarize_communities(self) -> Dict[int, str]:
         if not self.community_id_to_node_ids:
             self.run_leiden_algorithm()
@@ -153,16 +224,15 @@ class CommunityManager:
 
         summaries: Dict[int, str] = {}
         total = len(self.community_records)
-        print(f"[community] Summarizing {total} community(ies)...", flush=True)
+        self.logger.info(f"Starting LLM summarization for {total} community(ies)...")
 
         for i, record in enumerate(self.community_records, start=1):
             cid = int(record["community_id"])
             cname = str(record["community_name"])
             core_nodes = [int(nid) for nid in record["core_node_ids"]]
-            print(
-                f"[community] ({i}/{total}) community_id={cid} name='{cname}' "
-                f"core_nodes={len(core_nodes)} shared_globals={len(record['shared_global_node_ids'])}",
-                flush=True,
+            self.logger.info(
+                f"({i}/{total}) Processing community_id={cid} name='{cname}' "
+                f"core_nodes={len(core_nodes)} shared_globals={len(record['shared_global_node_ids'])}"
             )
 
             evidence_lines = self._collect_member_evidence(core_nodes, progress_prefix=f"({i}/{total})")
@@ -182,13 +252,13 @@ class CommunityManager:
                 f"Global Utility Background:\n{self.global_summary}"
             )
 
-            print(f"[community] ({i}/{total}) Calling LLM for community_id={cid}...", flush=True)
+            self.logger.info(f"({i}/{total}) Calling LLM for community_id={cid}...")
             content = utils.call_llm_api(
                 query=prompt,
                 context_markdown=context,
                 response_language="English",
             ).strip()
-            print(f"[community] ({i}/{total}) LLM returned for community_id={cid}.", flush=True)
+            self.logger.info(f"({i}/{total}) LLM returned for community_id={cid}")
 
             if not content or content.startswith("LLM call failed") or content.startswith("LLM call skipped"):
                 content = (
@@ -196,19 +266,18 @@ class CommunityManager:
                     f"Representative APIs include {api_text}. "
                     "It collaborates with shared kernel utilities for diagnostics, synchronization, and reusable helpers."
                 )
-                print(
-                    f"[community] ({i}/{total}) Fallback summary used for community_id={cid}.",
-                    flush=True,
-                )
+                self.logger.warning(f"({i}/{total}) Fallback summary used for community_id={cid}")
 
             summaries[cid] = content
             record["summary"] = content
-            print(f"[community] ({i}/{total}) Summary ready for community_id={cid}.", flush=True)
+            self.logger.info(f"({i}/{total}) Summary ready for community_id={cid}")
 
         self.community_summaries = summaries
-        print("[community] Community summarization completed.", flush=True)
+        self.logger.info(f"Community summarization completed: {total} summaries generated")
         return summaries
 
+    # Save all community structure, summaries, and metadata to a JSON file for downstream use.
+    # Ensures community detection and summarization are complete, then serializes results to disk.
     def save_communities(self) -> None:
         if not self.community_id_to_node_ids:
             self.run_leiden_algorithm()
@@ -246,6 +315,38 @@ class CommunityManager:
         }
         utils.save_json(self.output_path, payload)
 
+    # Identify top in-degree nodes as global utilities.
+    def _identify_global_nodes(self, directed_graph: nx.DiGraph) -> Tuple[List[int], int]:
+        if directed_graph.number_of_nodes() == 0:
+            return [], 0
+
+        indegree = {int(nid): int(deg) for nid, deg in directed_graph.in_degree()}
+        if not indegree:
+            return [], 0
+
+        sorted_nodes = sorted(indegree.items(), key=lambda x: (-x[1], x[0]))
+        top_k = max(1, int(np.ceil(len(sorted_nodes) * self.GLOBAL_TOP_PERCENT)))
+        global_nodes = [nid for nid, _ in sorted_nodes[:top_k]]
+        threshold = sorted_nodes[top_k - 1][1] if top_k - 1 < len(sorted_nodes) else sorted_nodes[-1][1]
+        return sorted(global_nodes), int(threshold)
+
+    # Partition nodes into communities based on file/module path structure.
+    def _build_static_path_partitions(self, allowed_nodes: List[int]) -> Dict[int, List[int]]:
+        groups = defaultdict(list)
+        allowed = set(int(nid) for nid in allowed_nodes)
+        for node_id, chunk in self.chunks_by_id.items():
+            if int(node_id) not in allowed:
+                continue
+            file_name = str(chunk.get("file", "")).strip().replace("\\", "/")
+            key = self._module_key_from_file(file_name)
+            groups[key].append(node_id)
+
+        community_map: Dict[int, List[int]] = {}
+        for cid, key in enumerate(sorted(groups.keys())):
+            community_map[cid] = sorted(groups[key])
+        return community_map
+
+    # Partition nodes into communities using the Leiden algorithm (or fallback to greedy modularity).
     def _build_leiden_partitions(self, graph: nx.Graph) -> Dict[int, List[int]]:
         if graph.number_of_nodes() == 0:
             return {}
@@ -303,35 +404,7 @@ class CommunityManager:
             if members
         }
 
-    def _identify_global_nodes(self, directed_graph: nx.DiGraph) -> Tuple[List[int], int]:
-        if directed_graph.number_of_nodes() == 0:
-            return [], 0
-
-        indegree = {int(nid): int(deg) for nid, deg in directed_graph.in_degree()}
-        if not indegree:
-            return [], 0
-
-        sorted_nodes = sorted(indegree.items(), key=lambda x: (-x[1], x[0]))
-        top_k = max(1, int(np.ceil(len(sorted_nodes) * self.GLOBAL_TOP_PERCENT)))
-        global_nodes = [nid for nid, _ in sorted_nodes[:top_k]]
-        threshold = sorted_nodes[top_k - 1][1] if top_k - 1 < len(sorted_nodes) else sorted_nodes[-1][1]
-        return sorted(global_nodes), int(threshold)
-
-    def _build_static_path_partitions(self, allowed_nodes: List[int]) -> Dict[int, List[int]]:
-        groups = defaultdict(list)
-        allowed = set(int(nid) for nid in allowed_nodes)
-        for node_id, chunk in self.chunks_by_id.items():
-            if int(node_id) not in allowed:
-                continue
-            file_name = str(chunk.get("file", "")).strip().replace("\\", "/")
-            key = self._module_key_from_file(file_name)
-            groups[key].append(node_id)
-
-        community_map: Dict[int, List[int]] = {}
-        for cid, key in enumerate(sorted(groups.keys())):
-            community_map[cid] = sorted(groups[key])
-        return community_map
-
+    # Merge communities smaller than min_size into larger neighbors or a misc group.
     def _merge_small_communities(self, partition_map: Dict[int, List[int]], graph: nx.Graph, min_size: int) -> Dict[int, List[int]]:
         communities = {int(cid): set(int(nid) for nid in members) for cid, members in partition_map.items() if members}
         if not communities:
@@ -386,6 +459,7 @@ class CommunityManager:
             out[cid] = [int(nid) for nid in members]
         return out
 
+    # Iteratively merge smallest communities until the total number does not exceed target_max.
     def _coarsen_communities(self, partition_map: Dict[int, List[int]], graph: nx.Graph, target_max: int) -> Dict[int, List[int]]:
         communities = {int(cid): set(int(nid) for nid in members) for cid, members in partition_map.items() if members}
         if len(communities) <= target_max:
@@ -422,6 +496,7 @@ class CommunityManager:
             out[cid] = [int(nid) for nid in nodes]
         return out
 
+    # Build structured records for each community, including core nodes, shared globals, files, and APIs.
     def _build_community_records(
         self,
         partition_map: Dict[int, List[int]],
@@ -459,63 +534,14 @@ class CommunityManager:
                 }
             )
         return records
-
-    def _extract_core_files_and_apis(self, node_ids: List[int]) -> Tuple[List[str], List[str]]:
-        file_counter = Counter()
-        api_counter = Counter()
-
-        for nid in node_ids:
-            chunk = self.chunks_by_id.get(int(nid), {})
-            file_name = str(chunk.get("file", "")).strip()
-            name = str(chunk.get("name", "")).strip()
-            typ = str(chunk.get("type", "")).strip()
-            if file_name:
-                file_counter[file_name] += 1
-            if name and typ in {"function", "macro"}:
-                api_counter[name] += 1
-
-        return [k for k, _ in file_counter.most_common(8)], [k for k, _ in api_counter.most_common(12)]
-
-    def _infer_community_name(self, core_files: List[str], key_apis: List[str], cid: int) -> str:
-        if core_files:
-            head = core_files[0]
-            if "/" in head:
-                prefix = head.split("/", 1)[0]
-                if prefix in {"kernel", "user"}:
-                    return f"{prefix.capitalize()} Module {cid}"
-        if key_apis:
-            return f"API Cluster {key_apis[0]}"
-        return f"Community {cid}"
-
-    def _collect_member_evidence(self, node_ids: List[int], progress_prefix: str) -> List[str]:
-        lines = []
-        total = len(node_ids)
-        for i, node_id in enumerate(node_ids, start=1):
-            if i == 1 or i % 25 == 0 or i == total:
-                print(
-                    f"[community] {progress_prefix} Building evidence {i}/{total}...",
-                    flush=True,
-                )
-            chunk = self.chunks_by_id.get(node_id, {})
-            text = str(chunk.get("summary") or "").strip()
-            if not text:
-                name = str(chunk.get("name") or "")
-                chunk_type = str(chunk.get("type") or "")
-                file_name = str(chunk.get("file") or "")
-                text = f"{chunk_type} {name} in {file_name}".strip()
-            if text:
-                lines.append(f"- node {node_id}: {text}")
-        return lines
-
+    
+    # Generate an English summary for global shared utility nodes using LLM; fallback to template if LLM fails.
     def _summarize_global_shared_nodes(self) -> str:
         if not self.global_node_ids:
             self.global_summary = "No globally shared kernel utility nodes were detected."
             return self.global_summary
 
-        print(
-            f"[community] Summarizing GLOBAL_SHARED set ({len(self.global_node_ids)} node(s))...",
-            flush=True,
-        )
+        self.logger.info(f"[community] Summarizing GLOBAL_SHARED set ({len(self.global_node_ids)} node(s))...")
         evidence = self._collect_member_evidence(self.global_node_ids, progress_prefix="(GLOBAL)")
         prompt = (
             "You are summarizing shared xv6 kernel utility functions. "
@@ -535,12 +561,59 @@ class CommunityManager:
                 "shared by multiple subsystem communities and should always be mounted as global context during "
                 "routing, retrieval, and reasoning."
             )
-            print("[community] (GLOBAL) Fallback summary used.", flush=True)
+            self.logger.info("[community] (GLOBAL) Fallback summary used.")
 
-        print("[community] (GLOBAL) Summary ready.", flush=True)
+        self.logger.info("[community] (GLOBAL) Summary ready.")
         self.global_summary = content
         return self.global_summary
+    
+    # Collect evidence text for a list of node IDs, reporting progress via logger.
+    def _collect_member_evidence(self, node_ids: List[int], progress_prefix: str) -> List[str]:
+        lines = []
+        total = len(node_ids)
+        for i, node_id in enumerate(node_ids, start=1):
+            self.logger.info(f"[community] {progress_prefix} Building evidence {i}/{total}...")
+            chunk = self.chunks_by_id.get(node_id, {})
+            text = str(chunk.get("summary") or "").strip()
+            if not text:
+                name = str(chunk.get("name") or "")
+                chunk_type = str(chunk.get("type") or "")
+                file_name = str(chunk.get("file") or "")
+                text = f"{chunk_type} {name} in {file_name}".strip()
+            if text:
+                lines.append(f"- node {node_id}: {text}")
+        return lines
 
+    # Extract the most frequent core files and API names from a list of node IDs.
+    def _extract_core_files_and_apis(self, node_ids: List[int]) -> Tuple[List[str], List[str]]:
+        file_counter = Counter()
+        api_counter = Counter()
+
+        for nid in node_ids:
+            chunk = self.chunks_by_id.get(int(nid), {})
+            file_name = str(chunk.get("file", "")).strip()
+            name = str(chunk.get("name", "")).strip()
+            typ = str(chunk.get("type", "")).strip()
+            if file_name:
+                file_counter[file_name] += 1
+            if name and typ in {"function", "macro"}:
+                api_counter[name] += 1
+
+        return [k for k, _ in file_counter.most_common(8)], [k for k, _ in api_counter.most_common(12)]
+
+    # Infer a human-readable community name based on core files and key APIs.
+    def _infer_community_name(self, core_files: List[str], key_apis: List[str], cid: int) -> str:
+        if core_files:
+            head = core_files[0]
+            if "/" in head:
+                prefix = head.split("/", 1)[0]
+                if prefix in {"kernel", "user"}:
+                    return f"{prefix.capitalize()} Module {cid}"
+        if key_apis:
+            return f"API Cluster {key_apis[0]}"
+        return f"Community {cid}"
+
+    # Generate a module key from a file path for grouping nodes by module.
     def _module_key_from_file(self, file_name: str) -> str:
         if not file_name:
             return "unknown"

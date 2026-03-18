@@ -1,4 +1,5 @@
 import json
+import logging
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -17,69 +18,153 @@ REL_CALLS = "CALLS"
 class ExpertPathManager:
     """Build and persist expert paths from graph and chunk metadata."""
 
+    # Configuration constants
+    MIN_CHAIN_LEN = 3
+    CATALOG_SIZE = 420
+    UTILITY_NAMES = {
+        "panic",
+        "printf",
+        "printint",
+        "release",
+        "acquire",
+        "push_off",
+        "pop_off",
+        "intr_on",
+        "intr_off",
+        "intr_get",
+        "mycpu",
+        "cpuid",
+        "holding",
+        "holdingsleep",
+    }
+
     def __init__(self, chunks_path: Path, edges_path: Path, output_path: Path):
         self.chunks_path = chunks_path
         self.edges_path = edges_path
         self.output_path = output_path
 
-    def build_and_save(self) -> None:
-        chunks = utils.load_metadata(self.chunks_path)
-        edges = utils.load_edges(self.edges_path)
-        selected = self._extract_with_llm(chunks, edges)
+        # Initialize instance variables for intermediate data
+        self.chunks: List[Dict] = []
+        self.edges: List[Dict] = []
+        self.function_chunks: List[Dict] = []
+        self.call_edges: Set[Tuple[int, int]] = set()
+        self.out_degree = Counter()
+        self.in_degree = Counter()
+        self.call_out: DefaultDict[int, List[int]] = defaultdict(list)
+        self.call_in: DefaultDict[int, List[int]] = defaultdict(list)
+        self.name_to_nodes: DefaultDict[str, List[Dict]] = defaultdict(list)
+        self.by_id: Dict[int, Dict] = {}
+        self.catalog_items: List[Dict[str, str]] = []
+        self.llm_paths: List[Dict[str, object]] = []
+        self.final_paths: List[Dict[str, object]] = []
 
-        payload = {
-            "schema_version": "1.0",
-            "generated_at": datetime.now().isoformat(timespec="seconds"),
-            "path_count": len(selected),
-            "expert_paths": selected,
-        }
-        utils.save_json(self.output_path, payload)
+        # Configure logger
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.INFO)
 
-    def _extract_with_llm(self, chunks: List[Dict], edges: List[Dict]) -> List[Dict[str, object]]:
-        min_chain_len = 3
-        function_chunks = [
+        # Remove existing handlers to avoid duplicates
+        for handler in self.logger.handlers[:]:
+            self.logger.removeHandler(handler)
+
+        # Create log directory
+        log_dir = Path("log/backend")
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / "ExpertPathManager.log"
+
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+
+        # Create formatter
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+
+        # Add handler to logger
+        self.logger.addHandler(file_handler)
+
+        self.logger.info(f"ExpertPathManager initialized with chunks_path={chunks_path}, edges_path={edges_path}, output_path={output_path}")
+
+    # Load chunks and edges from disk and build basic data structures.
+    # This method must be called before any other processing methods.
+    def prepare_data(self) -> None:
+        self.logger.info("Preparing data: loading chunks and edges...")
+        self.chunks = utils.load_metadata(self.chunks_path)
+        self.edges = utils.load_edges(self.edges_path)
+        self.logger.info(f"Loaded {len(self.chunks)} chunks and {len(self.edges)} edges")
+
+        self._build_function_graph()
+        self.logger.info("Data preparation completed")
+
+    # Build call graph structures from edges: call_edges, out_degree, in_degree, call_out, call_in.
+    def _build_function_graph(self) -> None:
+        self.logger.info("Building function call graph...")
+
+        # Filter function chunks
+        self.function_chunks = [
             chunk
-            for chunk in chunks
+            for chunk in self.chunks
             if isinstance(chunk, dict) and chunk.get("type") == "function" and isinstance(chunk.get("id"), int)
         ]
-        if not function_chunks:
-            return []
 
-        call_edges: Set[Tuple[int, int]] = set()
-        out_degree = Counter()
-        in_degree = Counter()
-        call_out: DefaultDict[int, List[int]] = defaultdict(list)
-        call_in: DefaultDict[int, List[int]] = defaultdict(list)
-        for edge in edges:
+        if not self.function_chunks:
+            self.logger.warning("No function chunks found")
+            return
+
+        self.logger.info(f"Found {len(self.function_chunks)} function chunks")
+
+        # Reset graph structures
+        self.call_edges.clear()
+        self.out_degree.clear()
+        self.in_degree.clear()
+        self.call_out.clear()
+        self.call_in.clear()
+
+        # Build call graph
+        for edge in self.edges:
             if str(edge.get("type", "")).strip() != REL_CALLS:
                 continue
             src = edge.get("from")
             dst = edge.get("to")
             if not isinstance(src, int) or not isinstance(dst, int):
                 continue
-            call_edges.add((src, dst))
-            out_degree[src] += 1
-            in_degree[dst] += 1
-            call_out[src].append(dst)
-            call_in[dst].append(src)
+            self.call_edges.add((src, dst))
+            self.out_degree[src] += 1
+            self.in_degree[dst] += 1
+            self.call_out[src].append(dst)
+            self.call_in[dst].append(src)
 
-        name_to_nodes: DefaultDict[str, List[Dict]] = defaultdict(list)
-        by_id: Dict[int, Dict] = {}
-        for chunk in function_chunks:
+        self.logger.info(f"Built call graph with {len(self.call_edges)} call edges")
+
+    # Create a catalog of function metadata for LLM consumption.
+    # Builds name_to_nodes and by_id maps, then creates catalog items with scores and connectivity info.
+    def generate_catalog(self) -> None:
+        if not self.function_chunks:
+            self.logger.error("No function chunks available. Call prepare_data() first.")
+            raise ValueError("No function chunks available. Call prepare_data() first.")
+
+        self.logger.info("Generating function catalog for LLM...")
+
+        # Build name and ID mappings
+        self.name_to_nodes.clear()
+        self.by_id.clear()
+        for chunk in self.function_chunks:
             cid = int(chunk["id"])
-            by_id[cid] = chunk
-            name_to_nodes[str(chunk.get("name", "")).strip().lower()].append(chunk)
+            self.by_id[cid] = chunk
+            self.name_to_nodes[str(chunk.get("name", "")).strip().lower()].append(chunk)
 
-        catalog_items: List[Dict[str, str]] = []
-        for chunk in function_chunks:
+        self.logger.info(f"Built mappings: {len(self.by_id)} nodes by ID, {len(self.name_to_nodes)} unique names")
+
+        # Create catalog items
+        self.catalog_items = []
+        for chunk in self.function_chunks:
             cid = int(chunk["id"])
             name = str(chunk.get("name", "")).strip()
             file_name = str(chunk.get("file", "")).strip()
             summary = str(chunk.get("summary", "")).strip()
-            score = out_degree.get(cid, 0) + in_degree.get(cid, 0)
-            top_callees = [str(by_id[nid].get("name", "")) for nid in call_out.get(cid, [])[:3] if nid in by_id]
-            top_callers = [str(by_id[nid].get("name", "")) for nid in call_in.get(cid, [])[:3] if nid in by_id]
-            catalog_items.append(
+            score = self.out_degree.get(cid, 0) + self.in_degree.get(cid, 0)
+            top_callees = [str(self.by_id[nid].get("name", "")) for nid in self.call_out.get(cid, [])[:3] if nid in self.by_id]
+            top_callers = [str(self.by_id[nid].get("name", "")) for nid in self.call_in.get(cid, [])[:3] if nid in self.by_id]
+
+            self.catalog_items.append(
                 {
                     "id": str(cid),
                     "name": name,
@@ -87,13 +172,14 @@ class ExpertPathManager:
                     "summary": summary[:160],
                     "callees": ",".join(top_callees),
                     "callers": ",".join(top_callers),
-                    "out": str(out_degree.get(cid, 0)),
-                    "in": str(in_degree.get(cid, 0)),
+                    "out": str(self.out_degree.get(cid, 0)),
+                    "in": str(self.in_degree.get(cid, 0)),
                     "score": str(score),
                 }
             )
 
-        catalog_items.sort(
+        # Sort and limit catalog size
+        self.catalog_items.sort(
             key=lambda item: (
                 int(item["score"]),
                 1 if str(item["file"]).startswith("kernel/") else 0,
@@ -101,9 +187,41 @@ class ExpertPathManager:
             ),
             reverse=True,
         )
-        catalog_items = catalog_items[:420]
+        self.catalog_items = self.catalog_items[:self.CATALOG_SIZE]
+
+        self.logger.info(f"Generated catalog with {len(self.catalog_items)} items")
+
+    # Call LLM API to generate initial expert paths based on the function catalog.
+    # Builds a prompt from catalog items and parses the LLM response.
+    def call_llm_for_paths(self) -> None:
+        if not self.catalog_items:
+            self.logger.error("No catalog items available. Call generate_catalog() first.")
+            raise ValueError("No catalog items available. Call generate_catalog() first.")
+
+        self.logger.info("Calling LLM to generate expert paths...")
 
         max_count = max(1, int(config.EXPERT_PATH_MAX_COUNT))
+        prompt_lines = self._build_llm_prompt(max_count)
+
+        self.logger.info(f"Built LLM prompt with {len(prompt_lines)} lines")
+        self.logger.debug(f"LLM prompt preview: {prompt_lines[:5]}...")
+
+        raw = utils.call_llm_api(
+            query="From the catalog, identify core xv6 call chains and function order.",
+            context_markdown="\n".join(prompt_lines),
+            response_language="English",
+        )
+
+        self.logger.info("LLM API call completed, parsing response...")
+        parsed = self._parse_json_object(raw)
+        self.llm_paths = parsed.get("paths", []) if isinstance(parsed, dict) else []
+        if not isinstance(self.llm_paths, list):
+            self.llm_paths = []
+
+        self.logger.info(f"Parsed {len(self.llm_paths)} initial paths from LLM")
+
+    # Build LLM prompt lines from catalog items.
+    def _build_llm_prompt(self, max_count: int) -> List[str]:
         prompt_lines = [
             "You are an xv6 kernel expert. The following catalog is derived from chunks_metadata.json and graph_edges.json.",
             f"Output between 12 and {max_count} chains. Chain length can vary (prefer 3-8 functions).",
@@ -114,214 +232,280 @@ class ExpertPathManager:
             "Prefer node_ids because names may be ambiguous.",
             "Function catalog:",
         ]
-        for idx, item in enumerate(catalog_items, 1):
+        for idx, item in enumerate(self.catalog_items, 1):
             prompt_lines.append(
+                f"{idx}. id={item['id']} {item['name']} ({item['file']}) score={item['score']} in={item['in']} out={item['out']} "
+                f"callers=[{item['callers']}] callees=[{item['callers']}] summary={item['summary']}"
+            )
+        return prompt_lines
+
+    # Process and validate LLM-generated paths, applying connectivity checks, theme detection, and deduplication.
+    def process_paths(self) -> None:
+        if not self.llm_paths:
+            self.logger.error("No LLM paths available. Call call_llm_for_paths() first.")
+            raise ValueError("No LLM paths available. Call call_llm_for_paths() first.")
+
+        self.logger.info(f"Processing {len(self.llm_paths)} LLM-generated paths...")
+
+        max_count = max(1, int(config.EXPERT_PATH_MAX_COUNT))
+        self.final_paths = []
+        seen: Set[Tuple[int, ...]] = set()
+
+        for item in self.llm_paths:
+            if len(self.final_paths) >= max_count:
+                self.logger.info(f"Reached maximum path count ({max_count}), stopping processing")
+                break
+
+            if not isinstance(item, dict):
+                self.logger.debug("Skipping non-dictionary path item")
+                continue
+
+            processed_path = self._process_single_path(item)
+            if processed_path:
+                key = tuple(processed_path["node_ids"])
+                if key in seen:
+                    self.logger.debug(f"Skipping duplicate path: {key}")
+                    continue
+                seen.add(key)
+                self.final_paths.append(processed_path)
+                self.logger.debug(f"Added path: {processed_path.get('title', 'Untitled')}")
+
+        # Generate additional paths if needed
+        if len(self.final_paths) < max_count:
+            self._generate_additional_paths(max_count - len(self.final_paths), seen)
+
+        self.logger.info(f"Processed {len(self.final_paths)} final expert paths")
+
+    # Process a single path from LLM output, validating connectivity and extracting themes.
+    def _process_single_path(self, item: Dict[str, object]) -> Optional[Dict[str, object]]:
+        # Extract node IDs from the path item
+        ids: List[int] = []
+        raw_ids = item.get("node_ids", [])
+        if isinstance(raw_ids, list):
+            for nid in raw_ids:
+                if not isinstance(nid, int):
+                    continue
+                if nid not in self.by_id:
+                    continue
+                if ids and ids[-1] == nid:
+                    continue
+                ids.append(nid)
+
+        # Fallback to function names if node IDs insufficient
+        if len(ids) < 4:
+            funcs = item.get("functions", [])
+            if isinstance(funcs, list):
+                for name in funcs:
+                    node = self._pick_node_by_name(str(name))
+                    if node is None:
+                        continue
+                    node_id = int(node["id"])
+                    if ids and ids[-1] == node_id:
+                        continue
+                    ids.append(node_id)
+
+        if len(ids) < self.MIN_CHAIN_LEN:
+            self.logger.debug(f"Path too short ({len(ids)} < {self.MIN_CHAIN_LEN}), skipping")
+            return None
+
+        # Validate and clean the path
+        ids = self._ensure_connected(ids)
+        ids = self._longest_connected_segment(ids)
+        ids = self._trim_utility_tail(ids)
+
+        if len(ids) < self.MIN_CHAIN_LEN:
+            self.logger.debug(f"Path too short after cleaning ({len(ids)} < {self.MIN_CHAIN_LEN}), skipping")
+            return None
+
+        # Extract names and detect themes
+        names = [str(self.by_id[nid].get("name", "")) for nid in ids if nid in self.by_id]
+        themes = self._detect_themes(names)
+
+        if not themes:
+            self.logger.debug(f"No themes detected for path: {names}")
+            return None
+
+        return {
+            "id": f"expert_{len(self.final_paths) + 1}",
+            "title": str(item.get("title", "")).strip() or " -> ".join(names),
+            "description": str(item.get("description", "")).strip(),
+            "node_ids": ids,
+            "node_names": names,
+            "edge_types": [REL_CALLS] * (len(ids) - 1),
+            "source": "llm_inferred",
+            "themes": themes,
+        }
+
+    # Pick the most appropriate node by function name from name_to_nodes map.
+    def _pick_node_by_name(self, name: str) -> Optional[Dict]:
+        candidates = self.name_to_nodes.get(name.strip().lower(), [])
+        if not candidates:
+            self.logger.debug(f"No node found for name: {name}")
+            return None
+        candidates = sorted(
+            candidates,
+            key=lambda c: (
+                1 if str(c.get("file", "")).startswith("kernel/") else 0,
+                self.out_degree.get(int(c.get("id", -1)), 0),
+            ),
+            reverse=True,
+        )
+        return candidates[0]
+
+    # Trim utility functions from the end of a path.
+    def _trim_utility_tail(self, ids: List[int]) -> List[int]:
+        trimmed = list(ids)
+        while len(trimmed) > self.MIN_CHAIN_LEN:
+            tail_name = str(self.by_id.get(trimmed[-1], {}).get("name", "")).strip().lower()
+            if tail_name in self.UTILITY_NAMES:
+                self.logger.debug(f"Trimming utility function from tail: {tail_name}")
+                trimmed.pop()
+                continue
+            break
+        return trimmed
+
+    # Find a bridging node between two disconnected nodes if they share a common neighbor.
+    def _bridge_one_hop(self, a: int, b: int) -> Optional[int]:
+        for mid in self.call_out.get(a, []):
+            if (mid, b) not in self.call_edges:
+                continue
+            mid_name = str(self.by_id.get(mid, {}).get("name", "")).strip().lower()
+            if mid_name in self.UTILITY_NAMES:
+                continue
+            return mid
+        return None
+
+    # Ensure path connectivity by inserting bridging nodes where needed.
+    def _ensure_connected(self, ids: List[int]) -> List[int]:
+        if len(ids) < 2:
+            return ids
+        repaired = [ids[0]]
+        for nxt in ids[1:]:
+            prev = repaired[-1]
+            if (prev, nxt) in self.call_edges:
+                repaired.append(nxt)
+                continue
+            bridge = self._bridge_one_hop(prev, nxt)
+            if bridge is not None and bridge not in repaired:
+                self.logger.debug(f"Inserted bridge node {bridge} between {prev} and {nxt}")
+                repaired.append(bridge)
+                repaired.append(nxt)
+                continue
+            self.logger.debug(f"Could not bridge {prev} to {nxt}, stopping path")
+            break
+        return repaired
+
+    # Extract the longest connected segment from a path.
+    def _longest_connected_segment(self, ids: List[int]) -> List[int]:
+        if len(ids) < 2:
+            return ids
+        best: List[int] = []
+        cur: List[int] = [ids[0]]
+        for nxt in ids[1:]:
+            if (cur[-1], nxt) in self.call_edges:
+                cur.append(nxt)
+            else:
+                if len(cur) > len(best):
+                    best = cur[:]
+                cur = [nxt]
+        if len(cur) > len(best):
+            best = cur[:]
+        return best if best else ids
+
+    # Detect themes from function names in a path.
+    def _detect_themes(self, names: List[str]) -> List[str]:
+        lowered = [n.lower() for n in names]
+        themes = []
+        if any(k in " ".join(lowered) for k in ["scheduler", "sched", "swtch"]):
+            themes.append("scheduler")
+        if any(k in " ".join(lowered) for k in ["fork", "exec", "wait", "exit", "proc"]):
+            themes.append("process")
+        if any(k in " ".join(lowered) for k in ["sys_", "syscall", "trap", "intr"]):
+            themes.append("syscall_trap")
+        if any(k in " ".join(lowered) for k in ["kalloc", "kfree", "uvm", "walk", "copyin", "copyout", "vm"]):
+            themes.append("memory")
+        if any(k in " ".join(lowered) for k in ["namex", "inode", "ilock", "bread", "log", "file", "pipe", "sys_open", "sys_unlink", "sys_link"]):
+            themes.append("filesystem")
+        return sorted(set(themes))
+
+    # Generate additional paths if initial LLM paths are insufficient.
+    def _generate_additional_paths(self, needed: int, seen: Set[Tuple[int, ...]]) -> None:
+        if needed <= 0:
+            return
+
+        self.logger.info(f"Generating {needed} additional paths...")
+        existing = [" -> ".join(item.get("node_names", [])) for item in self.final_paths]
+
+        extra_prompt = [
+            "Generate additional unique xv6 core chains not overlapping with existing ones.",
+            f"Need up to {needed} more chains.",
+            "Return JSON only with key paths, same schema as before.",
+            f"Existing chains to avoid: {existing}",
+            "Function catalog:",
+        ]
+        for idx, item in enumerate(self.catalog_items, 1):
+            extra_prompt.append(
                 f"{idx}. id={item['id']} {item['name']} ({item['file']}) score={item['score']} in={item['in']} out={item['out']} "
                 f"callers=[{item['callers']}] callees=[{item['callees']}] summary={item['summary']}"
             )
 
-        raw = utils.call_llm_api(
-            query="From the catalog, identify core xv6 call chains and function order.",
-            context_markdown="\n".join(prompt_lines),
+        self.logger.info("Calling LLM for additional paths...")
+        extra_raw = utils.call_llm_api(
+            query="Provide additional unique core xv6 chains.",
+            context_markdown="\n".join(extra_prompt),
             response_language="English",
         )
 
-        parsed = self._parse_json_object(raw)
-        llm_paths = parsed.get("paths", []) if isinstance(parsed, dict) else []
-        if not isinstance(llm_paths, list):
-            llm_paths = []
+        extra_parsed = self._parse_json_object(extra_raw)
+        extra_paths = extra_parsed.get("paths", []) if isinstance(extra_parsed, dict) else []
+        if not isinstance(extra_paths, list):
+            extra_paths = []
 
-        utility_names = {
-            "panic",
-            "printf",
-            "printint",
-            "release",
-            "acquire",
-            "push_off",
-            "pop_off",
-            "intr_on",
-            "intr_off",
-            "intr_get",
-            "mycpu",
-            "cpuid",
-            "holding",
-            "holdingsleep",
-        }
-
-        def pick_node_by_name(name: str) -> Optional[Dict]:
-            candidates = name_to_nodes.get(name.strip().lower(), [])
-            if not candidates:
-                return None
-            candidates = sorted(
-                candidates,
-                key=lambda c: (
-                    1 if str(c.get("file", "")).startswith("kernel/") else 0,
-                    out_degree.get(int(c.get("id", -1)), 0),
-                ),
-                reverse=True,
-            )
-            return candidates[0]
-
-        def trim_utility_tail(ids: List[int]) -> List[int]:
-            trimmed = list(ids)
-            while len(trimmed) > min_chain_len:
-                tail_name = str(by_id.get(trimmed[-1], {}).get("name", "")).strip().lower()
-                if tail_name in utility_names:
-                    trimmed.pop()
-                    continue
+        self.logger.info(f"Parsed {len(extra_paths)} additional paths from LLM")
+        for item in extra_paths:
+            if len(self.final_paths) >= needed + len(self.final_paths):
                 break
-            return trimmed
-
-        def bridge_one_hop(a: int, b: int) -> Optional[int]:
-            for mid in call_out.get(a, []):
-                if (mid, b) not in call_edges:
-                    continue
-                mid_name = str(by_id.get(mid, {}).get("name", "")).strip().lower()
-                if mid_name in utility_names:
-                    continue
-                return mid
-            return None
-
-        def ensure_connected(ids: List[int]) -> List[int]:
-            if len(ids) < 2:
-                return ids
-            repaired = [ids[0]]
-            for nxt in ids[1:]:
-                prev = repaired[-1]
-                if (prev, nxt) in call_edges:
-                    repaired.append(nxt)
-                    continue
-                bridge = bridge_one_hop(prev, nxt)
-                if bridge is not None and bridge not in repaired:
-                    repaired.append(bridge)
-                    repaired.append(nxt)
-                    continue
-                break
-            return repaired
-
-        def longest_connected_segment(ids: List[int]) -> List[int]:
-            if len(ids) < 2:
-                return ids
-            best: List[int] = []
-            cur: List[int] = [ids[0]]
-            for nxt in ids[1:]:
-                if (cur[-1], nxt) in call_edges:
-                    cur.append(nxt)
-                else:
-                    if len(cur) > len(best):
-                        best = cur[:]
-                    cur = [nxt]
-            if len(cur) > len(best):
-                best = cur[:]
-            return best if best else ids
-
-        def detect_themes(names: List[str]) -> List[str]:
-            lowered = [n.lower() for n in names]
-            themes = []
-            if any(k in " ".join(lowered) for k in ["scheduler", "sched", "swtch"]):
-                themes.append("scheduler")
-            if any(k in " ".join(lowered) for k in ["fork", "exec", "wait", "exit", "proc"]):
-                themes.append("process")
-            if any(k in " ".join(lowered) for k in ["sys_", "syscall", "trap", "intr"]):
-                themes.append("syscall_trap")
-            if any(k in " ".join(lowered) for k in ["kalloc", "kfree", "uvm", "walk", "copyin", "copyout", "vm"]):
-                themes.append("memory")
-            if any(k in " ".join(lowered) for k in ["namex", "inode", "ilock", "bread", "log", "file", "pipe", "sys_open", "sys_unlink", "sys_link"]):
-                themes.append("filesystem")
-            return sorted(set(themes))
-
-        output: List[Dict[str, object]] = []
-        seen: Set[Tuple[int, ...]] = set()
-
-        def ingest_paths(paths: List[Dict[str, object]]) -> None:
-            for item in paths:
-                if len(output) >= max_count:
-                    break
-                if not isinstance(item, dict):
-                    continue
-                ids: List[int] = []
-                raw_ids = item.get("node_ids", [])
-                if isinstance(raw_ids, list):
-                    for nid in raw_ids:
-                        if not isinstance(nid, int):
-                            continue
-                        if nid not in by_id:
-                            continue
-                        if ids and ids[-1] == nid:
-                            continue
-                        ids.append(nid)
-
-                if len(ids) < 4:
-                    funcs = item.get("functions", [])
-                    if isinstance(funcs, list):
-                        for name in funcs:
-                            node = pick_node_by_name(str(name))
-                            if node is None:
-                                continue
-                            node_id = int(node["id"])
-                            if ids and ids[-1] == node_id:
-                                continue
-                            ids.append(node_id)
-
-                if len(ids) < min_chain_len:
-                    continue
-                ids = ensure_connected(ids)
-                ids = longest_connected_segment(ids)
-                ids = trim_utility_tail(ids)
-                if len(ids) < min_chain_len:
-                    continue
-
-                key = tuple(ids)
+            if not isinstance(item, dict):
+                continue
+            processed_path = self._process_single_path(item)
+            if processed_path:
+                key = tuple(processed_path["node_ids"])
                 if key in seen:
                     continue
                 seen.add(key)
+                self.final_paths.append(processed_path)
 
-                names = [str(by_id[nid].get("name", "")) for nid in ids if nid in by_id]
-                themes = detect_themes(names)
-                if not themes:
-                    continue
+        self.logger.info(f"Added {len(self.final_paths) - (len(self.final_paths) - needed)} additional paths")
 
-                output.append(
-                    {
-                        "id": f"expert_{len(output) + 1}",
-                        "title": str(item.get("title", "")).strip() or " -> ".join(names),
-                        "description": str(item.get("description", "")).strip(),
-                        "node_ids": ids,
-                        "node_names": names,
-                        "edge_types": [REL_CALLS] * (len(ids) - 1),
-                        "source": "llm_inferred",
-                        "themes": themes,
-                    }
-                )
+    # Save processed expert paths to JSON file.
+    def save_paths(self) -> None:
+        if not self.final_paths:
+            self.logger.error("No final paths available. Call process_paths() first.")
+            raise ValueError("No final paths available. Call process_paths() first.")
 
-        ingest_paths(llm_paths)
+        self.logger.info(f"Saving {len(self.final_paths)} expert paths to {self.output_path}")
 
-        if len(output) < max_count:
-            existing = [" -> ".join(item.get("node_names", [])) for item in output]
-            extra_prompt = [
-                "Generate additional unique xv6 core chains not overlapping with existing ones.",
-                f"Need up to {max_count - len(output)} more chains.",
-                "Return JSON only with key paths, same schema as before.",
-                f"Existing chains to avoid: {existing}",
-                "Function catalog:",
-            ]
-            for idx, item in enumerate(catalog_items, 1):
-                extra_prompt.append(
-                    f"{idx}. id={item['id']} {item['name']} ({item['file']}) score={item['score']} in={item['in']} out={item['out']} "
-                    f"callers=[{item['callers']}] callees=[{item['callees']}] summary={item['summary']}"
-                )
-            extra_raw = utils.call_llm_api(
-                query="Provide additional unique core xv6 chains.",
-                context_markdown="\n".join(extra_prompt),
-                response_language="English",
-            )
-            extra_parsed = self._parse_json_object(extra_raw)
-            extra_paths = extra_parsed.get("paths", []) if isinstance(extra_parsed, dict) else []
-            if isinstance(extra_paths, list):
-                ingest_paths(extra_paths)
+        payload = {
+            "schema_version": "1.0",
+            "generated_at": datetime.now().isoformat(timespec="seconds"),
+            "path_count": len(self.final_paths),
+            "expert_paths": self.final_paths,
+        }
 
-        return output[:max_count]
+        utils.save_json(self.output_path, payload)
+        self.logger.info("Expert paths saved successfully")
 
+    # Convenience wrapper that runs the full pipeline in sequence.
+    def build_and_save(self) -> None:
+        self.logger.info("Starting full expert path generation pipeline...")
+        self.prepare_data()
+        self.generate_catalog()
+        self.call_llm_for_paths()
+        self.process_paths()
+        self.save_paths()
+        self.logger.info("Full pipeline completed successfully")
+
+    # Parse JSON object from LLM response text, handling code blocks and malformed JSON.
     def _parse_json_object(self, text: str) -> Optional[Dict[str, object]]:
         candidate = str(text or "").strip()
         if not candidate:
