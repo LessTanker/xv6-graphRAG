@@ -7,8 +7,10 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 try:
     from backend import config
+    from backend.core.LLMClient import LLMClient
 except ImportError:
     import config  # type: ignore
+    from core.LLMClient import LLMClient  # type: ignore
 
 
 def load_json(path: Path) -> Any:
@@ -138,49 +140,27 @@ def call_llm(
     context_markdown: str,
     response_language: str = "English",
 ) -> Tuple[str, Optional[Dict[str, Any]]]:
-    api_url = config.LLM_API_URL
-    api_key = config.LLM_TOKEN
-    model = config.LLM_MODEL
+    """DEPRECATED: Use LLMClient.call_with_context() instead.
 
-    if not api_url or not api_key or not model:
-        return (
-            "LLM call skipped: missing LLM_API_URL, LLM_TOKEN, or LLM_MODEL in .env.",
-            None,
-        )
-
-    payload = {
-        "model": model,
-        "messages": [
-            {
-                "role": "system",
-                "content": (
-                    "You are an expert operating-systems assistant. Use the provided context to answer the user query. "
-                    "If context is insufficient, explicitly state uncertainty. "
-                    f"Language requirement: your entire answer MUST be written in {response_language}. "
-                    f"Do not switch to any other language."
-                ),
-            },
-            {
-                "role": "user",
-                "content": (
-                    f"User query:\n{query}\n\n"
-                    f"Output language MUST be {response_language}.\n\n"
-                    f"Context (prompt.md):\n{context_markdown}"
-                ),
-            },
-        ],
-        "temperature": 0.2,
-    }
-
-    req = urllib.request.Request(
-        api_url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
-        method="POST",
+    This function is kept for backward compatibility.
+    """
+    import warnings
+    warnings.warn(
+        "call_llm() is deprecated. Use LLMClient.call_with_context() instead.",
+        DeprecationWarning,
+        stacklevel=2
     )
+
+    # Create LLM client and call the new method
+    llm_client = LLMClient()
+    content = llm_client.call_with_context(
+        query=query,
+        context_markdown=context_markdown,
+        response_language=response_language,
+    )
+
+    # Return content and None for raw_data (maintaining backward compatibility)
+    return content, None
 
     try:
         with urllib.request.urlopen(req, timeout=90) as resp:
@@ -209,9 +189,24 @@ def call_llm_api(
     context_markdown: str,
     response_language: str = "English",
 ) -> str:
-    """Thin wrapper that returns only text content for simple LLM utility calls."""
-    content, _ = call_llm(query=query, context_markdown=context_markdown, response_language=response_language)
-    return content
+    """DEPRECATED: Use LLMClient.call_api_simple() instead.
+
+    This function is kept for backward compatibility.
+    """
+    import warnings
+    warnings.warn(
+        "call_llm_api() is deprecated. Use LLMClient.call_api_simple() instead.",
+        DeprecationWarning,
+        stacklevel=2
+    )
+
+    # Create LLM client and call the new method
+    llm_client = LLMClient()
+    return llm_client.call_api_simple(
+        query=query,
+        context_markdown=context_markdown,
+        response_language=response_language,
+    )
 
 
 # Convert an absolute path under the xv6-riscv source tree to a relative path, keeping only files under kernel/ or user/.

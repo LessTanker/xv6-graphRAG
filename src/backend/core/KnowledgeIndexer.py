@@ -23,12 +23,16 @@ except ImportError as exc:
 try:
     # When running as part of the backend package
     from backend import config, utils
-    from backend.core import CommunityManager, ExpertPathManager
+    from backend.core.CommunityManager import CommunityManager
+    from backend.core.ExpertPathManager import ExpertPathManager
+    from backend.core.LLMClient import LLMClient
 except ImportError:
     # When running as standalone script or from different context
     import config  # type: ignore
     import utils  # type: ignore
-    from core import CommunityManager, ExpertPathManager  # type: ignore
+    from core.CommunityManager import CommunityManager  # type: ignore
+    from core.ExpertPathManager import ExpertPathManager  # type: ignore
+    from core.LLMClient import LLMClient  # type: ignore
 
 
 TARGET_TYPES = {"function", "struct", "global_var", "macro"}

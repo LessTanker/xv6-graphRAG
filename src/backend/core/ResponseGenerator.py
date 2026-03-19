@@ -4,15 +4,20 @@ from typing import Any, Dict, List, Set, Tuple
 
 try:
     from backend import config, utils
+    from backend.core.LLMClient import LLMClient
 except ImportError:
     import config  # type: ignore
     import utils  # type: ignore
+    from core.LLMClient import LLMClient  # type: ignore
 
 
 class ResponseGenerator:
     """Build final prompt from retrieval output and call LLM for final answer."""
 
     def __init__(self):
+        # Initialize LLM client
+        self.llm_client = LLMClient()
+
         self.chunks = utils.load_metadata(config.CHUNKS_METADATA_PATH)
         self.edges = utils.load_edges(config.GRAPH_EDGES_PATH)
         self.chunks_by_id = {
@@ -67,9 +72,9 @@ class ResponseGenerator:
         prompt_markdown = self._build_prompt_markdown(output)
         config.PROMPT_PATH.write_text(prompt_markdown, encoding="utf-8")
 
-        llm_answer, _raw = utils.call_llm(
-            query,
-            prompt_markdown,
+        llm_answer, _raw = self.llm_client.call_with_context(
+            query=query,
+            context_markdown=prompt_markdown,
             response_language=answer_language,
         )
         output["llm_response"] = llm_answer

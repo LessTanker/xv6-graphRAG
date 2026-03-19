@@ -21,10 +21,12 @@ except Exception:
 try:
     # When running as part of the backend package
     from backend import config, utils
+    from backend.core.LLMClient import LLMClient
 except ImportError:
     # When running as standalone script or from different context
     import config  # type: ignore
     import utils  # type: ignore
+    from core.LLMClient import LLMClient  # type: ignore
 
 
 class CommunityManager:
@@ -48,6 +50,9 @@ class CommunityManager:
         self.chunks_path = Path(chunks_path)
         self.output_path = Path(output_path)
         self.prefer_static_partition = prefer_static_partition
+
+        # Initialize LLM client
+        self.llm_client = LLMClient()
 
         self.chunks = utils.load_metadata(self.chunks_path)
         self.chunks_by_id = {
@@ -253,7 +258,7 @@ class CommunityManager:
             )
 
             self.logger.info(f"({i}/{total}) Calling LLM for community_id={cid}...")
-            content = utils.call_llm_api(
+            content = self.llm_client.call_api_simple(
                 query=prompt,
                 context_markdown=context,
                 response_language="English",
@@ -548,7 +553,7 @@ class CommunityManager:
             "Write 100-140 words in English and explain cross-module utility value. "
             "Mention categories like panic/error handling, printf/logging, and synchronization helpers."
         )
-        content = utils.call_llm_api(
+        content = self.llm_client.call_api_simple(
             query=prompt,
             context_markdown="\n".join(evidence[:120]),
             response_language="English",

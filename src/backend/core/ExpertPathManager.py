@@ -7,9 +7,11 @@ from typing import DefaultDict, Dict, List, Optional, Set, Tuple
 
 try:
     from backend import config, utils
+    from backend.core.LLMClient import LLMClient
 except ImportError:
     import config  # type: ignore
     import utils  # type: ignore
+    from core.LLMClient import LLMClient  # type: ignore
 
 
 REL_CALLS = "CALLS"
@@ -42,6 +44,9 @@ class ExpertPathManager:
         self.chunks_path = chunks_path
         self.edges_path = edges_path
         self.output_path = output_path
+
+        # Initialize LLM client
+        self.llm_client = LLMClient()
 
         # Initialize instance variables for intermediate data
         self.chunks: List[Dict] = []
@@ -206,7 +211,7 @@ class ExpertPathManager:
         self.logger.info(f"Built LLM prompt with {len(prompt_lines)} lines")
         self.logger.debug(f"LLM prompt preview: {prompt_lines[:5]}...")
 
-        raw = utils.call_llm_api(
+        raw = self.llm_client.call_api_simple(
             query="From the catalog, identify core xv6 call chains and function order.",
             context_markdown="\n".join(prompt_lines),
             response_language="English",
@@ -450,7 +455,7 @@ class ExpertPathManager:
             )
 
         self.logger.info("Calling LLM for additional paths...")
-        extra_raw = utils.call_llm_api(
+        extra_raw = self.llm_client.call_api_simple(
             query="Provide additional unique core xv6 chains.",
             context_markdown="\n".join(extra_prompt),
             response_language="English",
@@ -495,15 +500,6 @@ class ExpertPathManager:
         utils.save_json(self.output_path, payload)
         self.logger.info("Expert paths saved successfully")
 
-    # Convenience wrapper that runs the full pipeline in sequence.
-    def build_and_save(self) -> None:
-        self.logger.info("Starting full expert path generation pipeline...")
-        self.prepare_data()
-        self.generate_catalog()
-        self.call_llm_for_paths()
-        self.process_paths()
-        self.save_paths()
-        self.logger.info("Full pipeline completed successfully")
 
     # Parse JSON object from LLM response text, handling code blocks and malformed JSON.
     def _parse_json_object(self, text: str) -> Optional[Dict[str, object]]:
