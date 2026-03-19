@@ -1,16 +1,13 @@
+# Standard library imports
 import json
 import os
 import urllib.error
 import urllib.request
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple
 
-try:
-    from backend import config
-    from backend.core.LLMClient import LLMClient
-except ImportError:
-    import config  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+# Local module imports
+from backend import config
 
 
 def load_json(path: Path) -> Any:
@@ -152,6 +149,7 @@ def call_llm(
     )
 
     # Create LLM client and call the new method
+    from backend import LLMClient
     llm_client = LLMClient()
     content = llm_client.call_with_context(
         query=query,
@@ -162,26 +160,6 @@ def call_llm(
     # Return content and None for raw_data (maintaining backward compatibility)
     return content, None
 
-    try:
-        with urllib.request.urlopen(req, timeout=90) as resp:
-            body = resp.read().decode("utf-8")
-        data = json.loads(body)
-        choices = data.get("choices", [])
-        if not choices:
-            return "LLM call succeeded but no choices were returned.", data
-        content = choices[0].get("message", {}).get("content", "")
-        if not content:
-            return "LLM call succeeded but message content is empty.", data
-        return content, data
-    except urllib.error.HTTPError as e:
-        err_body = ""
-        try:
-            err_body = e.read().decode("utf-8")
-        except Exception:
-            pass
-        return f"LLM call failed with HTTP {e.code}: {err_body}", None
-    except Exception as e:
-        return f"LLM call failed: {e}", None
 
 
 def call_llm_api(
@@ -201,6 +179,7 @@ def call_llm_api(
     )
 
     # Create LLM client and call the new method
+    from backend import LLMClient
     llm_client = LLMClient()
     return llm_client.call_api_simple(
         query=query,

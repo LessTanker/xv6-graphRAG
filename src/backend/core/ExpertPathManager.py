@@ -1,17 +1,14 @@
+# Standard library imports
 import json
 import logging
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import DefaultDict, Dict, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, DefaultDict, Dict, List, Optional, Set, Tuple
 
-try:
-    from backend import config, utils
-    from backend.core.LLMClient import LLMClient
-except ImportError:
-    import config  # type: ignore
-    import utils  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+# Local module imports
+from backend import config, utils
+from backend.core.LLMClient import LLMClient
 
 
 REL_CALLS = "CALLS"

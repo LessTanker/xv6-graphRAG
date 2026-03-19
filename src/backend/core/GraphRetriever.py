@@ -4,22 +4,15 @@ import logging
 import re
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple
 
 # Third-party library imports
 import faiss
 from sentence_transformers import SentenceTransformer
 
-# Local module imports with fallback for different execution contexts
-try:
-    # When running as part of the backend package
-    from backend import config, utils
-    from backend.core.LLMClient import LLMClient
-except ImportError:
-    # When running as standalone script or from different context
-    import config  # type: ignore
-    import utils  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+# Local module imports
+from backend import config, utils
+from backend.core.LLMClient import LLMClient
 
 
 @dataclass
@@ -297,8 +290,6 @@ class GraphRetriever:
             chunk = self.chunks_by_id.get(nid, {})
             name = str(chunk.get("name", "")).strip().lower()
             if name and query_text:
-                # Match full identifier-like names (e.g. panic, printf) to avoid broad substring hits.
-                import re
                 if re.search(rf"(?<![a-zA-Z0-9_]){re.escape(name)}(?![a-zA-Z0-9_])", query_text):
                     filtered.add(nid)
         return filtered
@@ -601,7 +592,6 @@ class GraphRetriever:
                 target_files.add(normalized)
 
         if not target_files:
-            from collections import Counter
             file_counter = Counter()
             for chunk, _, _ in context.get("top_embedding_results", []):
                 file_name = str(chunk.get("file", "")).strip().lower()

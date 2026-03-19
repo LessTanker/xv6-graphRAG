@@ -1,20 +1,36 @@
+
+# Standard library imports
 import json
+import logging
 from datetime import datetime
 from typing import Any, Dict, List, Set, Tuple
 
-try:
-    from backend import config, utils
-    from backend.core.LLMClient import LLMClient
-except ImportError:
-    import config  # type: ignore
-    import utils  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+# Local module imports
+from backend import config, utils
+from backend.core.LLMClient import LLMClient
 
 
 class ResponseGenerator:
     """Build final prompt from retrieval output and call LLM for final answer."""
 
     def __init__(self):
+        # Configure logger
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.INFO)
+        # Remove existing handlers to avoid duplicates
+        for handler in self.logger.handlers[:]:
+            self.logger.removeHandler(handler)
+        # Create file handler
+        log_dir = config.PROJECT_ROOT / "log" / "backend"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / "ResponseGenerator.log"
+        file_handler = logging.FileHandler(log_file, encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+        self.logger.info("ResponseGenerator initialized.")
+
         # Initialize LLM client
         self.llm_client = LLMClient()
 
@@ -35,6 +51,7 @@ class ResponseGenerator:
         related_chunks,
         answer_language: str = config.LLM_RESPONSE_LANGUAGE,
     ) -> Dict[str, Any]:
+        self.logger.info(f"Generating response for query: {query}")
         output = {
             "query": query,
             "timestamp": datetime.now().isoformat(timespec="seconds"),
@@ -72,12 +89,17 @@ class ResponseGenerator:
         prompt_markdown = self._build_prompt_markdown(output)
         config.PROMPT_PATH.write_text(prompt_markdown, encoding="utf-8")
 
-        llm_answer, _raw = self.llm_client.call_with_context(
-            query=query,
-            context_markdown=prompt_markdown,
-            response_language=answer_language,
-        )
-        output["llm_response"] = llm_answer
+        try:
+            llm_answer, _raw = self.llm_client.call_with_context(
+                query=query,
+                context_markdown=prompt_markdown,
+                response_language=answer_language,
+            )
+            output["llm_response"] = llm_answer
+            self.logger.info("LLM call succeeded for query: %s", query)
+        except Exception as e:
+            output["llm_response"] = f"LLM call failed: {e}"
+            self.logger.error("LLM call failed for query '%s': %s", query, e)
         utils.save_json(config.SEARCH_RESULTS_PATH, output)
         return output
 

@@ -4,7 +4,10 @@ import logging
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import DefaultDict, Dict, Iterable, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, DefaultDict, Dict, Iterable, List, Optional, Set, Tuple
+
+if TYPE_CHECKING:
+    import clang.cindex as cindex
 
 # Third-party library imports
 import faiss
@@ -19,20 +22,11 @@ except ImportError as exc:
         "libclang bindings are missing. Install with: pip install libclang"
     ) from exc
 
-# Local module imports with fallback for different execution contexts
-try:
-    # When running as part of the backend package
-    from backend import config, utils
-    from backend.core.CommunityManager import CommunityManager
-    from backend.core.ExpertPathManager import ExpertPathManager
-    from backend.core.LLMClient import LLMClient
-except ImportError:
-    # When running as standalone script or from different context
-    import config  # type: ignore
-    import utils  # type: ignore
-    from core.CommunityManager import CommunityManager  # type: ignore
-    from core.ExpertPathManager import ExpertPathManager  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+# Local module imports
+from backend import config, utils
+from backend.core.CommunityManager import CommunityManager
+from backend.core.ExpertPathManager import ExpertPathManager
+from backend.core.LLMClient import LLMClient
 
 
 TARGET_TYPES = {"function", "struct", "global_var", "macro"}

@@ -2,13 +2,10 @@
 import json
 import logging
 import urllib.request
-from typing import Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 # Local module imports
-try:
-    from backend import config
-except ImportError:
-    import config  # type: ignore
+from backend import config
 
 
 class LLMClient:

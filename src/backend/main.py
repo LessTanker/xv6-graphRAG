@@ -1,12 +1,10 @@
+# Standard library imports
 import argparse
 import os
 
-try:
-    from backend import config
-    from backend.PipelineService import pipeline_service
-except ImportError:
-    import config  # type: ignore
-    from PipelineService import pipeline_service  # type: ignore
+# Local module imports
+from backend import config
+from backend.PipelineService import pipeline_service
 
 
 def parse_args() -> argparse.Namespace:

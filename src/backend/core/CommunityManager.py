@@ -2,7 +2,11 @@
 import logging
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple
+
+if TYPE_CHECKING:
+    import igraph as ig  # type: ignore
+    import leidenalg  # type: ignore
 
 # Third-party library imports
 import networkx as nx
@@ -12,21 +16,14 @@ import numpy as np
 try:
     import igraph as ig  # type: ignore
     import leidenalg  # type: ignore
-except Exception:
-    # Gracefully handle missing igraph or leidenalg
-    ig = None
-    leidenalg = None
-
-# Local module imports with fallback for different execution contexts
-try:
-    # When running as part of the backend package
-    from backend import config, utils
-    from backend.core.LLMClient import LLMClient
 except ImportError:
-    # When running as standalone script or from different context
-    import config  # type: ignore
-    import utils  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+    # Gracefully handle missing igraph or leidenalg
+    ig = None  # type: ignore
+    leidenalg = None  # type: ignore
+
+# Local module imports
+from backend import config, utils
+from backend.core.LLMClient import LLMClient
 
 
 class CommunityManager:

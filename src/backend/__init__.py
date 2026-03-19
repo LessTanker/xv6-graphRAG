@@ -1,15 +1,27 @@
-"""OS-expert source package."""
+"""Backend package for GraphRAG-based code analysis system."""
 
-from .core.GraphRetriever import GraphRetriever
-from .core.KnowledgeIndexer import KnowledgeIndexer
-from .core.QueryProcessor import QueryProcessor
-from .core.ResponseGenerator import ResponseGenerator
-from .core.LLMClient import LLMClient
+# Import config directly
+from . import config
+
+# Import core modules
+from .core import (
+    CommunityManager,
+    ExpertPathManager,
+    GraphRetriever,
+    KnowledgeIndexer,
+    QueryProcessor,
+    ResponseGenerator,
+    LLMClient,
+)
 
 __all__ = [
-	"KnowledgeIndexer",
-	"QueryProcessor",
-	"GraphRetriever",
-	"ResponseGenerator",
-	"LLMClient",
+    "CommunityManager",
+    "ExpertPathManager",
+    "GraphRetriever",
+    "KnowledgeIndexer",
+    "QueryProcessor",
+    "ResponseGenerator",
+    "LLMClient",
+    "config",
+    "utils",
 ]

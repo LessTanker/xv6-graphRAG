@@ -1,14 +1,12 @@
+# Standard library imports
 import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from typing import Tuple
+from typing import TYPE_CHECKING, Tuple
 
-try:
-    from backend import config
-    from backend.PipelineService import pipeline_service
-except ImportError:
-    import config  # type: ignore
-    from PipelineService import pipeline_service  # type: ignore
+# Local module imports
+from backend import config
+from backend.PipelineService import pipeline_service
 
 
 def _json_response(handler: BaseHTTPRequestHandler, status: int, payload: dict) -> None:

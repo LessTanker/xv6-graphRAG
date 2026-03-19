@@ -1,21 +1,19 @@
+# Standard library imports
 import json
 import logging
 import re
 import urllib.request
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
+# Third-party library imports
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-try:
-    from backend import config, utils
-    from backend.core.LLMClient import LLMClient
-except ImportError:
-    import config  # type: ignore
-    import utils  # type: ignore
-    from core.LLMClient import LLMClient  # type: ignore
+# Local module imports
+from backend import config, utils
+from backend.core.LLMClient import LLMClient
 
 
 # Configure logging for QueryProcessor

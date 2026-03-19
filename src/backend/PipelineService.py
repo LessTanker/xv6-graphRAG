@@ -1,26 +1,19 @@
+# Standard library imports
 import contextlib
 import io
 import logging
 import os
 import threading
-from typing import Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
+# Third-party library imports
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
 from transformers.utils import logging as hf_logging
 
-try:
-    from backend import config
-    from backend.core.GraphRetriever import GraphRetriever
-    from backend.core.KnowledgeIndexer import KnowledgeIndexer
-    from backend.core.QueryProcessor import QueryProcessor
-    from backend.core.ResponseGenerator import ResponseGenerator
-except ImportError:
-    import config  # type: ignore
-    from core.GraphRetriever import GraphRetriever  # type: ignore
-    from core.KnowledgeIndexer import KnowledgeIndexer  # type: ignore
-    from core.QueryProcessor import QueryProcessor  # type: ignore
-    from core.ResponseGenerator import ResponseGenerator  # type: ignore
+# Local module imports
+from backend import config
+from backend.core import GraphRetriever, KnowledgeIndexer, QueryProcessor, ResponseGenerator
 
 
 class PipelineService:
