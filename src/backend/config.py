@@ -68,7 +68,6 @@ STRATEGY_CONFIG = {
 	"strategy_templates": {
 		"embedding_only": "embedding_only",
 		"embedding_callees": "embedding + callees depth={depth}",
-		"embedding_bfs": "embedding + bfs depth={depth}",
 		"struct_reference_expansion": "struct_reference_expansion",
 		"multi_seed_connection_search": "multi_seed_connection_search",
 		"module_nodes_expansion": "module_nodes_expansion",
@@ -79,7 +78,7 @@ STRATEGY_CONFIG = {
 			"depth": 2,
 		},
 		"EXECUTION_FLOW": {
-			"template": "embedding_bfs",
+			"template": "embedding_callees",
 			"depth": 2,
 		},
 		"DATA_STRUCTURE": {

@@ -239,8 +239,6 @@ class GraphRetriever:
             results.append((chunk, similarity, distance))
         return results
 
-    # --- Graph Traversal (Strategies) ---
-
     # Perform BFS expansion from start nodes.
     def _bfs_expand(self, start_ids: List[int], adjacency: Dict[int, Set[int]], depth: int, node_filter=None) -> Set[int]:
         if node_filter is not None:
@@ -306,29 +304,6 @@ class GraphRetriever:
         return filtered
 
     def _build_node_community_map(self) -> Dict[int, Set[int]]:
-        if not config.COMMUNITIES_PATH.exists():
-            return {}
-
-        try:
-            data = utils.load_json_object(config.COMMUNITIES_PATH, "communities.json")
-            mapping = data.get("community_id_to_node_ids", {})
-            if not isinstance(mapping, dict):
-                return {}
-
-            node_to_community: Dict[int, Set[int]] = defaultdict(set)
-            for community_id, members in mapping.items():
-                if not isinstance(members, list):
-                    continue
-                if not str(community_id).isdigit():
-                    continue
-                cid = int(community_id)
-                for node_id in members:
-                    if isinstance(node_id, int):
-                        node_to_community[node_id].add(cid)
-            return dict(node_to_community)
-        except Exception as exc:
-            logging.warning("Failed to load communities for retriever scope control: %s", exc)
-            return {}
         if not config.COMMUNITIES_PATH.exists():
             return {}
 
@@ -432,9 +407,9 @@ class GraphRetriever:
     # Apply specific traversal strategy based on context.
     def _apply_strategy(self, strategy: str, context: Dict[str, Any]) -> Set[int]:
         # Pattern-based strategies
-        callee_match = re.match(r"^embedding \+ callees depth=(\d+)$", strategy)
+        callee_match = re.match(r"^embedding \+ (callees|bfs) depth=(\d+)$", strategy)
         if callee_match:
-            depth = max(1, int(callee_match.group(1)))
+            depth = max(1, int(callee_match.group(2)))
             if context["query_type"] == "FILE_OR_MODULE" and context["restricted_community_id"] is not None:
                 depth += 1
 
@@ -447,25 +422,6 @@ class GraphRetriever:
 
             return self._filter_common_nodes(
                 callee_ids,
-                context["graph_data"]["calls_indegree"],
-                context["query_text"]
-            )
-
-        bfs_match = re.match(r"^embedding \+ bfs depth=(\d+)$", strategy)
-        if bfs_match:
-            depth = max(1, int(bfs_match.group(1)))
-            if context["query_type"] == "FILE_OR_MODULE" and context["restricted_community_id"] is not None:
-                depth += 1
-
-            bfs_ids = self._bfs_expand(
-                context["seed_ids"][:3],
-                context["graph_data"]["outgoing_calls"],
-                depth=depth,
-                node_filter=context["community_filter"]
-            )
-
-            return self._filter_common_nodes(
-                bfs_ids,
                 context["graph_data"]["calls_indegree"],
                 context["query_text"]
             )
@@ -540,6 +496,7 @@ class GraphRetriever:
             context["graph_data"]["calls_indegree"],
             context["query_text"]
         )
+    
     def _apply_struct_reference_strategy(self, context: Dict[str, Any]) -> Set[int]:
         related_ids: Set[int] = set()
 
