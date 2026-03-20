@@ -14,7 +14,9 @@ def get_file_logger(name: str) -> logging.Logger:
         logger.removeHandler(handler)
 
     # Ensure log directory exists
-    log_dir = Path(__file__).parent.parent / "log" / "backend"
+    # Get project root directory (OS-expert) and create log/backend directory
+    project_root = Path(__file__).parent.parent.parent
+    log_dir = project_root / "log" / "backend"
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / f"{name.split('.')[-1]}.log"
 

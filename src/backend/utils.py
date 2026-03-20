@@ -119,17 +119,39 @@ def load_edges(path: Path) -> List[Dict[str, Any]]:
 
 
 def chunk_to_text(chunk: Dict[str, Any]) -> str:
-    kws = ", ".join(chunk.get("keywords", []))
-    code = chunk.get("code") or ""
-    code = str(code)
-    return (
-        f"Kernel {chunk['type']} in xv6\n\n"
-        f"Name: {chunk['name']}\n"
-        f"File: {chunk['file']}\n\n"
-        f"Summary:\n{chunk.get('summary', '')}\n\n"
-        f"Keywords:\n{kws}\n\n"
-        f"Code:\n{code}"
-    )
+    """Convert a hierarchical kernel node to text for embedding.
+
+    For leaf nodes (FUNCTION, STRUCT, GLOBAL_VAR, MACRO), the format is:
+        Subsystem: [subsystem] > File: [file] > [Type]: [name]
+        [Source Code]
+
+    For other nodes (REPO, SUBSYSTEM, FILE, HEADER), include basic metadata.
+    """
+    node_type = chunk.get("type", "")
+    name = chunk.get("name", "")
+    file_path = chunk.get("file", "")
+    subsystem = chunk.get("subsystem", "")
+    code = chunk.get("code", "") or ""
+    summary = chunk.get("summary", "")
+    keywords = ", ".join(chunk.get("keywords", []))
+
+    # Leaf nodes that contain source code
+    leaf_types = {"FUNCTION", "STRUCT", "GLOBAL_VAR", "MACRO"}
+
+    if node_type in leaf_types:
+        # Format: Subsystem: [name] > File: [path] > [Type]: [name] \n [Source Code]
+        return f"Subsystem: {subsystem} > File: {file_path} > {node_type}: {name}\n{code}"
+    else:
+        # For non-leaf nodes, include metadata
+        return (
+            f"Kernel {node_type} in xv6\n\n"
+            f"Name: {name}\n"
+            f"Subsystem: {subsystem}\n"
+            f"File: {file_path}\n\n"
+            f"Summary:\n{summary}\n\n"
+            f"Keywords:\n{keywords}\n\n"
+            f"Content:\n{code}"
+        )
 
 
 def call_llm(

@@ -17,7 +17,7 @@ from backend.core.LLMClient import LLMClient
 
 @dataclass
 class RetrievalResult:
-    """Container for graph retrieval results including seed nodes and related chunks."""
+    """Container for graph retrieval results including seed nodes and related nodes."""
     seeds: List[Tuple[Dict[str, Any], float, float]]
     related_chunks: List[Dict[str, Any]]
 
@@ -40,18 +40,18 @@ class GraphRetriever:
         self.llm_client = LLMClient()
 
         # Load graph data and build indices
-        self.chunks = utils.load_metadata(config.CHUNKS_METADATA_PATH)
+        self.nodes = utils.load_metadata(config.CHUNKS_METADATA_PATH)
         self.edges = utils.load_edges(config.GRAPH_EDGES_PATH)
         self.index = faiss.read_index(str(config.FAISS_INDEX_PATH))
-        self.chunks_by_id = {chunk.get("id"): chunk for chunk in self.chunks if "id" in chunk}
+        self.nodes_by_id = {node.get("id"): node for node in self.nodes if "id" in node}
         self.graph = self._build_graph_indices(self.edges)
         self.node_to_community = self._build_node_community_map()
 
-        self.logger.info(f"Loaded {len(self.chunks)} chunks, {len(self.edges)} edges")
+        self.logger.info(f"Loaded {len(self.nodes)} nodes, {len(self.edges)} edges")
 
     # Main entry point for graph-based retrieval.
     def retrieve(self, query_embedding, plan: Dict[str, Any], k: int = 10) -> RetrievalResult:
-        """Retrieve relevant code chunks using graph traversal based on query plan.
+        """Retrieve relevant kernel nodes using graph traversal based on query plan.
 
         Args:
             query_embedding: Query vector for semantic search
@@ -59,7 +59,7 @@ class GraphRetriever:
             k: Number of seed nodes to retrieve via embedding search
 
         Returns:
-            RetrievalResult containing seed nodes and related chunks
+            RetrievalResult containing seed nodes and related nodes
         """
         self.logger.info("Starting graph retrieval with plan: %s", plan.get("traversal_strategy"))
 
@@ -71,8 +71,8 @@ class GraphRetriever:
         related_ids = self._apply_traversal_plan(plan=plan, top_embedding_results=seed_results)
         related_ids.update(self._get_forced_expert_path_node_ids(plan))
 
-        # Step 3: Convert node IDs to chunk objects
-        related_nodes = [self.chunks_by_id[nid] for nid in sorted(related_ids) if nid in self.chunks_by_id]
+        # Step 3: Convert node IDs to node objects
+        related_nodes = [self.nodes_by_id[nid] for nid in sorted(related_ids) if nid in self.nodes_by_id]
 
         # Step 4: Enrich metadata and refresh if needed
         top_results, related_nodes = self._enrich_and_refresh(
@@ -83,40 +83,58 @@ class GraphRetriever:
             k=k,
         )
 
-        self.logger.info("Retrieval completed: %d seeds, %d related chunks",
-                        len(top_results), len(related_nodes))
-        return RetrievalResult(seeds=top_results, related_chunks=related_nodes)
+        # Step 5: Add kernel breadcrumbs and state flow search
+        enriched_nodes = []
+        for node in related_nodes:
+            node_id = node.get("id")
+            if node_id:
+                # Add kernel breadcrumb
+                breadcrumb = self._get_kernel_breadcrumb(node_id)
+                if breadcrumb:
+                    node["breadcrumb"] = breadcrumb
+
+                # If this is a global variable, find state producers
+                if node.get("type") == "GLOBAL_VAR":
+                    producers = self._get_state_producers(node_id)
+                    if producers:
+                        node["state_producers"] = list(producers)
+
+            enriched_nodes.append(node)
+
+        self.logger.info("Retrieval completed: %d seeds, %d related nodes",
+                        len(top_results), len(enriched_nodes))
+        return RetrievalResult(seeds=top_results, related_chunks=enriched_nodes)
 
     # Enrich metadata with LLM summaries and refresh indices if needed.
     def _enrich_and_refresh(self, top_results, related_nodes, query_embedding, plan: Dict[str, Any], k: int):
-        # Identify chunks missing summaries
-        all_selected_chunks = [chunk for chunk, _, _ in top_results] + related_nodes
+        # Identify nodes missing summaries
+        all_selected_nodes = [node for node, _, _ in top_results] + related_nodes
         seen_ids = set()
-        missing_summary_chunks = []
+        missing_summary_nodes = []
 
-        for chunk in all_selected_chunks:
-            chunk_id = chunk.get("id")
-            if chunk_id is not None and chunk_id not in seen_ids:
-                seen_ids.add(chunk_id)
-                if not chunk.get("summary"):
-                    missing_summary_chunks.append(chunk)
+        for node in all_selected_nodes:
+            node_id = node.get("id")
+            if node_id is not None and node_id not in seen_ids:
+                seen_ids.add(node_id)
+                if not node.get("summary"):
+                    missing_summary_nodes.append(node)
 
-        if not missing_summary_chunks:
+        if not missing_summary_nodes:
             return top_results, related_nodes
 
-        self.logger.info("Found %d unique chunk(s) missing summaries", len(missing_summary_chunks))
+        self.logger.info("Found %d unique node(s) missing summaries", len(missing_summary_nodes))
 
-        # Generate summaries for missing chunks
+        # Generate summaries for missing nodes
         metadata_updated = False
-        for idx, chunk in enumerate(missing_summary_chunks, start=1):
-            self.logger.debug("(%d/%d) Generating summary for chunk id=%d name=%s",
-                            idx, len(missing_summary_chunks), chunk.get('id'), chunk.get('name'))
-            summary, keywords = self.llm_client.generate_summary_for_chunk(chunk)
+        for idx, node in enumerate(missing_summary_nodes, start=1):
+            self.logger.debug("(%d/%d) Generating summary for node id=%d name=%s",
+                            idx, len(missing_summary_nodes), node.get('id'), node.get('name'))
+            summary, keywords = self.llm_client.generate_summary_for_chunk(node)
             if not summary:
-                self.logger.warning("Skipping chunk id=%d (empty LLM output)", chunk.get('id'))
+                self.logger.warning("Skipping node id=%d (empty LLM output)", node.get('id'))
                 continue
-            chunk["summary"] = summary
-            chunk["keywords"] = keywords
+            node["summary"] = summary
+            node["keywords"] = keywords
             metadata_updated = True
 
         if not metadata_updated:
@@ -125,10 +143,10 @@ class GraphRetriever:
 
         # Save updated metadata and refresh indices
         self.logger.info("Saving updated metadata to %s", config.CHUNKS_METADATA_PATH)
-        utils.save_json(config.CHUNKS_METADATA_PATH, self.chunks)
+        utils.save_json(config.CHUNKS_METADATA_PATH, self.nodes)
 
         self.logger.info("Recomputing embeddings for updated metadata...")
-        all_texts = [utils.chunk_to_text(c) for c in self.chunks]
+        all_texts = [utils.chunk_to_text(c) for c in self.nodes]
         all_embeddings = self.model.encode(
             all_texts,
             batch_size=max(1, config.EMBEDDING_BATCH_SIZE),
@@ -147,7 +165,7 @@ class GraphRetriever:
         top_results = seed_results[:3]
         related_ids = self._apply_traversal_plan(plan=plan, top_embedding_results=seed_results)
         related_ids.update(self._get_forced_expert_path_node_ids(plan))
-        related_nodes = [self.chunks_by_id[nid] for nid in sorted(related_ids) if nid in self.chunks_by_id]
+        related_nodes = [self.nodes_by_id[nid] for nid in sorted(related_ids) if nid in self.nodes_by_id]
         self.logger.info("Summary enrichment complete")
         return top_results, related_nodes
 
@@ -161,8 +179,58 @@ class GraphRetriever:
             return set()
         return {nid for nid in node_ids if isinstance(nid, int)}
 
-    # Get LLM-generated summary and keywords for a code chunk.
-    # Build graph indices from edge list for efficient traversal.
+    def _get_kernel_breadcrumb(self, node_id: int) -> str:
+        """Get the hierarchical breadcrumb for a node (e.g., Memory -> kalloc.c -> kfree)."""
+        breadcrumb_parts = []
+        current_id = node_id
+
+        while current_id:
+            node = self.nodes_by_id.get(current_id)
+            if not node:
+                break
+
+            node_type = node.get("type", "")
+            name = node.get("name", "")
+
+            # Add to breadcrumb based on node type
+            if node_type == "FUNCTION" or node_type == "STRUCT" or node_type == "GLOBAL_VAR" or node_type == "MACRO":
+                breadcrumb_parts.append(f"{node_type}: {name}")
+            elif node_type == "FILE" or node_type == "HEADER":
+                breadcrumb_parts.append(f"File: {name}")
+            elif node_type == "SUBSYSTEM":
+                breadcrumb_parts.append(f"Subsystem: {name}")
+            elif node_type == "REPO":
+                breadcrumb_parts.append(f"Repo: {name}")
+                break
+
+            # Move up the hierarchy via CONTAINS edges
+            parent_found = False
+            for edge in self.edges:
+                if edge.get("type") == "CONTAINS" and edge.get("to") == current_id:
+                    current_id = edge.get("from")
+                    parent_found = True
+                    break
+
+            if not parent_found:
+                break
+
+        # Reverse to get top-down order
+        breadcrumb_parts.reverse()
+        return " -> ".join(breadcrumb_parts) if breadcrumb_parts else ""
+
+    def _get_state_producers(self, global_var_id: int) -> Set[int]:
+        """Get functions that write to a global variable (state producers)."""
+        producers = set()
+
+        # Look for WRITES edges to this global variable
+        for edge in self.edges:
+            if edge.get("type") == "WRITES" and edge.get("to") == global_var_id:
+                src_id = edge.get("from")
+                src_node = self.nodes_by_id.get(src_id)
+                if src_node and src_node.get("type") == "FUNCTION":
+                    producers.add(src_id)
+
+        return producers
     def _build_graph_indices(self, edges: List[Dict[str, Any]]) -> Dict[str, Any]:
         outgoing = defaultdict(set)
         incoming = defaultdict(set)
@@ -200,16 +268,16 @@ class GraphRetriever:
 
     # Perform embedding search using FAISS index.
     def _embedding_search(self, query_embedding, k: int) -> List[Tuple[Dict[str, Any], float, float]]:
-        if not self.chunks:
+        if not self.nodes:
             return []
-        k = min(k, len(self.chunks))
+        k = min(k, len(self.nodes))
         distances, indices = self.index.search(query_embedding, k=k)
         results: List[Tuple[Dict[str, Any], float, float]] = []
         for i, idx in enumerate(indices[0]):
-            chunk = self.chunks[idx]
+            node = self.nodes[idx]
             distance = float(distances[0][i])
             similarity = float(1 / (1 + distance))
-            results.append((chunk, similarity, distance))
+            results.append((node, similarity, distance))
         return results
 
     # Perform BFS expansion from start nodes.
@@ -267,8 +335,8 @@ class GraphRetriever:
                 filtered.add(nid)
                 continue
             # Check if query mentions this node
-            chunk = self.chunks_by_id.get(nid, {})
-            name = str(chunk.get("name", "")).strip().lower()
+            node = self.nodes_by_id.get(nid, {})
+            name = str(node.get("name", "")).strip().lower()
             if name and query_text:
                 if re.search(rf"(?<![a-zA-Z0-9_]){re.escape(name)}(?![a-zA-Z0-9_])", query_text):
                     filtered.add(nid)
@@ -417,14 +485,14 @@ class GraphRetriever:
         # Find struct nodes from seeds
         struct_ids = {
             nid for nid in context["seed_ids"]
-            if self.chunks_by_id.get(nid, {}).get("type") == "struct"
+            if self.nodes_by_id.get(nid, {}).get("type") == "struct"
         }
 
         # If no structs in seeds, look for structs referenced by seeds
         if not struct_ids:
             for seed_id in context["seed_ids"][:5]:
                 for candidate in context["graph_data"]["outgoing_struct"].get(seed_id, set()):
-                    if self.chunks_by_id.get(candidate, {}).get("type") == "struct":
+                    if self.nodes_by_id.get(candidate, {}).get("type") == "struct":
                         struct_ids.add(candidate)
 
         # Filter by community if restricted
@@ -452,7 +520,7 @@ class GraphRetriever:
 
         # Expand from function referrers to their callees
         for rid in list(referrers):
-            if self.chunks_by_id.get(rid, {}).get("type") == "function":
+            if self.nodes_by_id.get(rid, {}).get("type") == "function":
                 callees = set(context["graph_data"]["outgoing_calls"].get(rid, set()))
                 if context["restricted_community_id"] is not None:
                     callees = {
@@ -474,14 +542,14 @@ class GraphRetriever:
         # Find struct nodes from seeds
         struct_ids = {
             nid for nid in context["seed_ids"]
-            if self.chunks_by_id.get(nid, {}).get("type") == "struct"
+            if self.nodes_by_id.get(nid, {}).get("type") == "struct"
         }
 
         # If no structs in seeds, look for structs referenced by seeds
         if not struct_ids:
             for seed_id in context["seed_ids"][:5]:
                 for candidate in context["graph_data"]["outgoing_struct"].get(seed_id, set()):
-                    if self.chunks_by_id.get(candidate, {}).get("type") == "struct":
+                    if self.nodes_by_id.get(candidate, {}).get("type") == "struct":
                         struct_ids.add(candidate)
 
         # Filter by community if restricted
@@ -509,7 +577,7 @@ class GraphRetriever:
 
         # Expand from function referrers to their callees
         for rid in list(referrers):
-            if self.chunks_by_id.get(rid, {}).get("type") == "function":
+            if self.nodes_by_id.get(rid, {}).get("type") == "function":
                 callees = set(context["graph_data"]["outgoing_calls"].get(rid, set()))
                 if context["restricted_community_id"] is not None:
                     callees = {
@@ -573,15 +641,15 @@ class GraphRetriever:
 
         if not target_files:
             file_counter = Counter()
-            for chunk, _, _ in context.get("top_embedding_results", []):
-                file_name = str(chunk.get("file", "")).strip().lower()
+            for node_result, _, _ in context.get("top_embedding_results", []):
+                file_name = str(node_result.get("file", "")).strip().lower()
                 if file_name:
                     file_counter[file_name] += 1
             target_files = {name for name, _ in file_counter.most_common(2)}
 
         # Collect nodes from target files
-        for node_id, chunk in self.chunks_by_id.items():
-            file_name = str(chunk.get("file", "")).strip().lower()
+        for node_id, node in self.nodes_by_id.items():
+            file_name = str(node.get("file", "")).strip().lower()
             if file_name in target_files:
                 if context["restricted_community_id"] is not None and not context["community_filter"](node_id):
                     continue
