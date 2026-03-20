@@ -7,5 +7,3 @@
 - Change strategy on building the graph
 
 # DOING NOW
-
-- Refine the code architecture and improve code readability

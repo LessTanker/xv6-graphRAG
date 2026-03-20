@@ -1,11 +1,11 @@
 # Standard library imports
 import json
-import logging
 import urllib.request
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 # Local module imports
 from backend import config
+from backend.logger import get_file_logger
 
 
 class LLMClient:
@@ -23,29 +23,8 @@ class LLMClient:
         self.api_key = api_key or config.LLM_TOKEN
         self.model = model or config.LLM_MODEL
 
-        # Configure logger
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.INFO)
-
-        # Remove existing handlers to avoid duplicates
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
-
-        # Create file handler
-        log_dir = config.PROJECT_ROOT / "log" / "backend"
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "LLMClient.log"
-
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
-        file_handler.setLevel(logging.INFO)
-
-        # Create formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-
-        # Add handler to logger
-        self.logger.addHandler(file_handler)
-
+        # Use a file logger specific to this module
+        self.logger = get_file_logger("LLMClient")
         self.logger.info("LLMClient initialized with model: %s", self.model)
 
     def is_configured(self) -> bool:

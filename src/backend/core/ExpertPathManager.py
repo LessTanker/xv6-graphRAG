@@ -1,6 +1,5 @@
 # Standard library imports
 import json
-import logging
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -9,6 +8,7 @@ from typing import TYPE_CHECKING, DefaultDict, Dict, List, Optional, Set, Tuple
 # Local module imports
 from backend import config, utils
 from backend.core.LLMClient import LLMClient
+from backend.logger import get_file_logger
 
 
 REL_CALLS = "CALLS"
@@ -60,29 +60,8 @@ class ExpertPathManager:
         self.llm_paths: List[Dict[str, object]] = []
         self.final_paths: List[Dict[str, object]] = []
 
-        # Configure logger
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.INFO)
-
-        # Remove existing handlers to avoid duplicates
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
-
-        # Create log directory
-        log_dir = Path("log/backend")
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "ExpertPathManager.log"
-
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
-        file_handler.setLevel(logging.INFO)
-
-        # Create formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-
-        # Add handler to logger
-        self.logger.addHandler(file_handler)
-
+        # Use a file logger specific to this module
+        self.logger = get_file_logger("ExpertPathManager")
         self.logger.info(f"ExpertPathManager initialized with chunks_path={chunks_path}, edges_path={edges_path}, output_path={output_path}")
 
     # Load chunks and edges from disk and build basic data structures.

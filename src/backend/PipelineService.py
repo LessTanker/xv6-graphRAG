@@ -1,7 +1,7 @@
 # Standard library imports
 import contextlib
 import io
-import logging
+from backend.logger import get_file_logger
 import os
 import threading
 from typing import TYPE_CHECKING, Any, Dict, Optional
@@ -23,6 +23,7 @@ class PipelineService:
         self._lock = threading.Lock()
         self._initialized = False
         self._model: Optional[SentenceTransformer] = None
+        self.logger = get_file_logger("PipelineService")
 
     def _configure_runtime(self) -> None:
         load_dotenv(config.PROJECT_ROOT / ".env", override=True)
@@ -30,6 +31,8 @@ class PipelineService:
         os.environ["TQDM_DISABLE"] = "1"
         hf_logging.set_verbosity_error()
         hf_logging.disable_progress_bar()
+        # Set third-party loggers to ERROR
+        import logging
         logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
         logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 

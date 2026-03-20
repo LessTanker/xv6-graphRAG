@@ -1223,3 +1223,6 @@
 2026-03-18 22:18:54,835 - CommunityManager - INFO - (12/12) LLM returned for community_id=11
 2026-03-18 22:18:54,835 - CommunityManager - INFO - (12/12) Summary ready for community_id=11
 2026-03-18 22:18:54,835 - CommunityManager - INFO - Community summarization completed: 12 summaries generated
+2026-03-20 11:09:14 - CommunityManager - INFO - Logger 'CommunityManager' initialized
+2026-03-20 11:09:14 - CommunityManager - INFO - CommunityManager initialized with edges_path=data/graph_edges.json, chunks_path=data/chunks_metadata.json, output_path=data/communities.json, prefer_static_partition=False
+2026-03-20 11:09:14 - CommunityManager - INFO - 测试CommunityManager的logger

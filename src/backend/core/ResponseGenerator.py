@@ -1,7 +1,7 @@
 
 # Standard library imports
 import json
-import logging
+from backend.logger import get_file_logger
 from datetime import datetime
 from typing import Any, Dict, List, Set, Tuple
 
@@ -14,21 +14,8 @@ class ResponseGenerator:
     """Build final prompt from retrieval output and call LLM for final answer."""
 
     def __init__(self):
-        # Configure logger
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.INFO)
-        # Remove existing handlers to avoid duplicates
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
-        # Create file handler
-        log_dir = config.PROJECT_ROOT / "log" / "backend"
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "ResponseGenerator.log"
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
-        file_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
+        # Use a file logger specific to this module
+        self.logger = get_file_logger("ResponseGenerator")
         self.logger.info("ResponseGenerator initialized.")
 
         # Initialize LLM client

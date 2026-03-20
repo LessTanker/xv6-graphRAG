@@ -1,6 +1,5 @@
 # Standard library imports
 import json
-import logging
 import re
 import urllib.request
 from dataclasses import dataclass
@@ -14,23 +13,11 @@ from sentence_transformers import SentenceTransformer
 # Local module imports
 from backend import config, utils
 from backend.core.LLMClient import LLMClient
+from backend.logger import get_file_logger
 
 
-# Configure logging for QueryProcessor
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-# Create log directory if it doesn't exist
-log_dir = config.PROJECT_ROOT / "log" / "backend"
-log_dir.mkdir(parents=True, exist_ok=True)
-
-# Add file handler if not already configured
-if not logger.handlers:
-    file_handler = logging.FileHandler(log_dir / "QueryProcessor.log")
-    file_handler.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    logger.addHandler(file_handler)
+# Configure logging for QueryProcessor using unified logger
+logger = get_file_logger("backend.core.QueryProcessor")
 
 
 @dataclass

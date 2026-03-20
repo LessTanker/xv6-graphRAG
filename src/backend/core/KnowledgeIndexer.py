@@ -1,6 +1,5 @@
 # Standard library imports
 import hashlib
-import logging
 import os
 from collections import defaultdict
 from pathlib import Path
@@ -27,6 +26,7 @@ from backend import config, utils
 from backend.core.CommunityManager import CommunityManager
 from backend.core.ExpertPathManager import ExpertPathManager
 from backend.core.LLMClient import LLMClient
+from backend.logger import get_file_logger
 
 
 TARGET_TYPES = {"function", "struct", "global_var", "macro"}
@@ -45,29 +45,8 @@ class KnowledgeIndexer:
         self.model = model or SentenceTransformer(config.EMBEDDING_MODEL_NAME)
         self._clang_index = cindex.Index.create()
 
-        # Configure logger
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.INFO)
-
-        # Remove existing handlers to avoid duplicates
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
-
-        # Create file handler
-        log_dir = Path("log/backend")
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "KnowledgeIndexer.log"
-
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
-        file_handler.setLevel(logging.INFO)
-
-        # Create formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-
-        # Add handler to logger
-        self.logger.addHandler(file_handler)
-
+        # Use a file logger specific to this module
+        self.logger = get_file_logger("KnowledgeIndexer")
         self.logger.info(f"KnowledgeIndexer initialized with source_root: {source_root}")
 
     # Check if all required indexing and analysis artifacts exist on disk.

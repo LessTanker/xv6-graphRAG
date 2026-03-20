@@ -1,5 +1,4 @@
 # Standard library imports
-import logging
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple
@@ -24,6 +23,7 @@ except ImportError:
 # Local module imports
 from backend import config, utils
 from backend.core.LLMClient import LLMClient
+from backend.logger import get_file_logger
 
 
 class CommunityManager:
@@ -35,6 +35,7 @@ class CommunityManager:
     TARGET_COMMUNITY_MAX = config.COMMUNITY_TARGET_MAX
     MIN_COMMUNITY_SIZE = config.COMMUNITY_MIN_SIZE
     GLOBAL_TOP_PERCENT = config.COMMUNITY_GLOBAL_TOP_PERCENT
+
 
     def __init__(
         self,
@@ -68,29 +69,8 @@ class CommunityManager:
         self.global_summary: str = ""
         self.global_metadata: Dict[str, Any] = {}
 
-        # Configure logger
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.INFO)
-
-        # Remove existing handlers to avoid duplicates
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
-
-        # Create file handler
-        log_dir = Path("log/backend")
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_file = log_dir / "CommunityManager.log"
-
-        file_handler = logging.FileHandler(log_file, encoding='utf-8')
-        file_handler.setLevel(logging.INFO)
-
-        # Create formatter
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-
-        # Add handler to logger
-        self.logger.addHandler(file_handler)
-
+        # Use a file logger specific to this module
+        self.logger = get_file_logger("CommunityManager")
         self.logger.info(f"CommunityManager initialized with edges_path={edges_path}, chunks_path={chunks_path}, output_path={output_path}, prefer_static_partition={prefer_static_partition}")
 
     # This function executes the full community detection pipeline:
