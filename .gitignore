@@ -17,19 +17,9 @@ env/
 .env.*
 !.env.example
 
+
 # Project generated data artifacts
-data/faiss.index
-data/prompt.md
-data/search_results_with_graph.json
-data/chunks_metadata.json
-data/graph_edges.json
-data/embedding_state.json
-data/embeddings_cache.npz
-data/communities.json
-data/community_faiss.index
-data/community_embeddings_cache.npz
-data/expert_path.json
-data/compile_commands.json
+data/
 
 # Log files
 log/
