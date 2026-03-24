@@ -1,0 +1,12 @@
+digraph "kill" {  
+"22703" [label = <(METHOD,kill)<SUB>13</SUB>> ]
+"22704" [label = <(PARAM,int)<SUB>13</SUB>> ]
+"22705" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22706" [label = <(METHOD_RETURN,int)<SUB>13</SUB>> ]
+  "22703" -> "22704"  [ label = "AST: "] 
+  "22703" -> "22705"  [ label = "AST: "] 
+  "22703" -> "22706"  [ label = "AST: "] 
+  "22703" -> "22706"  [ label = "CFG: "] 
+  "22704" -> "22706"  [ label = "DDG: "] 
+  "22703" -> "22704"  [ label = "DDG: "] 
+}

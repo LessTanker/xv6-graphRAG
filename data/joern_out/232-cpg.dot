@@ -1,0 +1,35 @@
+digraph "printfinit" {  
+"7133" [label = <(METHOD,printfinit)<SUB>147</SUB>> ]
+"7134" [label = <(PARAM,void)<SUB>148</SUB>> ]
+"7135" [label = <(BLOCK,{
+  initlock(&amp;pr.lock, &quot;pr&quot;);
+},{
+  initlock(&amp;pr.lock, &quot;pr&quot;);
+})<SUB>149</SUB>> ]
+"7136" [label = <(initlock,initlock(&amp;pr.lock, &quot;pr&quot;))<SUB>150</SUB>> ]
+"7137" [label = <(&lt;operator&gt;.addressOf,&amp;pr.lock)<SUB>150</SUB>> ]
+"7138" [label = <(&lt;operator&gt;.fieldAccess,pr.lock)<SUB>150</SUB>> ]
+"7139" [label = <(IDENTIFIER,pr,initlock(&amp;pr.lock, &quot;pr&quot;))<SUB>150</SUB>> ]
+"7140" [label = <(FIELD_IDENTIFIER,lock,lock)<SUB>150</SUB>> ]
+"7141" [label = <(LITERAL,&quot;pr&quot;,initlock(&amp;pr.lock, &quot;pr&quot;))<SUB>150</SUB>> ]
+"7142" [label = <(METHOD_RETURN,void)<SUB>147</SUB>> ]
+  "7133" -> "7134"  [ label = "AST: "] 
+  "7133" -> "7135"  [ label = "AST: "] 
+  "7133" -> "7142"  [ label = "AST: "] 
+  "7135" -> "7136"  [ label = "AST: "] 
+  "7136" -> "7137"  [ label = "AST: "] 
+  "7136" -> "7141"  [ label = "AST: "] 
+  "7137" -> "7138"  [ label = "AST: "] 
+  "7138" -> "7139"  [ label = "AST: "] 
+  "7138" -> "7140"  [ label = "AST: "] 
+  "7136" -> "7142"  [ label = "CFG: "] 
+  "7137" -> "7136"  [ label = "CFG: "] 
+  "7138" -> "7137"  [ label = "CFG: "] 
+  "7140" -> "7138"  [ label = "CFG: "] 
+  "7133" -> "7140"  [ label = "CFG: "] 
+  "7134" -> "7142"  [ label = "DDG: "] 
+  "7136" -> "7142"  [ label = "DDG: &amp;pr.lock"] 
+  "7136" -> "7142"  [ label = "DDG: initlock(&amp;pr.lock, &quot;pr&quot;)"] 
+  "7133" -> "7134"  [ label = "DDG: "] 
+  "7133" -> "7136"  [ label = "DDG: "] 
+}

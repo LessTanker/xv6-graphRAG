@@ -1,0 +1,12 @@
+digraph "sys_exec" {  
+"10442" [label = <(METHOD,sys_exec)<SUB>89</SUB>> ]
+"10443" [label = <(PARAM,void)<SUB>89</SUB>> ]
+"10444" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10445" [label = <(METHOD_RETURN,uint64)<SUB>89</SUB>> ]
+  "10442" -> "10443"  [ label = "AST: "] 
+  "10442" -> "10444"  [ label = "AST: "] 
+  "10442" -> "10445"  [ label = "AST: "] 
+  "10442" -> "10445"  [ label = "CFG: "] 
+  "10443" -> "10445"  [ label = "DDG: "] 
+  "10442" -> "10443"  [ label = "DDG: "] 
+}

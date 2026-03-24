@@ -1,0 +1,12 @@
+digraph "sys_dup" {  
+"10457" [label = <(METHOD,sys_dup)<SUB>92</SUB>> ]
+"10458" [label = <(PARAM,void)<SUB>92</SUB>> ]
+"10459" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10460" [label = <(METHOD_RETURN,uint64)<SUB>92</SUB>> ]
+  "10457" -> "10458"  [ label = "AST: "] 
+  "10457" -> "10459"  [ label = "AST: "] 
+  "10457" -> "10460"  [ label = "AST: "] 
+  "10457" -> "10460"  [ label = "CFG: "] 
+  "10458" -> "10460"  [ label = "DDG: "] 
+  "10457" -> "10458"  [ label = "DDG: "] 
+}

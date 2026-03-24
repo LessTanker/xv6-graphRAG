@@ -1,0 +1,38 @@
+digraph "nameiparent" {  
+"4986" [label = <(METHOD,nameiparent)<SUB>716</SUB>> ]
+"4987" [label = <(PARAM,char *path)<SUB>717</SUB>> ]
+"4988" [label = <(PARAM,char *name)<SUB>717</SUB>> ]
+"4989" [label = <(BLOCK,{
+  return namex(path, 1, name);
+},{
+  return namex(path, 1, name);
+})<SUB>718</SUB>> ]
+"4990" [label = <(RETURN,return namex(path, 1, name);,return namex(path, 1, name);)<SUB>719</SUB>> ]
+"4991" [label = <(namex,namex(path, 1, name))<SUB>719</SUB>> ]
+"4992" [label = <(IDENTIFIER,path,namex(path, 1, name))<SUB>719</SUB>> ]
+"4993" [label = <(LITERAL,1,namex(path, 1, name))<SUB>719</SUB>> ]
+"4994" [label = <(IDENTIFIER,name,namex(path, 1, name))<SUB>719</SUB>> ]
+"4995" [label = <(METHOD_RETURN,struct inode)<SUB>716</SUB>> ]
+  "4986" -> "4987"  [ label = "AST: "] 
+  "4986" -> "4988"  [ label = "AST: "] 
+  "4986" -> "4989"  [ label = "AST: "] 
+  "4986" -> "4995"  [ label = "AST: "] 
+  "4989" -> "4990"  [ label = "AST: "] 
+  "4990" -> "4991"  [ label = "AST: "] 
+  "4991" -> "4992"  [ label = "AST: "] 
+  "4991" -> "4993"  [ label = "AST: "] 
+  "4991" -> "4994"  [ label = "AST: "] 
+  "4990" -> "4995"  [ label = "CFG: "] 
+  "4991" -> "4990"  [ label = "CFG: "] 
+  "4986" -> "4991"  [ label = "CFG: "] 
+  "4990" -> "4995"  [ label = "DDG: &lt;RET&gt;"] 
+  "4991" -> "4995"  [ label = "DDG: path"] 
+  "4991" -> "4995"  [ label = "DDG: name"] 
+  "4991" -> "4995"  [ label = "DDG: namex(path, 1, name)"] 
+  "4986" -> "4987"  [ label = "DDG: "] 
+  "4986" -> "4988"  [ label = "DDG: "] 
+  "4991" -> "4990"  [ label = "DDG: namex(path, 1, name)"] 
+  "4987" -> "4991"  [ label = "DDG: path"] 
+  "4986" -> "4991"  [ label = "DDG: "] 
+  "4988" -> "4991"  [ label = "DDG: name"] 
+}

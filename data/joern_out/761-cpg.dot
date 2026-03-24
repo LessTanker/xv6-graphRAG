@@ -1,0 +1,16 @@
+digraph "&lt;operator&gt;.or" {  
+"33311" [label = <(METHOD,&lt;operator&gt;.or)> ]
+"33312" [label = <(PARAM,p1)> ]
+"33313" [label = <(PARAM,p2)> ]
+"33314" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33315" [label = <(METHOD_RETURN,ANY)> ]
+  "33311" -> "33312"  [ label = "AST: "] 
+  "33311" -> "33314"  [ label = "AST: "] 
+  "33311" -> "33313"  [ label = "AST: "] 
+  "33311" -> "33315"  [ label = "AST: "] 
+  "33311" -> "33315"  [ label = "CFG: "] 
+  "33312" -> "33315"  [ label = "DDG: p1"] 
+  "33313" -> "33315"  [ label = "DDG: p2"] 
+  "33311" -> "33312"  [ label = "DDG: "] 
+  "33311" -> "33313"  [ label = "DDG: "] 
+}

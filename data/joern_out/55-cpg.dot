@@ -1,0 +1,16 @@
+digraph "pipeclose" {  
+"1138" [label = <(METHOD,pipeclose)<SUB>71</SUB>> ]
+"1139" [label = <(PARAM,struct pipe*)<SUB>71</SUB>> ]
+"1140" [label = <(PARAM,int)<SUB>71</SUB>> ]
+"1141" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1142" [label = <(METHOD_RETURN,void)<SUB>71</SUB>> ]
+  "1138" -> "1139"  [ label = "AST: "] 
+  "1138" -> "1140"  [ label = "AST: "] 
+  "1138" -> "1141"  [ label = "AST: "] 
+  "1138" -> "1142"  [ label = "AST: "] 
+  "1138" -> "1142"  [ label = "CFG: "] 
+  "1139" -> "1142"  [ label = "DDG: "] 
+  "1140" -> "1142"  [ label = "DDG: "] 
+  "1138" -> "1139"  [ label = "DDG: "] 
+  "1138" -> "1140"  [ label = "DDG: "] 
+}

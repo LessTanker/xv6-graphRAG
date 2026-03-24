@@ -1,0 +1,12 @@
+digraph "uptime" {  
+"22775" [label = <(METHOD,uptime)<SUB>26</SUB>> ]
+"22776" [label = <(PARAM,void)<SUB>26</SUB>> ]
+"22777" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22778" [label = <(METHOD_RETURN,int)<SUB>26</SUB>> ]
+  "22775" -> "22776"  [ label = "AST: "] 
+  "22775" -> "22777"  [ label = "AST: "] 
+  "22775" -> "22778"  [ label = "AST: "] 
+  "22775" -> "22778"  [ label = "CFG: "] 
+  "22776" -> "22778"  [ label = "DDG: "] 
+  "22775" -> "22776"  [ label = "DDG: "] 
+}

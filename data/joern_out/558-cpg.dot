@@ -1,0 +1,38 @@
+digraph "sbrklazy" {  
+"22259" [label = <(METHOD,sbrklazy)<SUB>157</SUB>> ]
+"22260" [label = <(PARAM,int n)<SUB>158</SUB>> ]
+"22261" [label = <(BLOCK,{
+  return sys_sbrk(n, SBRK_LAZY);
+},{
+  return sys_sbrk(n, SBRK_LAZY);
+})<SUB>158</SUB>> ]
+"22262" [label = <(RETURN,return sys_sbrk(n, SBRK_LAZY);,return sys_sbrk(n, SBRK_LAZY);)<SUB>159</SUB>> ]
+"22263" [label = <(sys_sbrk,sys_sbrk(n, SBRK_LAZY))<SUB>159</SUB>> ]
+"22264" [label = <(IDENTIFIER,n,sys_sbrk(n, SBRK_LAZY))<SUB>159</SUB>> ]
+"22265" [label = <(SBRK_LAZY,SBRK_LAZY)<SUB>159</SUB>> ]
+"22266" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22267" [label = <(LITERAL,2,&lt;empty&gt;)<SUB>159</SUB>> ]
+"22268" [label = <(METHOD_RETURN,char*)<SUB>157</SUB>> ]
+  "22259" -> "22260"  [ label = "AST: "] 
+  "22259" -> "22261"  [ label = "AST: "] 
+  "22259" -> "22268"  [ label = "AST: "] 
+  "22261" -> "22262"  [ label = "AST: "] 
+  "22262" -> "22263"  [ label = "AST: "] 
+  "22263" -> "22264"  [ label = "AST: "] 
+  "22263" -> "22265"  [ label = "AST: "] 
+  "22265" -> "22266"  [ label = "AST: "] 
+  "22266" -> "22267"  [ label = "AST: "] 
+  "22262" -> "22268"  [ label = "CFG: "] 
+  "22263" -> "22262"  [ label = "CFG: "] 
+  "22265" -> "22263"  [ label = "CFG: "] 
+  "22259" -> "22265"  [ label = "CFG: "] 
+  "22262" -> "22268"  [ label = "DDG: &lt;RET&gt;"] 
+  "22263" -> "22268"  [ label = "DDG: n"] 
+  "22263" -> "22268"  [ label = "DDG: SBRK_LAZY"] 
+  "22263" -> "22268"  [ label = "DDG: sys_sbrk(n, SBRK_LAZY)"] 
+  "22259" -> "22260"  [ label = "DDG: "] 
+  "22263" -> "22262"  [ label = "DDG: sys_sbrk(n, SBRK_LAZY)"] 
+  "22260" -> "22263"  [ label = "DDG: n"] 
+  "22259" -> "22263"  [ label = "DDG: "] 
+  "22259" -> "22267"  [ label = "DDG: "] 
+}

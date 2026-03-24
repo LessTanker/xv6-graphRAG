@@ -1,0 +1,12 @@
+digraph "pause" {  
+"22770" [label = <(METHOD,pause)<SUB>25</SUB>> ]
+"22771" [label = <(PARAM,int)<SUB>25</SUB>> ]
+"22772" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22773" [label = <(METHOD_RETURN,int)<SUB>25</SUB>> ]
+  "22770" -> "22771"  [ label = "AST: "] 
+  "22770" -> "22772"  [ label = "AST: "] 
+  "22770" -> "22773"  [ label = "AST: "] 
+  "22770" -> "22773"  [ label = "CFG: "] 
+  "22771" -> "22773"  [ label = "DDG: "] 
+  "22770" -> "22771"  [ label = "DDG: "] 
+}

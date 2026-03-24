@@ -1,0 +1,12 @@
+digraph "sys_kill" {  
+"10437" [label = <(METHOD,sys_kill)<SUB>88</SUB>> ]
+"10438" [label = <(PARAM,void)<SUB>88</SUB>> ]
+"10439" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10440" [label = <(METHOD_RETURN,uint64)<SUB>88</SUB>> ]
+  "10437" -> "10438"  [ label = "AST: "] 
+  "10437" -> "10439"  [ label = "AST: "] 
+  "10437" -> "10440"  [ label = "AST: "] 
+  "10437" -> "10440"  [ label = "CFG: "] 
+  "10438" -> "10440"  [ label = "DDG: "] 
+  "10437" -> "10438"  [ label = "DDG: "] 
+}

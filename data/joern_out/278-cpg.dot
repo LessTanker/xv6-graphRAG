@@ -1,0 +1,19 @@
+digraph "w_mie" {  
+"9200" [label = <(METHOD,w_mie)<SUB>106</SUB>> ]
+"9201" [label = <(PARAM,uint64 x)<SUB>107</SUB>> ]
+"9202" [label = <(BLOCK,{
+  asm volatile(&quot;csrw mie, %0&quot; : : &quot;r&quot; (x));
+},{
+  asm volatile(&quot;csrw mie, %0&quot; : : &quot;r&quot; (x));
+})<SUB>108</SUB>> ]
+"9203" [label = <(UNKNOWN,asm volatile(&quot;csrw mie, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw mie, %0&quot; : : &quot;r&quot; (x));)<SUB>109</SUB>> ]
+"9204" [label = <(METHOD_RETURN,void)<SUB>106</SUB>> ]
+  "9200" -> "9201"  [ label = "AST: "] 
+  "9200" -> "9202"  [ label = "AST: "] 
+  "9200" -> "9204"  [ label = "AST: "] 
+  "9202" -> "9203"  [ label = "AST: "] 
+  "9203" -> "9204"  [ label = "CFG: "] 
+  "9200" -> "9203"  [ label = "CFG: "] 
+  "9201" -> "9204"  [ label = "DDG: x"] 
+  "9200" -> "9201"  [ label = "DDG: "] 
+}

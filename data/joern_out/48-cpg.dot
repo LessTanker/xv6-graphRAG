@@ -1,0 +1,12 @@
+digraph "kfree" {  
+"1101" [label = <(METHOD,kfree)<SUB>60</SUB>> ]
+"1102" [label = <(PARAM,void *)<SUB>60</SUB>> ]
+"1103" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1104" [label = <(METHOD_RETURN,void)<SUB>60</SUB>> ]
+  "1101" -> "1102"  [ label = "AST: "] 
+  "1101" -> "1103"  [ label = "AST: "] 
+  "1101" -> "1104"  [ label = "AST: "] 
+  "1101" -> "1104"  [ label = "CFG: "] 
+  "1102" -> "1104"  [ label = "DDG: "] 
+  "1101" -> "1102"  [ label = "DDG: "] 
+}

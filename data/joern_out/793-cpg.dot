@@ -1,0 +1,8 @@
+digraph "SYS_kill" {  
+"33429" [label = <(METHOD,SYS_kill)<SUB>7</SUB>> ]
+"33430" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33431" [label = <(METHOD_RETURN,ANY)> ]
+  "33429" -> "33430"  [ label = "AST: "] 
+  "33429" -> "33431"  [ label = "AST: "] 
+  "33429" -> "33431"  [ label = "CFG: "] 
+}

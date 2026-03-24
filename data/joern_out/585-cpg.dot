@@ -1,0 +1,16 @@
+digraph "stat" {  
+"22780" [label = <(METHOD,stat)<SUB>29</SUB>> ]
+"22781" [label = <(PARAM,const char*)<SUB>29</SUB>> ]
+"22782" [label = <(PARAM,struct stat*)<SUB>29</SUB>> ]
+"22783" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22784" [label = <(METHOD_RETURN,int)<SUB>29</SUB>> ]
+  "22780" -> "22781"  [ label = "AST: "] 
+  "22780" -> "22782"  [ label = "AST: "] 
+  "22780" -> "22783"  [ label = "AST: "] 
+  "22780" -> "22784"  [ label = "AST: "] 
+  "22780" -> "22784"  [ label = "CFG: "] 
+  "22781" -> "22784"  [ label = "DDG: "] 
+  "22782" -> "22784"  [ label = "DDG: "] 
+  "22780" -> "22781"  [ label = "DDG: "] 
+  "22780" -> "22782"  [ label = "DDG: "] 
+}

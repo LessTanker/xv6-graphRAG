@@ -1,0 +1,18 @@
+digraph "&lt;global&gt;" {  
+"9773" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"9774" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>1</SUB>> ]
+"9775" [label = <(TYPE_DECL,spinlock)<SUB>2</SUB>> ]
+"9776" [label = <(MEMBER,locked)<SUB>3</SUB>> ]
+"9777" [label = <(MEMBER,name)<SUB>6</SUB>> ]
+"9778" [label = <(TYPE_DECL,cpu)<SUB>7</SUB>> ]
+"9779" [label = <(MEMBER,cpu)<SUB>7</SUB>> ]
+"9780" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "9773" -> "9774"  [ label = "AST: "] 
+  "9773" -> "9780"  [ label = "AST: "] 
+  "9774" -> "9775"  [ label = "AST: "] 
+  "9775" -> "9776"  [ label = "AST: "] 
+  "9775" -> "9777"  [ label = "AST: "] 
+  "9775" -> "9778"  [ label = "AST: "] 
+  "9775" -> "9779"  [ label = "AST: "] 
+  "9773" -> "9780"  [ label = "CFG: "] 
+}

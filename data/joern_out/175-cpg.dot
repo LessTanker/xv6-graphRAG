@@ -1,0 +1,34 @@
+digraph "iunlockput" {  
+"3894" [label = <(METHOD,iunlockput)<SUB>366</SUB>> ]
+"3895" [label = <(PARAM,struct inode *ip)<SUB>367</SUB>> ]
+"3896" [label = <(BLOCK,{
+  iunlock(ip);
+  iput(ip);
+},{
+  iunlock(ip);
+  iput(ip);
+})<SUB>368</SUB>> ]
+"3897" [label = <(iunlock,iunlock(ip))<SUB>369</SUB>> ]
+"3898" [label = <(IDENTIFIER,ip,iunlock(ip))<SUB>369</SUB>> ]
+"3899" [label = <(iput,iput(ip))<SUB>370</SUB>> ]
+"3900" [label = <(IDENTIFIER,ip,iput(ip))<SUB>370</SUB>> ]
+"3901" [label = <(METHOD_RETURN,void)<SUB>366</SUB>> ]
+  "3894" -> "3895"  [ label = "AST: "] 
+  "3894" -> "3896"  [ label = "AST: "] 
+  "3894" -> "3901"  [ label = "AST: "] 
+  "3896" -> "3897"  [ label = "AST: "] 
+  "3896" -> "3899"  [ label = "AST: "] 
+  "3897" -> "3898"  [ label = "AST: "] 
+  "3899" -> "3900"  [ label = "AST: "] 
+  "3897" -> "3899"  [ label = "CFG: "] 
+  "3899" -> "3901"  [ label = "CFG: "] 
+  "3894" -> "3897"  [ label = "CFG: "] 
+  "3897" -> "3901"  [ label = "DDG: iunlock(ip)"] 
+  "3899" -> "3901"  [ label = "DDG: ip"] 
+  "3899" -> "3901"  [ label = "DDG: iput(ip)"] 
+  "3894" -> "3895"  [ label = "DDG: "] 
+  "3895" -> "3897"  [ label = "DDG: ip"] 
+  "3894" -> "3897"  [ label = "DDG: "] 
+  "3897" -> "3899"  [ label = "DDG: ip"] 
+  "3894" -> "3899"  [ label = "DDG: "] 
+}

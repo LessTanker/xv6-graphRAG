@@ -1,0 +1,17 @@
+digraph "w_pmpaddr0" {  
+"9296" [label = <(METHOD,w_pmpaddr0)<SUB>216</SUB>> ]
+"9297" [label = <(PARAM,uint64 x)<SUB>217</SUB>> ]
+"9298" [label = <(BLOCK,{
+  asm volatile(&quot;csrw pmpaddr0, %0&quot; : : &quot;r&quot; (x...,{
+  asm volatile(&quot;csrw pmpaddr0, %0&quot; : : &quot;r&quot; (x...)<SUB>218</SUB>> ]
+"9299" [label = <(UNKNOWN,asm volatile(&quot;csrw pmpaddr0, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw pmpaddr0, %0&quot; : : &quot;r&quot; (x));)<SUB>219</SUB>> ]
+"9300" [label = <(METHOD_RETURN,void)<SUB>216</SUB>> ]
+  "9296" -> "9297"  [ label = "AST: "] 
+  "9296" -> "9298"  [ label = "AST: "] 
+  "9296" -> "9300"  [ label = "AST: "] 
+  "9298" -> "9299"  [ label = "AST: "] 
+  "9299" -> "9300"  [ label = "CFG: "] 
+  "9296" -> "9299"  [ label = "CFG: "] 
+  "9297" -> "9300"  [ label = "DDG: x"] 
+  "9296" -> "9297"  [ label = "DDG: "] 
+}

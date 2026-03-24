@@ -1,0 +1,16 @@
+digraph "va_arg" {  
+"33344" [label = <(METHOD,va_arg)> ]
+"33345" [label = <(PARAM,p1)> ]
+"33346" [label = <(PARAM,p2)> ]
+"33347" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33348" [label = <(METHOD_RETURN,ANY)> ]
+  "33344" -> "33345"  [ label = "AST: "] 
+  "33344" -> "33347"  [ label = "AST: "] 
+  "33344" -> "33346"  [ label = "AST: "] 
+  "33344" -> "33348"  [ label = "AST: "] 
+  "33344" -> "33348"  [ label = "CFG: "] 
+  "33345" -> "33348"  [ label = "DDG: p1"] 
+  "33346" -> "33348"  [ label = "DDG: p2"] 
+  "33344" -> "33345"  [ label = "DDG: "] 
+  "33344" -> "33346"  [ label = "DDG: "] 
+}

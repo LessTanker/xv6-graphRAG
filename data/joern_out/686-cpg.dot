@@ -1,0 +1,12 @@
+digraph "&lt;operator&gt;.arrayInitializer" {  
+"33016" [label = <(METHOD,&lt;operator&gt;.arrayInitializer)> ]
+"33017" [label = <(PARAM,p1)> ]
+"33018" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33019" [label = <(METHOD_RETURN,ANY)> ]
+  "33016" -> "33017"  [ label = "AST: "] 
+  "33016" -> "33018"  [ label = "AST: "] 
+  "33016" -> "33019"  [ label = "AST: "] 
+  "33016" -> "33019"  [ label = "CFG: "] 
+  "33017" -> "33019"  [ label = "DDG: p1"] 
+  "33016" -> "33017"  [ label = "DDG: "] 
+}

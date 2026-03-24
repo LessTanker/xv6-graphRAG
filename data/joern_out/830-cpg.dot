@@ -1,0 +1,8 @@
+digraph "VIRTIO_BLK_F_SCSI" {  
+"33542" [label = <(METHOD,VIRTIO_BLK_F_SCSI)<SUB>41</SUB>> ]
+"33543" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33544" [label = <(METHOD_RETURN,ANY)> ]
+  "33542" -> "33543"  [ label = "AST: "] 
+  "33542" -> "33544"  [ label = "AST: "] 
+  "33542" -> "33544"  [ label = "CFG: "] 
+}

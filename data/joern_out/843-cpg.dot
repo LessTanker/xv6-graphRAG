@@ -1,0 +1,8 @@
+digraph "VIRTIO0" {  
+"33581" [label = <(METHOD,VIRTIO0)<SUB>25</SUB>> ]
+"33582" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33583" [label = <(METHOD_RETURN,ANY)> ]
+  "33581" -> "33582"  [ label = "AST: "] 
+  "33581" -> "33583"  [ label = "AST: "] 
+  "33581" -> "33583"  [ label = "CFG: "] 
+}

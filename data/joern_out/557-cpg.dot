@@ -1,0 +1,38 @@
+digraph "sbrk" {  
+"22248" [label = <(METHOD,sbrk)<SUB>152</SUB>> ]
+"22249" [label = <(PARAM,int n)<SUB>153</SUB>> ]
+"22250" [label = <(BLOCK,{
+  return sys_sbrk(n, SBRK_EAGER);
+},{
+  return sys_sbrk(n, SBRK_EAGER);
+})<SUB>153</SUB>> ]
+"22251" [label = <(RETURN,return sys_sbrk(n, SBRK_EAGER);,return sys_sbrk(n, SBRK_EAGER);)<SUB>154</SUB>> ]
+"22252" [label = <(sys_sbrk,sys_sbrk(n, SBRK_EAGER))<SUB>154</SUB>> ]
+"22253" [label = <(IDENTIFIER,n,sys_sbrk(n, SBRK_EAGER))<SUB>154</SUB>> ]
+"22254" [label = <(SBRK_EAGER,SBRK_EAGER)<SUB>154</SUB>> ]
+"22255" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22256" [label = <(LITERAL,1,&lt;empty&gt;)<SUB>154</SUB>> ]
+"22257" [label = <(METHOD_RETURN,char*)<SUB>152</SUB>> ]
+  "22248" -> "22249"  [ label = "AST: "] 
+  "22248" -> "22250"  [ label = "AST: "] 
+  "22248" -> "22257"  [ label = "AST: "] 
+  "22250" -> "22251"  [ label = "AST: "] 
+  "22251" -> "22252"  [ label = "AST: "] 
+  "22252" -> "22253"  [ label = "AST: "] 
+  "22252" -> "22254"  [ label = "AST: "] 
+  "22254" -> "22255"  [ label = "AST: "] 
+  "22255" -> "22256"  [ label = "AST: "] 
+  "22251" -> "22257"  [ label = "CFG: "] 
+  "22252" -> "22251"  [ label = "CFG: "] 
+  "22254" -> "22252"  [ label = "CFG: "] 
+  "22248" -> "22254"  [ label = "CFG: "] 
+  "22251" -> "22257"  [ label = "DDG: &lt;RET&gt;"] 
+  "22252" -> "22257"  [ label = "DDG: n"] 
+  "22252" -> "22257"  [ label = "DDG: SBRK_EAGER"] 
+  "22252" -> "22257"  [ label = "DDG: sys_sbrk(n, SBRK_EAGER)"] 
+  "22248" -> "22249"  [ label = "DDG: "] 
+  "22252" -> "22251"  [ label = "DDG: sys_sbrk(n, SBRK_EAGER)"] 
+  "22249" -> "22252"  [ label = "DDG: n"] 
+  "22248" -> "22252"  [ label = "DDG: "] 
+  "22248" -> "22256"  [ label = "DDG: "] 
+}

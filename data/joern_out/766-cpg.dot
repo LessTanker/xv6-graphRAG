@@ -1,0 +1,16 @@
+digraph "&lt;operator&gt;.arithmeticShiftRight" {  
+"33334" [label = <(METHOD,&lt;operator&gt;.arithmeticShiftRight)> ]
+"33335" [label = <(PARAM,p1)> ]
+"33336" [label = <(PARAM,p2)> ]
+"33337" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33338" [label = <(METHOD_RETURN,ANY)> ]
+  "33334" -> "33335"  [ label = "AST: "] 
+  "33334" -> "33337"  [ label = "AST: "] 
+  "33334" -> "33336"  [ label = "AST: "] 
+  "33334" -> "33338"  [ label = "AST: "] 
+  "33334" -> "33338"  [ label = "CFG: "] 
+  "33335" -> "33338"  [ label = "DDG: p1"] 
+  "33336" -> "33338"  [ label = "DDG: p2"] 
+  "33334" -> "33335"  [ label = "DDG: "] 
+  "33334" -> "33336"  [ label = "DDG: "] 
+}

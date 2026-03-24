@@ -1,0 +1,8 @@
+digraph "BPB" {  
+"33233" [label = <(METHOD,BPB)<SUB>48</SUB>> ]
+"33234" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33235" [label = <(METHOD_RETURN,ANY)> ]
+  "33233" -> "33234"  [ label = "AST: "] 
+  "33233" -> "33235"  [ label = "AST: "] 
+  "33233" -> "33235"  [ label = "CFG: "] 
+}

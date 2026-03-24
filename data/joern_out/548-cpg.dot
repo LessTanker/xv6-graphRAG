@@ -1,0 +1,67 @@
+digraph "strlen" {  
+"21948" [label = <(METHOD,strlen)<SUB>39</SUB>> ]
+"21949" [label = <(PARAM,const char *s)<SUB>40</SUB>> ]
+"21950" [label = <(BLOCK,{
+  int n;
+
+  for(n = 0; s[n]; n++)
+    ;
+  ret...,{
+  int n;
+
+  for(n = 0; s[n]; n++)
+    ;
+  ret...)<SUB>41</SUB>> ]
+"21951" [label = <(LOCAL,int n: int)<SUB>42</SUB>> ]
+"21952" [label = <(CONTROL_STRUCTURE,FOR,for (n = 0;s[n];n++))<SUB>44</SUB>> ]
+"21953" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>44</SUB>> ]
+"21954" [label = <(&lt;operator&gt;.assignment,n = 0)<SUB>44</SUB>> ]
+"21955" [label = <(IDENTIFIER,n,n = 0)<SUB>44</SUB>> ]
+"21956" [label = <(LITERAL,0,n = 0)<SUB>44</SUB>> ]
+"21957" [label = <(&lt;operator&gt;.indirectIndexAccess,s[n])<SUB>44</SUB>> ]
+"21958" [label = <(IDENTIFIER,s,for (n = 0;s[n];n++))<SUB>44</SUB>> ]
+"21959" [label = <(IDENTIFIER,n,for (n = 0;s[n];n++))<SUB>44</SUB>> ]
+"21960" [label = <(&lt;operator&gt;.postIncrement,n++)<SUB>44</SUB>> ]
+"21961" [label = <(IDENTIFIER,n,n++)<SUB>44</SUB>> ]
+"21962" [label = <(RETURN,return n;,return n;)<SUB>46</SUB>> ]
+"21963" [label = <(IDENTIFIER,n,return n;)<SUB>46</SUB>> ]
+"21964" [label = <(METHOD_RETURN,uint)<SUB>39</SUB>> ]
+  "21948" -> "21949"  [ label = "AST: "] 
+  "21948" -> "21950"  [ label = "AST: "] 
+  "21948" -> "21964"  [ label = "AST: "] 
+  "21950" -> "21951"  [ label = "AST: "] 
+  "21950" -> "21952"  [ label = "AST: "] 
+  "21950" -> "21962"  [ label = "AST: "] 
+  "21952" -> "21953"  [ label = "AST: "] 
+  "21952" -> "21957"  [ label = "AST: "] 
+  "21952" -> "21960"  [ label = "AST: "] 
+  "21953" -> "21954"  [ label = "AST: "] 
+  "21954" -> "21955"  [ label = "AST: "] 
+  "21954" -> "21956"  [ label = "AST: "] 
+  "21957" -> "21958"  [ label = "AST: "] 
+  "21957" -> "21959"  [ label = "AST: "] 
+  "21960" -> "21961"  [ label = "AST: "] 
+  "21962" -> "21963"  [ label = "AST: "] 
+  "21962" -> "21964"  [ label = "CFG: "] 
+  "21957" -> "21960"  [ label = "CFG: "] 
+  "21957" -> "21962"  [ label = "CFG: "] 
+  "21960" -> "21957"  [ label = "CFG: "] 
+  "21954" -> "21957"  [ label = "CFG: "] 
+  "21948" -> "21954"  [ label = "CFG: "] 
+  "21962" -> "21964"  [ label = "DDG: &lt;RET&gt;"] 
+  "21949" -> "21964"  [ label = "DDG: s"] 
+  "21954" -> "21964"  [ label = "DDG: n"] 
+  "21954" -> "21964"  [ label = "DDG: n = 0"] 
+  "21960" -> "21964"  [ label = "DDG: n"] 
+  "21960" -> "21964"  [ label = "DDG: n++"] 
+  "21948" -> "21949"  [ label = "DDG: "] 
+  "21963" -> "21962"  [ label = "DDG: n"] 
+  "21954" -> "21963"  [ label = "DDG: n"] 
+  "21960" -> "21963"  [ label = "DDG: n"] 
+  "21948" -> "21963"  [ label = "DDG: "] 
+  "21948" -> "21954"  [ label = "DDG: "] 
+  "21954" -> "21960"  [ label = "DDG: n"] 
+  "21948" -> "21960"  [ label = "DDG: "] 
+  "21957" -> "21957"  [ label = "CDG: "] 
+  "21957" -> "21960"  [ label = "CDG: "] 
+}

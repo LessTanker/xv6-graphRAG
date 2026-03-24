@@ -1,0 +1,34 @@
+digraph "print" {  
+"17492" [label = <(METHOD,print)<SUB>10</SUB>> ]
+"17493" [label = <(PARAM,const char *s)<SUB>11</SUB>> ]
+"17494" [label = <(BLOCK,{
+  write(1, s, strlen(s));
+},{
+  write(1, s, strlen(s));
+})<SUB>12</SUB>> ]
+"17495" [label = <(write,write(1, s, strlen(s)))<SUB>13</SUB>> ]
+"17496" [label = <(LITERAL,1,write(1, s, strlen(s)))<SUB>13</SUB>> ]
+"17497" [label = <(IDENTIFIER,s,write(1, s, strlen(s)))<SUB>13</SUB>> ]
+"17498" [label = <(strlen,strlen(s))<SUB>13</SUB>> ]
+"17499" [label = <(IDENTIFIER,s,strlen(s))<SUB>13</SUB>> ]
+"17500" [label = <(METHOD_RETURN,void)<SUB>10</SUB>> ]
+  "17492" -> "17493"  [ label = "AST: "] 
+  "17492" -> "17494"  [ label = "AST: "] 
+  "17492" -> "17500"  [ label = "AST: "] 
+  "17494" -> "17495"  [ label = "AST: "] 
+  "17495" -> "17496"  [ label = "AST: "] 
+  "17495" -> "17497"  [ label = "AST: "] 
+  "17495" -> "17498"  [ label = "AST: "] 
+  "17498" -> "17499"  [ label = "AST: "] 
+  "17495" -> "17500"  [ label = "CFG: "] 
+  "17498" -> "17495"  [ label = "CFG: "] 
+  "17492" -> "17498"  [ label = "CFG: "] 
+  "17495" -> "17500"  [ label = "DDG: s"] 
+  "17495" -> "17500"  [ label = "DDG: strlen(s)"] 
+  "17495" -> "17500"  [ label = "DDG: write(1, s, strlen(s))"] 
+  "17492" -> "17493"  [ label = "DDG: "] 
+  "17492" -> "17495"  [ label = "DDG: "] 
+  "17498" -> "17495"  [ label = "DDG: s"] 
+  "17493" -> "17498"  [ label = "DDG: s"] 
+  "17492" -> "17498"  [ label = "DDG: "] 
+}

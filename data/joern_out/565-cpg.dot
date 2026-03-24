@@ -1,0 +1,12 @@
+digraph "exit" {  
+"22669" [label = <(METHOD,exit)<SUB>7</SUB>> ]
+"22670" [label = <(PARAM,int)<SUB>7</SUB>> ]
+"22671" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22672" [label = <(METHOD_RETURN,int)<SUB>7</SUB>> ]
+  "22669" -> "22670"  [ label = "AST: "] 
+  "22669" -> "22671"  [ label = "AST: "] 
+  "22669" -> "22672"  [ label = "AST: "] 
+  "22669" -> "22672"  [ label = "CFG: "] 
+  "22670" -> "22672"  [ label = "DDG: "] 
+  "22669" -> "22670"  [ label = "DDG: "] 
+}

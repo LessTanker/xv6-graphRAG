@@ -1,0 +1,12 @@
+digraph "pipe" {  
+"22679" [label = <(METHOD,pipe)<SUB>9</SUB>> ]
+"22680" [label = <(PARAM,int*)<SUB>9</SUB>> ]
+"22681" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22682" [label = <(METHOD_RETURN,int)<SUB>9</SUB>> ]
+  "22679" -> "22680"  [ label = "AST: "] 
+  "22679" -> "22681"  [ label = "AST: "] 
+  "22679" -> "22682"  [ label = "AST: "] 
+  "22679" -> "22682"  [ label = "CFG: "] 
+  "22680" -> "22682"  [ label = "DDG: "] 
+  "22679" -> "22680"  [ label = "DDG: "] 
+}

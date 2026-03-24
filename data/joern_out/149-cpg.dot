@@ -1,0 +1,35 @@
+digraph "fileinit" {  
+"2357" [label = <(METHOD,fileinit)<SUB>22</SUB>> ]
+"2358" [label = <(PARAM,void)<SUB>23</SUB>> ]
+"2359" [label = <(BLOCK,{
+  initlock(&amp;ftable.lock, &quot;ftable&quot;);
+},{
+  initlock(&amp;ftable.lock, &quot;ftable&quot;);
+})<SUB>24</SUB>> ]
+"2360" [label = <(initlock,initlock(&amp;ftable.lock, &quot;ftable&quot;))<SUB>25</SUB>> ]
+"2361" [label = <(&lt;operator&gt;.addressOf,&amp;ftable.lock)<SUB>25</SUB>> ]
+"2362" [label = <(&lt;operator&gt;.fieldAccess,ftable.lock)<SUB>25</SUB>> ]
+"2363" [label = <(IDENTIFIER,ftable,initlock(&amp;ftable.lock, &quot;ftable&quot;))<SUB>25</SUB>> ]
+"2364" [label = <(FIELD_IDENTIFIER,lock,lock)<SUB>25</SUB>> ]
+"2365" [label = <(LITERAL,&quot;ftable&quot;,initlock(&amp;ftable.lock, &quot;ftable&quot;))<SUB>25</SUB>> ]
+"2366" [label = <(METHOD_RETURN,void)<SUB>22</SUB>> ]
+  "2357" -> "2358"  [ label = "AST: "] 
+  "2357" -> "2359"  [ label = "AST: "] 
+  "2357" -> "2366"  [ label = "AST: "] 
+  "2359" -> "2360"  [ label = "AST: "] 
+  "2360" -> "2361"  [ label = "AST: "] 
+  "2360" -> "2365"  [ label = "AST: "] 
+  "2361" -> "2362"  [ label = "AST: "] 
+  "2362" -> "2363"  [ label = "AST: "] 
+  "2362" -> "2364"  [ label = "AST: "] 
+  "2360" -> "2366"  [ label = "CFG: "] 
+  "2361" -> "2360"  [ label = "CFG: "] 
+  "2362" -> "2361"  [ label = "CFG: "] 
+  "2364" -> "2362"  [ label = "CFG: "] 
+  "2357" -> "2364"  [ label = "CFG: "] 
+  "2358" -> "2366"  [ label = "DDG: "] 
+  "2360" -> "2366"  [ label = "DDG: &amp;ftable.lock"] 
+  "2360" -> "2366"  [ label = "DDG: initlock(&amp;ftable.lock, &quot;ftable&quot;)"] 
+  "2357" -> "2358"  [ label = "DDG: "] 
+  "2357" -> "2360"  [ label = "DDG: "] 
+}

@@ -9,10 +9,17 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # `override=True` ensures .env values are honored even if the shell has stale exports.
 load_dotenv(PROJECT_ROOT / ".env", override=True)
 
+JOERN_PATH = "/home/lesstanker/bin/joern"
+
 # Data directory and files
 DATA_DIR = PROJECT_ROOT / "data"
+REPO_DIR = PROJECT_ROOT / "xv6-riscv"
+JOERN_OUT_DIR = DATA_DIR / "joern_out"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 FAISS_INDEX_PATH = DATA_DIR / "faiss.index"
+NODES_PATH = DATA_DIR / "nodes.json"
+EDGES_PATH = DATA_DIR / "edges.json"
+CPG_BIN_PATH = DATA_DIR / "cpg.bin"
 CHUNKS_METADATA_PATH = DATA_DIR / "chunks_metadata.json"
 GRAPH_EDGES_PATH = DATA_DIR / "graph_edges.json"
 SEARCH_RESULTS_PATH = DATA_DIR / "search_results_with_graph.json"

@@ -1,0 +1,12 @@
+digraph "sys_read" {  
+"10432" [label = <(METHOD,sys_read)<SUB>87</SUB>> ]
+"10433" [label = <(PARAM,void)<SUB>87</SUB>> ]
+"10434" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10435" [label = <(METHOD_RETURN,uint64)<SUB>87</SUB>> ]
+  "10432" -> "10433"  [ label = "AST: "] 
+  "10432" -> "10434"  [ label = "AST: "] 
+  "10432" -> "10435"  [ label = "AST: "] 
+  "10432" -> "10435"  [ label = "CFG: "] 
+  "10433" -> "10435"  [ label = "DDG: "] 
+  "10432" -> "10433"  [ label = "DDG: "] 
+}

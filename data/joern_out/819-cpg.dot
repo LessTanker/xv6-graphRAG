@@ -1,0 +1,8 @@
+digraph "SSTATUS_SPP" {  
+"33508" [label = <(METHOD,SSTATUS_SPP)<SUB>44</SUB>> ]
+"33509" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33510" [label = <(METHOD_RETURN,ANY)> ]
+  "33508" -> "33509"  [ label = "AST: "] 
+  "33508" -> "33510"  [ label = "AST: "] 
+  "33508" -> "33510"  [ label = "CFG: "] 
+}

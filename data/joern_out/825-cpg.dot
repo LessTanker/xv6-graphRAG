@@ -1,0 +1,8 @@
+digraph "NUM" {  
+"33527" [label = <(METHOD,NUM)<SUB>50</SUB>> ]
+"33528" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33529" [label = <(METHOD_RETURN,ANY)> ]
+  "33527" -> "33528"  [ label = "AST: "] 
+  "33527" -> "33529"  [ label = "AST: "] 
+  "33527" -> "33529"  [ label = "CFG: "] 
+}

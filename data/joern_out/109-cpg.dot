@@ -1,0 +1,12 @@
+digraph "uartinit" {  
+"1449" [label = <(METHOD,uartinit)<SUB>147</SUB>> ]
+"1450" [label = <(PARAM,void)<SUB>147</SUB>> ]
+"1451" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1452" [label = <(METHOD_RETURN,void)<SUB>147</SUB>> ]
+  "1449" -> "1450"  [ label = "AST: "] 
+  "1449" -> "1451"  [ label = "AST: "] 
+  "1449" -> "1452"  [ label = "AST: "] 
+  "1449" -> "1452"  [ label = "CFG: "] 
+  "1450" -> "1452"  [ label = "DDG: "] 
+  "1449" -> "1450"  [ label = "DDG: "] 
+}

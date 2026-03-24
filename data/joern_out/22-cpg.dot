@@ -1,0 +1,12 @@
+digraph "bpin" {  
+"940" [label = <(METHOD,bpin)<SUB>17</SUB>> ]
+"941" [label = <(PARAM,struct buf*)<SUB>17</SUB>> ]
+"942" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"943" [label = <(METHOD_RETURN,void)<SUB>17</SUB>> ]
+  "940" -> "941"  [ label = "AST: "] 
+  "940" -> "942"  [ label = "AST: "] 
+  "940" -> "943"  [ label = "AST: "] 
+  "940" -> "943"  [ label = "CFG: "] 
+  "941" -> "943"  [ label = "DDG: "] 
+  "940" -> "941"  [ label = "DDG: "] 
+}

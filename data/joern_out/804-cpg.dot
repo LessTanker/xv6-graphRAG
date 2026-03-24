@@ -1,0 +1,8 @@
+digraph "SYS_mknod" {  
+"33462" [label = <(METHOD,SYS_mknod)<SUB>18</SUB>> ]
+"33463" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33464" [label = <(METHOD_RETURN,ANY)> ]
+  "33462" -> "33463"  [ label = "AST: "] 
+  "33462" -> "33464"  [ label = "AST: "] 
+  "33462" -> "33464"  [ label = "CFG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "runcmd" {  
+"20471" [label = <(METHOD,runcmd)<SUB>55</SUB>> ]
+"20472" [label = <(PARAM,struct cmd*)<SUB>55</SUB>> ]
+"20473" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"20474" [label = <(METHOD_RETURN,void)<SUB>55</SUB>> ]
+  "20471" -> "20472"  [ label = "AST: "] 
+  "20471" -> "20473"  [ label = "AST: "] 
+  "20471" -> "20474"  [ label = "AST: "] 
+  "20471" -> "20474"  [ label = "CFG: "] 
+  "20472" -> "20474"  [ label = "DDG: "] 
+  "20471" -> "20472"  [ label = "DDG: "] 
+}

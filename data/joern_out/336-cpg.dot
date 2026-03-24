@@ -1,0 +1,67 @@
+digraph "strlen" {  
+"10191" [label = <(METHOD,strlen)<SUB>98</SUB>> ]
+"10192" [label = <(PARAM,const char *s)<SUB>99</SUB>> ]
+"10193" [label = <(BLOCK,{
+  int n;
+
+  for(n = 0; s[n]; n++)
+    ;
+  ret...,{
+  int n;
+
+  for(n = 0; s[n]; n++)
+    ;
+  ret...)<SUB>100</SUB>> ]
+"10194" [label = <(LOCAL,int n: int)<SUB>101</SUB>> ]
+"10195" [label = <(CONTROL_STRUCTURE,FOR,for (n = 0;s[n];n++))<SUB>103</SUB>> ]
+"10196" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>103</SUB>> ]
+"10197" [label = <(&lt;operator&gt;.assignment,n = 0)<SUB>103</SUB>> ]
+"10198" [label = <(IDENTIFIER,n,n = 0)<SUB>103</SUB>> ]
+"10199" [label = <(LITERAL,0,n = 0)<SUB>103</SUB>> ]
+"10200" [label = <(&lt;operator&gt;.indirectIndexAccess,s[n])<SUB>103</SUB>> ]
+"10201" [label = <(IDENTIFIER,s,for (n = 0;s[n];n++))<SUB>103</SUB>> ]
+"10202" [label = <(IDENTIFIER,n,for (n = 0;s[n];n++))<SUB>103</SUB>> ]
+"10203" [label = <(&lt;operator&gt;.postIncrement,n++)<SUB>103</SUB>> ]
+"10204" [label = <(IDENTIFIER,n,n++)<SUB>103</SUB>> ]
+"10205" [label = <(RETURN,return n;,return n;)<SUB>105</SUB>> ]
+"10206" [label = <(IDENTIFIER,n,return n;)<SUB>105</SUB>> ]
+"10207" [label = <(METHOD_RETURN,int)<SUB>98</SUB>> ]
+  "10191" -> "10192"  [ label = "AST: "] 
+  "10191" -> "10193"  [ label = "AST: "] 
+  "10191" -> "10207"  [ label = "AST: "] 
+  "10193" -> "10194"  [ label = "AST: "] 
+  "10193" -> "10195"  [ label = "AST: "] 
+  "10193" -> "10205"  [ label = "AST: "] 
+  "10195" -> "10196"  [ label = "AST: "] 
+  "10195" -> "10200"  [ label = "AST: "] 
+  "10195" -> "10203"  [ label = "AST: "] 
+  "10196" -> "10197"  [ label = "AST: "] 
+  "10197" -> "10198"  [ label = "AST: "] 
+  "10197" -> "10199"  [ label = "AST: "] 
+  "10200" -> "10201"  [ label = "AST: "] 
+  "10200" -> "10202"  [ label = "AST: "] 
+  "10203" -> "10204"  [ label = "AST: "] 
+  "10205" -> "10206"  [ label = "AST: "] 
+  "10205" -> "10207"  [ label = "CFG: "] 
+  "10200" -> "10203"  [ label = "CFG: "] 
+  "10200" -> "10205"  [ label = "CFG: "] 
+  "10203" -> "10200"  [ label = "CFG: "] 
+  "10197" -> "10200"  [ label = "CFG: "] 
+  "10191" -> "10197"  [ label = "CFG: "] 
+  "10205" -> "10207"  [ label = "DDG: &lt;RET&gt;"] 
+  "10192" -> "10207"  [ label = "DDG: s"] 
+  "10197" -> "10207"  [ label = "DDG: n"] 
+  "10197" -> "10207"  [ label = "DDG: n = 0"] 
+  "10203" -> "10207"  [ label = "DDG: n"] 
+  "10203" -> "10207"  [ label = "DDG: n++"] 
+  "10191" -> "10192"  [ label = "DDG: "] 
+  "10206" -> "10205"  [ label = "DDG: n"] 
+  "10203" -> "10206"  [ label = "DDG: n"] 
+  "10197" -> "10206"  [ label = "DDG: n"] 
+  "10191" -> "10206"  [ label = "DDG: "] 
+  "10191" -> "10197"  [ label = "DDG: "] 
+  "10197" -> "10203"  [ label = "DDG: n"] 
+  "10191" -> "10203"  [ label = "DDG: "] 
+  "10200" -> "10203"  [ label = "CDG: "] 
+  "10200" -> "10200"  [ label = "CDG: "] 
+}

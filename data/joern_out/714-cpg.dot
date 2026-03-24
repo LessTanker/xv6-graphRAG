@@ -1,0 +1,8 @@
+digraph "CONSOLE" {  
+"33142" [label = <(METHOD,CONSOLE)<SUB>40</SUB>> ]
+"33143" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33144" [label = <(METHOD_RETURN,ANY)> ]
+  "33142" -> "33143"  [ label = "AST: "] 
+  "33142" -> "33144"  [ label = "AST: "] 
+  "33142" -> "33144"  [ label = "CFG: "] 
+}

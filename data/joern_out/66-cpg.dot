@@ -1,0 +1,12 @@
+digraph "proc_pagetable" {  
+"1198" [label = <(METHOD,proc_pagetable)<SUB>86</SUB>> ]
+"1199" [label = <(PARAM,struct proc *)<SUB>86</SUB>> ]
+"1200" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1201" [label = <(METHOD_RETURN,pagetable_t)<SUB>86</SUB>> ]
+  "1198" -> "1199"  [ label = "AST: "] 
+  "1198" -> "1200"  [ label = "AST: "] 
+  "1198" -> "1201"  [ label = "AST: "] 
+  "1198" -> "1201"  [ label = "CFG: "] 
+  "1199" -> "1201"  [ label = "DDG: "] 
+  "1198" -> "1199"  [ label = "DDG: "] 
+}

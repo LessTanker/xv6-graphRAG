@@ -1,0 +1,16 @@
+digraph "uvmclear" {  
+"1544" [label = <(METHOD,uvmclear)<SUB>164</SUB>> ]
+"1545" [label = <(PARAM,pagetable_t)<SUB>164</SUB>> ]
+"1546" [label = <(PARAM,uint64)<SUB>164</SUB>> ]
+"1547" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1548" [label = <(METHOD_RETURN,void)<SUB>164</SUB>> ]
+  "1544" -> "1545"  [ label = "AST: "] 
+  "1544" -> "1546"  [ label = "AST: "] 
+  "1544" -> "1547"  [ label = "AST: "] 
+  "1544" -> "1548"  [ label = "AST: "] 
+  "1544" -> "1548"  [ label = "CFG: "] 
+  "1545" -> "1548"  [ label = "DDG: pagetable_t"] 
+  "1546" -> "1548"  [ label = "DDG: uint64"] 
+  "1544" -> "1545"  [ label = "DDG: "] 
+  "1544" -> "1546"  [ label = "DDG: "] 
+}

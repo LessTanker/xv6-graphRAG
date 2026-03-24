@@ -1,0 +1,16 @@
+digraph "IBLOCK" {  
+"33249" [label = <(METHOD,IBLOCK)<SUB>45</SUB>> ]
+"33250" [label = <(PARAM,p1)> ]
+"33251" [label = <(PARAM,p2)> ]
+"33252" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33253" [label = <(METHOD_RETURN,ANY)> ]
+  "33249" -> "33250"  [ label = "AST: "] 
+  "33249" -> "33252"  [ label = "AST: "] 
+  "33249" -> "33251"  [ label = "AST: "] 
+  "33249" -> "33253"  [ label = "AST: "] 
+  "33249" -> "33253"  [ label = "CFG: "] 
+  "33250" -> "33253"  [ label = "DDG: p1"] 
+  "33251" -> "33253"  [ label = "DDG: p2"] 
+  "33249" -> "33250"  [ label = "DDG: "] 
+  "33249" -> "33251"  [ label = "DDG: "] 
+}

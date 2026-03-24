@@ -1,0 +1,37 @@
+digraph "putc" {  
+"19868" [label = <(METHOD,putc)<SUB>9</SUB>> ]
+"19869" [label = <(PARAM,int fd)<SUB>10</SUB>> ]
+"19870" [label = <(PARAM,char c)<SUB>10</SUB>> ]
+"19871" [label = <(BLOCK,{
+  write(fd, &amp;c, 1);
+},{
+  write(fd, &amp;c, 1);
+})<SUB>11</SUB>> ]
+"19872" [label = <(write,write(fd, &amp;c, 1))<SUB>12</SUB>> ]
+"19873" [label = <(IDENTIFIER,fd,write(fd, &amp;c, 1))<SUB>12</SUB>> ]
+"19874" [label = <(&lt;operator&gt;.addressOf,&amp;c)<SUB>12</SUB>> ]
+"19875" [label = <(IDENTIFIER,c,write(fd, &amp;c, 1))<SUB>12</SUB>> ]
+"19876" [label = <(LITERAL,1,write(fd, &amp;c, 1))<SUB>12</SUB>> ]
+"19877" [label = <(METHOD_RETURN,void)<SUB>9</SUB>> ]
+  "19868" -> "19869"  [ label = "AST: "] 
+  "19868" -> "19870"  [ label = "AST: "] 
+  "19868" -> "19871"  [ label = "AST: "] 
+  "19868" -> "19877"  [ label = "AST: "] 
+  "19871" -> "19872"  [ label = "AST: "] 
+  "19872" -> "19873"  [ label = "AST: "] 
+  "19872" -> "19874"  [ label = "AST: "] 
+  "19872" -> "19876"  [ label = "AST: "] 
+  "19874" -> "19875"  [ label = "AST: "] 
+  "19872" -> "19877"  [ label = "CFG: "] 
+  "19874" -> "19872"  [ label = "CFG: "] 
+  "19868" -> "19874"  [ label = "CFG: "] 
+  "19870" -> "19877"  [ label = "DDG: c"] 
+  "19872" -> "19877"  [ label = "DDG: fd"] 
+  "19872" -> "19877"  [ label = "DDG: &amp;c"] 
+  "19872" -> "19877"  [ label = "DDG: write(fd, &amp;c, 1)"] 
+  "19868" -> "19869"  [ label = "DDG: "] 
+  "19868" -> "19870"  [ label = "DDG: "] 
+  "19869" -> "19872"  [ label = "DDG: fd"] 
+  "19868" -> "19872"  [ label = "DDG: "] 
+  "19870" -> "19872"  [ label = "DDG: c"] 
+}

@@ -1,0 +1,8 @@
+digraph "O_TRUNC" {  
+"33502" [label = <(METHOD,O_TRUNC)<SUB>5</SUB>> ]
+"33503" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33504" [label = <(METHOD_RETURN,ANY)> ]
+  "33502" -> "33503"  [ label = "AST: "] 
+  "33502" -> "33504"  [ label = "AST: "] 
+  "33502" -> "33504"  [ label = "CFG: "] 
+}

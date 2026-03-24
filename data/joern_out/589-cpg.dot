@@ -1,0 +1,16 @@
+digraph "strcmp" {  
+"22805" [label = <(METHOD,strcmp)<SUB>33</SUB>> ]
+"22806" [label = <(PARAM,const char*)<SUB>33</SUB>> ]
+"22807" [label = <(PARAM,const char*)<SUB>33</SUB>> ]
+"22808" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22809" [label = <(METHOD_RETURN,int)<SUB>33</SUB>> ]
+  "22805" -> "22806"  [ label = "AST: "] 
+  "22805" -> "22807"  [ label = "AST: "] 
+  "22805" -> "22808"  [ label = "AST: "] 
+  "22805" -> "22809"  [ label = "AST: "] 
+  "22805" -> "22809"  [ label = "CFG: "] 
+  "22806" -> "22809"  [ label = "DDG: "] 
+  "22807" -> "22809"  [ label = "DDG: "] 
+  "22805" -> "22806"  [ label = "DDG: "] 
+  "22805" -> "22807"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "__sync_synchronize" {  
+"33292" [label = <(METHOD,__sync_synchronize)> ]
+"33293" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33294" [label = <(METHOD_RETURN,ANY)> ]
+  "33292" -> "33293"  [ label = "AST: "] 
+  "33292" -> "33294"  [ label = "AST: "] 
+  "33292" -> "33294"  [ label = "CFG: "] 
+}

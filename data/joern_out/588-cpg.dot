@@ -1,0 +1,16 @@
+digraph "strchr" {  
+"22799" [label = <(METHOD,strchr)<SUB>32</SUB>> ]
+"22800" [label = <(PARAM,const char*)<SUB>32</SUB>> ]
+"22801" [label = <(PARAM,char c)<SUB>32</SUB>> ]
+"22802" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22803" [label = <(METHOD_RETURN,char*)<SUB>32</SUB>> ]
+  "22799" -> "22800"  [ label = "AST: "] 
+  "22799" -> "22801"  [ label = "AST: "] 
+  "22799" -> "22802"  [ label = "AST: "] 
+  "22799" -> "22803"  [ label = "AST: "] 
+  "22799" -> "22803"  [ label = "CFG: "] 
+  "22800" -> "22803"  [ label = "DDG: "] 
+  "22801" -> "22803"  [ label = "DDG: c"] 
+  "22799" -> "22800"  [ label = "DDG: "] 
+  "22799" -> "22801"  [ label = "DDG: "] 
+}

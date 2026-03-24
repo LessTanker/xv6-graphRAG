@@ -1,0 +1,16 @@
+digraph "rinode" {  
+"16224" [label = <(METHOD,rinode)<SUB>39</SUB>> ]
+"16225" [label = <(PARAM,uint inum)<SUB>39</SUB>> ]
+"16226" [label = <(PARAM,struct dinode *ip)<SUB>39</SUB>> ]
+"16227" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"16228" [label = <(METHOD_RETURN,void)<SUB>39</SUB>> ]
+  "16224" -> "16225"  [ label = "AST: "] 
+  "16224" -> "16226"  [ label = "AST: "] 
+  "16224" -> "16227"  [ label = "AST: "] 
+  "16224" -> "16228"  [ label = "AST: "] 
+  "16224" -> "16228"  [ label = "CFG: "] 
+  "16225" -> "16228"  [ label = "DDG: inum"] 
+  "16226" -> "16228"  [ label = "DDG: ip"] 
+  "16224" -> "16225"  [ label = "DDG: "] 
+  "16224" -> "16226"  [ label = "DDG: "] 
+}

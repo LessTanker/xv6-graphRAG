@@ -1,0 +1,8 @@
+digraph "VIRTIO_CONFIG_S_DRIVER" {  
+"33536" [label = <(METHOD,VIRTIO_CONFIG_S_DRIVER)<SUB>35</SUB>> ]
+"33537" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33538" [label = <(METHOD_RETURN,ANY)> ]
+  "33536" -> "33537"  [ label = "AST: "] 
+  "33536" -> "33538"  [ label = "AST: "] 
+  "33536" -> "33538"  [ label = "CFG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "NCPU" {  
+"33353" [label = <(METHOD,NCPU)<SUB>2</SUB>> ]
+"33354" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33355" [label = <(METHOD_RETURN,ANY)> ]
+  "33353" -> "33354"  [ label = "AST: "] 
+  "33353" -> "33355"  [ label = "AST: "] 
+  "33353" -> "33355"  [ label = "CFG: "] 
+}

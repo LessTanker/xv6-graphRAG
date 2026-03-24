@@ -1,0 +1,12 @@
+digraph "trapinithart" {  
+"1437" [label = <(METHOD,trapinithart)<SUB>142</SUB>> ]
+"1438" [label = <(PARAM,void)<SUB>142</SUB>> ]
+"1439" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1440" [label = <(METHOD_RETURN,void)<SUB>142</SUB>> ]
+  "1437" -> "1438"  [ label = "AST: "] 
+  "1437" -> "1439"  [ label = "AST: "] 
+  "1437" -> "1440"  [ label = "AST: "] 
+  "1437" -> "1440"  [ label = "CFG: "] 
+  "1438" -> "1440"  [ label = "DDG: "] 
+  "1437" -> "1438"  [ label = "DDG: "] 
+}

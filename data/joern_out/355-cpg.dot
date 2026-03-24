@@ -1,0 +1,12 @@
+digraph "sys_sbrk" {  
+"10467" [label = <(METHOD,sys_sbrk)<SUB>94</SUB>> ]
+"10468" [label = <(PARAM,void)<SUB>94</SUB>> ]
+"10469" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10470" [label = <(METHOD_RETURN,uint64)<SUB>94</SUB>> ]
+  "10467" -> "10468"  [ label = "AST: "] 
+  "10467" -> "10469"  [ label = "AST: "] 
+  "10467" -> "10470"  [ label = "AST: "] 
+  "10467" -> "10470"  [ label = "CFG: "] 
+  "10468" -> "10470"  [ label = "DDG: "] 
+  "10467" -> "10468"  [ label = "DDG: "] 
+}

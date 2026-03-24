@@ -13,8 +13,7 @@ clean:
 rebuild: clean
 	@echo "Rebuilding compile database and all indexes..."
 	@mkdir -p $(DATA_DIR)
-	@cd $(XV6_DIR) && make clean && bear -- make
-	@mv $(XV6_DIR)/compile_commands.json $(DATA_DIR)/compile_commands.json
+	@cd $(XV6_DIR) && make clean
 	@PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m backend.main --rebuild-index --index-only
 
 query:

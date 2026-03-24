@@ -1,0 +1,12 @@
+digraph "iput" {  
+"1032" [label = <(METHOD,iput)<SUB>45</SUB>> ]
+"1033" [label = <(PARAM,struct inode*)<SUB>45</SUB>> ]
+"1034" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1035" [label = <(METHOD_RETURN,void)<SUB>45</SUB>> ]
+  "1032" -> "1033"  [ label = "AST: "] 
+  "1032" -> "1034"  [ label = "AST: "] 
+  "1032" -> "1035"  [ label = "AST: "] 
+  "1032" -> "1035"  [ label = "CFG: "] 
+  "1033" -> "1035"  [ label = "DDG: "] 
+  "1032" -> "1033"  [ label = "DDG: "] 
+}

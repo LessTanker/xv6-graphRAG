@@ -1,0 +1,12 @@
+digraph "bwrite" {  
+"935" [label = <(METHOD,bwrite)<SUB>16</SUB>> ]
+"936" [label = <(PARAM,struct buf*)<SUB>16</SUB>> ]
+"937" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"938" [label = <(METHOD_RETURN,void)<SUB>16</SUB>> ]
+  "935" -> "936"  [ label = "AST: "] 
+  "935" -> "937"  [ label = "AST: "] 
+  "935" -> "938"  [ label = "AST: "] 
+  "935" -> "938"  [ label = "CFG: "] 
+  "936" -> "938"  [ label = "DDG: "] 
+  "935" -> "936"  [ label = "DDG: "] 
+}

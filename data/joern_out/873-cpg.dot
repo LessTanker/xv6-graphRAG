@@ -1,0 +1,8 @@
+digraph "SBRK_LAZY" {  
+"33690" [label = <(METHOD,SBRK_LAZY)<SUB>2</SUB>> ]
+"33691" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33692" [label = <(METHOD_RETURN,ANY)> ]
+  "33690" -> "33691"  [ label = "AST: "] 
+  "33690" -> "33692"  [ label = "AST: "] 
+  "33690" -> "33692"  [ label = "CFG: "] 
+}

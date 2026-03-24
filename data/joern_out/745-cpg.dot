@@ -1,0 +1,8 @@
+digraph "NINDIRECT" {  
+"33260" [label = <(METHOD,NINDIRECT)<SUB>28</SUB>> ]
+"33261" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33262" [label = <(METHOD_RETURN,ANY)> ]
+  "33260" -> "33261"  [ label = "AST: "] 
+  "33260" -> "33262"  [ label = "AST: "] 
+  "33260" -> "33262"  [ label = "CFG: "] 
+}

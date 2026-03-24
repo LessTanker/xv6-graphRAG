@@ -1,0 +1,32 @@
+digraph "rand" {  
+"18122" [label = <(METHOD,rand)<SUB>44</SUB>> ]
+"18123" [label = <(PARAM,void)<SUB>45</SUB>> ]
+"18124" [label = <(BLOCK,{
+    return (do_rand(&amp;rand_next));
+},{
+    return (do_rand(&amp;rand_next));
+})<SUB>46</SUB>> ]
+"18125" [label = <(RETURN,return (do_rand(&amp;rand_next));,return (do_rand(&amp;rand_next));)<SUB>47</SUB>> ]
+"18126" [label = <(do_rand,do_rand(&amp;rand_next))<SUB>47</SUB>> ]
+"18127" [label = <(&lt;operator&gt;.addressOf,&amp;rand_next)<SUB>47</SUB>> ]
+"18128" [label = <(IDENTIFIER,rand_next,do_rand(&amp;rand_next))<SUB>47</SUB>> ]
+"18129" [label = <(METHOD_RETURN,int)<SUB>44</SUB>> ]
+  "18122" -> "18123"  [ label = "AST: "] 
+  "18122" -> "18124"  [ label = "AST: "] 
+  "18122" -> "18129"  [ label = "AST: "] 
+  "18124" -> "18125"  [ label = "AST: "] 
+  "18125" -> "18126"  [ label = "AST: "] 
+  "18126" -> "18127"  [ label = "AST: "] 
+  "18127" -> "18128"  [ label = "AST: "] 
+  "18125" -> "18129"  [ label = "CFG: "] 
+  "18126" -> "18125"  [ label = "CFG: "] 
+  "18127" -> "18126"  [ label = "CFG: "] 
+  "18122" -> "18127"  [ label = "CFG: "] 
+  "18125" -> "18129"  [ label = "DDG: &lt;RET&gt;"] 
+  "18123" -> "18129"  [ label = "DDG: "] 
+  "18126" -> "18129"  [ label = "DDG: &amp;rand_next"] 
+  "18126" -> "18129"  [ label = "DDG: do_rand(&amp;rand_next)"] 
+  "18122" -> "18123"  [ label = "DDG: "] 
+  "18126" -> "18125"  [ label = "DDG: do_rand(&amp;rand_next)"] 
+  "18122" -> "18126"  [ label = "DDG: "] 
+}

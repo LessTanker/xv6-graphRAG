@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python test_minimal.py)",
+      "Bash(python capture_errors.py)"
+    ]
+  }
+}

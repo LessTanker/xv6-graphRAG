@@ -1,0 +1,8 @@
+digraph "ELF_MAGIC" {  
+"33171" [label = <(METHOD,ELF_MAGIC)<SUB>3</SUB>> ]
+"33172" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33173" [label = <(METHOD_RETURN,ANY)> ]
+  "33171" -> "33172"  [ label = "AST: "] 
+  "33171" -> "33173"  [ label = "AST: "] 
+  "33171" -> "33173"  [ label = "CFG: "] 
+}

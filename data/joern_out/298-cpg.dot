@@ -1,0 +1,26 @@
+digraph "r_mcounteren" {  
+"9338" [label = <(METHOD,r_mcounteren)<SUB>268</SUB>> ]
+"9339" [label = <(BLOCK,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, mcounter...,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, mcounter...)<SUB>270</SUB>> ]
+"9340" [label = <(LOCAL,uint64 x: uint64)<SUB>271</SUB>> ]
+"9341" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, mcounteren&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, mcounteren&quot; : &quot;=r&quot; (x) );)<SUB>272</SUB>> ]
+"9342" [label = <(RETURN,return x;,return x;)<SUB>273</SUB>> ]
+"9343" [label = <(IDENTIFIER,x,return x;)<SUB>273</SUB>> ]
+"9344" [label = <(METHOD_RETURN,uint64)<SUB>268</SUB>> ]
+  "9338" -> "9339"  [ label = "AST: "] 
+  "9338" -> "9344"  [ label = "AST: "] 
+  "9339" -> "9340"  [ label = "AST: "] 
+  "9339" -> "9341"  [ label = "AST: "] 
+  "9339" -> "9342"  [ label = "AST: "] 
+  "9342" -> "9343"  [ label = "AST: "] 
+  "9341" -> "9342"  [ label = "CFG: "] 
+  "9342" -> "9344"  [ label = "CFG: "] 
+  "9338" -> "9341"  [ label = "CFG: "] 
+  "9342" -> "9344"  [ label = "DDG: &lt;RET&gt;"] 
+  "9343" -> "9342"  [ label = "DDG: x"] 
+  "9338" -> "9342"  [ label = "DDG: "] 
+  "9338" -> "9343"  [ label = "DDG: "] 
+}

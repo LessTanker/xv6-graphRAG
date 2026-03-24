@@ -1,0 +1,12 @@
+digraph "sys_pipe" {  
+"10427" [label = <(METHOD,sys_pipe)<SUB>86</SUB>> ]
+"10428" [label = <(PARAM,void)<SUB>86</SUB>> ]
+"10429" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10430" [label = <(METHOD_RETURN,uint64)<SUB>86</SUB>> ]
+  "10427" -> "10428"  [ label = "AST: "] 
+  "10427" -> "10429"  [ label = "AST: "] 
+  "10427" -> "10430"  [ label = "AST: "] 
+  "10427" -> "10430"  [ label = "CFG: "] 
+  "10428" -> "10430"  [ label = "DDG: "] 
+  "10427" -> "10428"  [ label = "DDG: "] 
+}

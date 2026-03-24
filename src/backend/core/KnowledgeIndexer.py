@@ -22,13 +22,12 @@ except ImportError as exc:
     ) from exc
 
 # Local module imports
-from backend import config, utils
-from backend.core.CommunityManager import CommunityManager
-from backend.core.ExpertPathManager import ExpertPathManager
-from backend.core.GraphBuilder import GraphBuilder
-from backend.core.NodeExtractor import NodeExtractor
-from backend.core.LLMClient import LLMClient
-from backend.logger import get_file_logger
+from .. import config, utils
+from .CommunityManager import CommunityManager
+from .ExpertPathManager import ExpertPathManager
+from .ElementExtractor import ElementExtractor
+from .LLMClient import LLMClient
+from ..logger import get_file_logger
 
 
 
@@ -71,19 +70,14 @@ class KnowledgeIndexer:
     # Orchestrate the complete offline indexing and analysis pipeline.
     def build_all(self) -> None:
         self.logger.info("Starting complete indexing pipeline...")
-        compile_db = utils.load_compile_db(config.COMPILE_COMMANDS_PATH, self.source_root)
 
-        # Use NodeExtractor to extract hierarchical nodes
-        node_extractor = NodeExtractor(self.source_root)
-        nodes = node_extractor.extract_hierarchical_nodes(compile_db)
-
-        # Use GraphBuilder to build hierarchical edges
-        graph_builder = GraphBuilder(self.source_root)
-        edges = graph_builder.build_hierarchical_edges(nodes, compile_db)
+        # Use ElementExtractor to extract nodes and edges
+        element_extractor = ElementExtractor()
+        nodes, edges = element_extractor.extract_elements()
 
         # Save nodes and edges
-        utils.save_json(config.CHUNKS_METADATA_PATH, nodes)
-        utils.save_json(config.GRAPH_EDGES_PATH, {"edges": edges})
+        utils.save_json(config.NODES_PATH, nodes)
+        utils.save_json(config.EDGES_PATH, edges)
 
         self._build_communities()
         self._build_expert_paths()

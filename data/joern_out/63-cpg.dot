@@ -1,0 +1,12 @@
+digraph "kfork" {  
+"1183" [label = <(METHOD,kfork)<SUB>83</SUB>> ]
+"1184" [label = <(PARAM,void)<SUB>83</SUB>> ]
+"1185" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1186" [label = <(METHOD_RETURN,int)<SUB>83</SUB>> ]
+  "1183" -> "1184"  [ label = "AST: "] 
+  "1183" -> "1185"  [ label = "AST: "] 
+  "1183" -> "1186"  [ label = "AST: "] 
+  "1183" -> "1186"  [ label = "CFG: "] 
+  "1184" -> "1186"  [ label = "DDG: "] 
+  "1183" -> "1184"  [ label = "DDG: "] 
+}

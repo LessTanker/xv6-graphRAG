@@ -1,0 +1,16 @@
+digraph "initlog" {  
+"1111" [label = <(METHOD,initlog)<SUB>64</SUB>> ]
+"1112" [label = <(PARAM,int)<SUB>64</SUB>> ]
+"1113" [label = <(PARAM,struct superblock*)<SUB>64</SUB>> ]
+"1114" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1115" [label = <(METHOD_RETURN,void)<SUB>64</SUB>> ]
+  "1111" -> "1112"  [ label = "AST: "] 
+  "1111" -> "1113"  [ label = "AST: "] 
+  "1111" -> "1114"  [ label = "AST: "] 
+  "1111" -> "1115"  [ label = "AST: "] 
+  "1111" -> "1115"  [ label = "CFG: "] 
+  "1112" -> "1115"  [ label = "DDG: "] 
+  "1113" -> "1115"  [ label = "DDG: "] 
+  "1111" -> "1112"  [ label = "DDG: "] 
+  "1111" -> "1113"  [ label = "DDG: "] 
+}

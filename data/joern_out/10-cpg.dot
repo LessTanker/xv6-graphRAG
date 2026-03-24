@@ -1,0 +1,18 @@
+digraph "&lt;clinit&gt;" {  
+"453" [label = <(METHOD,&lt;clinit&gt;)<SUB>1</SUB>> ]
+"454" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"455" [label = <(&lt;operator&gt;.arrayInitializer,data[BSIZE])<SUB>10</SUB>> ]
+"456" [label = <(IDENTIFIER,BSIZE,data[BSIZE])<SUB>10</SUB>> ]
+"457" [label = <(MODIFIER,STATIC)> ]
+"458" [label = <(METHOD_RETURN,ANY)> ]
+  "453" -> "454"  [ label = "AST: "] 
+  "453" -> "457"  [ label = "AST: "] 
+  "453" -> "458"  [ label = "AST: "] 
+  "454" -> "455"  [ label = "AST: "] 
+  "455" -> "456"  [ label = "AST: "] 
+  "455" -> "458"  [ label = "CFG: "] 
+  "453" -> "455"  [ label = "CFG: "] 
+  "455" -> "458"  [ label = "DDG: data[BSIZE]"] 
+  "455" -> "458"  [ label = "DDG: BSIZE"] 
+  "453" -> "455"  [ label = "DDG: "] 
+}

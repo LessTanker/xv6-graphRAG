@@ -1,0 +1,12 @@
+digraph "binit" {  
+"923" [label = <(METHOD,binit)<SUB>13</SUB>> ]
+"924" [label = <(PARAM,void)<SUB>13</SUB>> ]
+"925" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"926" [label = <(METHOD_RETURN,void)<SUB>13</SUB>> ]
+  "923" -> "924"  [ label = "AST: "] 
+  "923" -> "925"  [ label = "AST: "] 
+  "923" -> "926"  [ label = "AST: "] 
+  "923" -> "926"  [ label = "CFG: "] 
+  "924" -> "926"  [ label = "DDG: "] 
+  "923" -> "924"  [ label = "DDG: "] 
+}

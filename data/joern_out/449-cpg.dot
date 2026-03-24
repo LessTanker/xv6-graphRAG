@@ -1,0 +1,16 @@
+digraph "winode" {  
+"16218" [label = <(METHOD,winode)<SUB>38</SUB>> ]
+"16219" [label = <(PARAM,uint)<SUB>38</SUB>> ]
+"16220" [label = <(PARAM,struct dinode*)<SUB>38</SUB>> ]
+"16221" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"16222" [label = <(METHOD_RETURN,void)<SUB>38</SUB>> ]
+  "16218" -> "16219"  [ label = "AST: "] 
+  "16218" -> "16220"  [ label = "AST: "] 
+  "16218" -> "16221"  [ label = "AST: "] 
+  "16218" -> "16222"  [ label = "AST: "] 
+  "16218" -> "16222"  [ label = "CFG: "] 
+  "16219" -> "16222"  [ label = "DDG: "] 
+  "16220" -> "16222"  [ label = "DDG: "] 
+  "16218" -> "16219"  [ label = "DDG: "] 
+  "16218" -> "16220"  [ label = "DDG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "strlen" {  
+"1376" [label = <(METHOD,strlen)<SUB>127</SUB>> ]
+"1377" [label = <(PARAM,const char*)<SUB>127</SUB>> ]
+"1378" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1379" [label = <(METHOD_RETURN,int)<SUB>127</SUB>> ]
+  "1376" -> "1377"  [ label = "AST: "] 
+  "1376" -> "1378"  [ label = "AST: "] 
+  "1376" -> "1379"  [ label = "AST: "] 
+  "1376" -> "1379"  [ label = "CFG: "] 
+  "1377" -> "1379"  [ label = "DDG: "] 
+  "1376" -> "1377"  [ label = "DDG: "] 
+}

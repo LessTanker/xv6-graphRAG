@@ -1,0 +1,16 @@
+digraph "argint" {  
+"1395" [label = <(METHOD,argint)<SUB>132</SUB>> ]
+"1396" [label = <(PARAM,int)<SUB>132</SUB>> ]
+"1397" [label = <(PARAM,int*)<SUB>132</SUB>> ]
+"1398" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1399" [label = <(METHOD_RETURN,void)<SUB>132</SUB>> ]
+  "1395" -> "1396"  [ label = "AST: "] 
+  "1395" -> "1397"  [ label = "AST: "] 
+  "1395" -> "1398"  [ label = "AST: "] 
+  "1395" -> "1399"  [ label = "AST: "] 
+  "1395" -> "1399"  [ label = "CFG: "] 
+  "1396" -> "1399"  [ label = "DDG: "] 
+  "1397" -> "1399"  [ label = "DDG: "] 
+  "1395" -> "1396"  [ label = "DDG: "] 
+  "1395" -> "1397"  [ label = "DDG: "] 
+}

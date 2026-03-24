@@ -1,0 +1,8 @@
+digraph "VIRTIO_BLK_T_OUT" {  
+"33569" [label = <(METHOD,VIRTIO_BLK_T_OUT)<SUB>87</SUB>> ]
+"33570" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33571" [label = <(METHOD_RETURN,ANY)> ]
+  "33569" -> "33570"  [ label = "AST: "] 
+  "33569" -> "33571"  [ label = "AST: "] 
+  "33569" -> "33571"  [ label = "CFG: "] 
+}

@@ -1,0 +1,19 @@
+digraph "w_stvec" {  
+"9248" [label = <(METHOD,w_stvec)<SUB>161</SUB>> ]
+"9249" [label = <(PARAM,uint64 x)<SUB>162</SUB>> ]
+"9250" [label = <(BLOCK,{
+  asm volatile(&quot;csrw stvec, %0&quot; : : &quot;r&quot; (x));
+},{
+  asm volatile(&quot;csrw stvec, %0&quot; : : &quot;r&quot; (x));
+})<SUB>163</SUB>> ]
+"9251" [label = <(UNKNOWN,asm volatile(&quot;csrw stvec, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw stvec, %0&quot; : : &quot;r&quot; (x));)<SUB>164</SUB>> ]
+"9252" [label = <(METHOD_RETURN,void)<SUB>161</SUB>> ]
+  "9248" -> "9249"  [ label = "AST: "] 
+  "9248" -> "9250"  [ label = "AST: "] 
+  "9248" -> "9252"  [ label = "AST: "] 
+  "9250" -> "9251"  [ label = "AST: "] 
+  "9251" -> "9252"  [ label = "CFG: "] 
+  "9248" -> "9251"  [ label = "CFG: "] 
+  "9249" -> "9252"  [ label = "DDG: x"] 
+  "9248" -> "9249"  [ label = "DDG: "] 
+}

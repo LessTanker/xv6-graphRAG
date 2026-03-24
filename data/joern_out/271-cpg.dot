@@ -1,0 +1,26 @@
+digraph "r_sstatus" {  
+"9150" [label = <(METHOD,r_sstatus)<SUB>50</SUB>> ]
+"9151" [label = <(BLOCK,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, sstatus&quot;...,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, sstatus&quot;...)<SUB>52</SUB>> ]
+"9152" [label = <(LOCAL,uint64 x: uint64)<SUB>53</SUB>> ]
+"9153" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, sstatus&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, sstatus&quot; : &quot;=r&quot; (x) );)<SUB>54</SUB>> ]
+"9154" [label = <(RETURN,return x;,return x;)<SUB>55</SUB>> ]
+"9155" [label = <(IDENTIFIER,x,return x;)<SUB>55</SUB>> ]
+"9156" [label = <(METHOD_RETURN,uint64)<SUB>50</SUB>> ]
+  "9150" -> "9151"  [ label = "AST: "] 
+  "9150" -> "9156"  [ label = "AST: "] 
+  "9151" -> "9152"  [ label = "AST: "] 
+  "9151" -> "9153"  [ label = "AST: "] 
+  "9151" -> "9154"  [ label = "AST: "] 
+  "9154" -> "9155"  [ label = "AST: "] 
+  "9153" -> "9154"  [ label = "CFG: "] 
+  "9154" -> "9156"  [ label = "CFG: "] 
+  "9150" -> "9153"  [ label = "CFG: "] 
+  "9154" -> "9156"  [ label = "DDG: &lt;RET&gt;"] 
+  "9155" -> "9154"  [ label = "DDG: x"] 
+  "9150" -> "9154"  [ label = "DDG: "] 
+  "9150" -> "9155"  [ label = "DDG: "] 
+}

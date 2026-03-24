@@ -1,0 +1,53 @@
+digraph "sys_exit" {  
+"12214" [label = <(METHOD,sys_exit)<SUB>10</SUB>> ]
+"12215" [label = <(PARAM,void)<SUB>11</SUB>> ]
+"12216" [label = <(BLOCK,{
+  int n;
+  argint(0, &amp;n);
+  kexit(n);
+  retur...,{
+  int n;
+  argint(0, &amp;n);
+  kexit(n);
+  retur...)<SUB>12</SUB>> ]
+"12217" [label = <(LOCAL,int n: int)<SUB>13</SUB>> ]
+"12218" [label = <(argint,argint(0, &amp;n))<SUB>14</SUB>> ]
+"12219" [label = <(LITERAL,0,argint(0, &amp;n))<SUB>14</SUB>> ]
+"12220" [label = <(&lt;operator&gt;.addressOf,&amp;n)<SUB>14</SUB>> ]
+"12221" [label = <(IDENTIFIER,n,argint(0, &amp;n))<SUB>14</SUB>> ]
+"12222" [label = <(kexit,kexit(n))<SUB>15</SUB>> ]
+"12223" [label = <(IDENTIFIER,n,kexit(n))<SUB>15</SUB>> ]
+"12224" [label = <(RETURN,return 0;,return 0;)<SUB>16</SUB>> ]
+"12225" [label = <(LITERAL,0,return 0;)<SUB>16</SUB>> ]
+"12226" [label = <(METHOD_RETURN,uint64)<SUB>10</SUB>> ]
+  "12214" -> "12215"  [ label = "AST: "] 
+  "12214" -> "12216"  [ label = "AST: "] 
+  "12214" -> "12226"  [ label = "AST: "] 
+  "12216" -> "12217"  [ label = "AST: "] 
+  "12216" -> "12218"  [ label = "AST: "] 
+  "12216" -> "12222"  [ label = "AST: "] 
+  "12216" -> "12224"  [ label = "AST: "] 
+  "12218" -> "12219"  [ label = "AST: "] 
+  "12218" -> "12220"  [ label = "AST: "] 
+  "12220" -> "12221"  [ label = "AST: "] 
+  "12222" -> "12223"  [ label = "AST: "] 
+  "12224" -> "12225"  [ label = "AST: "] 
+  "12218" -> "12222"  [ label = "CFG: "] 
+  "12222" -> "12224"  [ label = "CFG: "] 
+  "12224" -> "12226"  [ label = "CFG: "] 
+  "12220" -> "12218"  [ label = "CFG: "] 
+  "12214" -> "12220"  [ label = "CFG: "] 
+  "12224" -> "12226"  [ label = "DDG: &lt;RET&gt;"] 
+  "12215" -> "12226"  [ label = "DDG: "] 
+  "12218" -> "12226"  [ label = "DDG: &amp;n"] 
+  "12218" -> "12226"  [ label = "DDG: argint(0, &amp;n)"] 
+  "12222" -> "12226"  [ label = "DDG: n"] 
+  "12222" -> "12226"  [ label = "DDG: kexit(n)"] 
+  "12214" -> "12215"  [ label = "DDG: "] 
+  "12225" -> "12224"  [ label = "DDG: 0"] 
+  "12214" -> "12224"  [ label = "DDG: "] 
+  "12214" -> "12218"  [ label = "DDG: "] 
+  "12218" -> "12222"  [ label = "DDG: &amp;n"] 
+  "12214" -> "12222"  [ label = "DDG: "] 
+  "12214" -> "12225"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "static_assert" {  
+"33623" [label = <(METHOD,static_assert)<SUB>15</SUB>> ]
+"33624" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33625" [label = <(METHOD_RETURN,ANY)> ]
+  "33623" -> "33624"  [ label = "AST: "] 
+  "33623" -> "33625"  [ label = "AST: "] 
+  "33623" -> "33625"  [ label = "CFG: "] 
+}

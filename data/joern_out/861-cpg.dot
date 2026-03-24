@@ -1,0 +1,12 @@
+digraph "perror" {  
+"33651" [label = <(METHOD,perror)> ]
+"33652" [label = <(PARAM,p1)> ]
+"33653" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33654" [label = <(METHOD_RETURN,ANY)> ]
+  "33651" -> "33652"  [ label = "AST: "] 
+  "33651" -> "33653"  [ label = "AST: "] 
+  "33651" -> "33654"  [ label = "AST: "] 
+  "33651" -> "33654"  [ label = "CFG: "] 
+  "33652" -> "33654"  [ label = "DDG: p1"] 
+  "33651" -> "33652"  [ label = "DDG: "] 
+}

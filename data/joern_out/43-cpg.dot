@@ -1,0 +1,16 @@
+digraph "stati" {  
+"1071" [label = <(METHOD,stati)<SUB>53</SUB>> ]
+"1072" [label = <(PARAM,struct inode*)<SUB>53</SUB>> ]
+"1073" [label = <(PARAM,struct stat*)<SUB>53</SUB>> ]
+"1074" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1075" [label = <(METHOD_RETURN,void)<SUB>53</SUB>> ]
+  "1071" -> "1072"  [ label = "AST: "] 
+  "1071" -> "1073"  [ label = "AST: "] 
+  "1071" -> "1074"  [ label = "AST: "] 
+  "1071" -> "1075"  [ label = "AST: "] 
+  "1071" -> "1075"  [ label = "CFG: "] 
+  "1072" -> "1075"  [ label = "DDG: "] 
+  "1073" -> "1075"  [ label = "DDG: "] 
+  "1071" -> "1072"  [ label = "DDG: "] 
+  "1071" -> "1073"  [ label = "DDG: "] 
+}

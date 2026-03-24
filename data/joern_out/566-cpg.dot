@@ -1,0 +1,12 @@
+digraph "wait" {  
+"22674" [label = <(METHOD,wait)<SUB>8</SUB>> ]
+"22675" [label = <(PARAM,int*)<SUB>8</SUB>> ]
+"22676" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22677" [label = <(METHOD_RETURN,int)<SUB>8</SUB>> ]
+  "22674" -> "22675"  [ label = "AST: "] 
+  "22674" -> "22676"  [ label = "AST: "] 
+  "22674" -> "22677"  [ label = "AST: "] 
+  "22674" -> "22677"  [ label = "CFG: "] 
+  "22675" -> "22677"  [ label = "DDG: "] 
+  "22674" -> "22675"  [ label = "DDG: "] 
+}

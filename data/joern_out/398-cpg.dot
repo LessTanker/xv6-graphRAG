@@ -1,0 +1,29 @@
+digraph "trapinit" {  
+"12460" [label = <(METHOD,trapinit)<SUB>19</SUB>> ]
+"12461" [label = <(PARAM,void)<SUB>20</SUB>> ]
+"12462" [label = <(BLOCK,{
+  initlock(&amp;tickslock, &quot;time&quot;);
+},{
+  initlock(&amp;tickslock, &quot;time&quot;);
+})<SUB>21</SUB>> ]
+"12463" [label = <(initlock,initlock(&amp;tickslock, &quot;time&quot;))<SUB>22</SUB>> ]
+"12464" [label = <(&lt;operator&gt;.addressOf,&amp;tickslock)<SUB>22</SUB>> ]
+"12465" [label = <(IDENTIFIER,tickslock,initlock(&amp;tickslock, &quot;time&quot;))<SUB>22</SUB>> ]
+"12466" [label = <(LITERAL,&quot;time&quot;,initlock(&amp;tickslock, &quot;time&quot;))<SUB>22</SUB>> ]
+"12467" [label = <(METHOD_RETURN,void)<SUB>19</SUB>> ]
+  "12460" -> "12461"  [ label = "AST: "] 
+  "12460" -> "12462"  [ label = "AST: "] 
+  "12460" -> "12467"  [ label = "AST: "] 
+  "12462" -> "12463"  [ label = "AST: "] 
+  "12463" -> "12464"  [ label = "AST: "] 
+  "12463" -> "12466"  [ label = "AST: "] 
+  "12464" -> "12465"  [ label = "AST: "] 
+  "12463" -> "12467"  [ label = "CFG: "] 
+  "12464" -> "12463"  [ label = "CFG: "] 
+  "12460" -> "12464"  [ label = "CFG: "] 
+  "12461" -> "12467"  [ label = "DDG: "] 
+  "12463" -> "12467"  [ label = "DDG: &amp;tickslock"] 
+  "12463" -> "12467"  [ label = "DDG: initlock(&amp;tickslock, &quot;time&quot;)"] 
+  "12460" -> "12461"  [ label = "DDG: "] 
+  "12460" -> "12463"  [ label = "DDG: "] 
+}

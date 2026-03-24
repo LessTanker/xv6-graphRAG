@@ -1,0 +1,16 @@
+digraph "&lt;operators&gt;.assignmentShiftLeft" {  
+"33329" [label = <(METHOD,&lt;operators&gt;.assignmentShiftLeft)> ]
+"33330" [label = <(PARAM,p1)> ]
+"33331" [label = <(PARAM,p2)> ]
+"33332" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33333" [label = <(METHOD_RETURN,ANY)> ]
+  "33329" -> "33330"  [ label = "AST: "] 
+  "33329" -> "33332"  [ label = "AST: "] 
+  "33329" -> "33331"  [ label = "AST: "] 
+  "33329" -> "33333"  [ label = "AST: "] 
+  "33329" -> "33333"  [ label = "CFG: "] 
+  "33330" -> "33333"  [ label = "DDG: p1"] 
+  "33331" -> "33333"  [ label = "DDG: p2"] 
+  "33329" -> "33330"  [ label = "DDG: "] 
+  "33329" -> "33331"  [ label = "DDG: "] 
+}

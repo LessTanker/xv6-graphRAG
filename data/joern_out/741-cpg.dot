@@ -1,0 +1,8 @@
+digraph "NINODE" {  
+"33246" [label = <(METHOD,NINODE)<SUB>5</SUB>> ]
+"33247" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33248" [label = <(METHOD_RETURN,ANY)> ]
+  "33246" -> "33247"  [ label = "AST: "] 
+  "33246" -> "33248"  [ label = "AST: "] 
+  "33246" -> "33248"  [ label = "CFG: "] 
+}

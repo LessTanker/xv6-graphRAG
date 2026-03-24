@@ -1,0 +1,37 @@
+digraph "cpuid" {  
+"7353" [label = <(METHOD,cpuid)<SUB>64</SUB>> ]
+"7354" [label = <(BLOCK,{
+  int id = r_tp();
+  return id;
+},{
+  int id = r_tp();
+  return id;
+})<SUB>66</SUB>> ]
+"7355" [label = <(LOCAL,int id: int)<SUB>67</SUB>> ]
+"7356" [label = <(&lt;operator&gt;.assignment,id = r_tp())<SUB>67</SUB>> ]
+"7357" [label = <(IDENTIFIER,id,id = r_tp())<SUB>67</SUB>> ]
+"7358" [label = <(r_tp,r_tp())<SUB>67</SUB>> ]
+"7359" [label = <(RETURN,return id;,return id;)<SUB>68</SUB>> ]
+"7360" [label = <(IDENTIFIER,id,return id;)<SUB>68</SUB>> ]
+"7361" [label = <(METHOD_RETURN,int)<SUB>64</SUB>> ]
+  "7353" -> "7354"  [ label = "AST: "] 
+  "7353" -> "7361"  [ label = "AST: "] 
+  "7354" -> "7355"  [ label = "AST: "] 
+  "7354" -> "7356"  [ label = "AST: "] 
+  "7354" -> "7359"  [ label = "AST: "] 
+  "7356" -> "7357"  [ label = "AST: "] 
+  "7356" -> "7358"  [ label = "AST: "] 
+  "7359" -> "7360"  [ label = "AST: "] 
+  "7356" -> "7359"  [ label = "CFG: "] 
+  "7359" -> "7361"  [ label = "CFG: "] 
+  "7358" -> "7356"  [ label = "CFG: "] 
+  "7353" -> "7358"  [ label = "CFG: "] 
+  "7359" -> "7361"  [ label = "DDG: &lt;RET&gt;"] 
+  "7356" -> "7361"  [ label = "DDG: id"] 
+  "7356" -> "7361"  [ label = "DDG: r_tp()"] 
+  "7356" -> "7361"  [ label = "DDG: id = r_tp()"] 
+  "7353" -> "7356"  [ label = "DDG: "] 
+  "7360" -> "7359"  [ label = "DDG: id"] 
+  "7356" -> "7360"  [ label = "DDG: id"] 
+  "7353" -> "7360"  [ label = "DDG: "] 
+}

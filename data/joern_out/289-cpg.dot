@@ -1,0 +1,26 @@
+digraph "r_menvcfg" {  
+"9276" [label = <(METHOD,r_menvcfg)<SUB>193</SUB>> ]
+"9277" [label = <(BLOCK,{
+  uint64 x;
+  // asm volatile(&quot;csrr %0, menvc...,{
+  uint64 x;
+  // asm volatile(&quot;csrr %0, menvc...)<SUB>195</SUB>> ]
+"9278" [label = <(LOCAL,uint64 x: uint64)<SUB>196</SUB>> ]
+"9279" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, 0x30a&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, 0x30a&quot; : &quot;=r&quot; (x) );)<SUB>198</SUB>> ]
+"9280" [label = <(RETURN,return x;,return x;)<SUB>199</SUB>> ]
+"9281" [label = <(IDENTIFIER,x,return x;)<SUB>199</SUB>> ]
+"9282" [label = <(METHOD_RETURN,uint64)<SUB>193</SUB>> ]
+  "9276" -> "9277"  [ label = "AST: "] 
+  "9276" -> "9282"  [ label = "AST: "] 
+  "9277" -> "9278"  [ label = "AST: "] 
+  "9277" -> "9279"  [ label = "AST: "] 
+  "9277" -> "9280"  [ label = "AST: "] 
+  "9280" -> "9281"  [ label = "AST: "] 
+  "9279" -> "9280"  [ label = "CFG: "] 
+  "9280" -> "9282"  [ label = "CFG: "] 
+  "9276" -> "9279"  [ label = "CFG: "] 
+  "9280" -> "9282"  [ label = "DDG: &lt;RET&gt;"] 
+  "9281" -> "9280"  [ label = "DDG: x"] 
+  "9276" -> "9280"  [ label = "DDG: "] 
+  "9276" -> "9281"  [ label = "DDG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "balloc" {  
+"16207" [label = <(METHOD,balloc)<SUB>36</SUB>> ]
+"16208" [label = <(PARAM,int)<SUB>36</SUB>> ]
+"16209" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"16210" [label = <(METHOD_RETURN,void)<SUB>36</SUB>> ]
+  "16207" -> "16208"  [ label = "AST: "] 
+  "16207" -> "16209"  [ label = "AST: "] 
+  "16207" -> "16210"  [ label = "AST: "] 
+  "16207" -> "16210"  [ label = "CFG: "] 
+  "16208" -> "16210"  [ label = "DDG: "] 
+  "16207" -> "16208"  [ label = "DDG: "] 
+}

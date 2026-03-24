@@ -1,0 +1,12 @@
+digraph "freeproc" {  
+"7189" [label = <(METHOD,freeproc)<SUB>19</SUB>> ]
+"7190" [label = <(PARAM,struct proc *p)<SUB>19</SUB>> ]
+"7191" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"7192" [label = <(METHOD_RETURN,void)<SUB>19</SUB>> ]
+  "7189" -> "7190"  [ label = "AST: "] 
+  "7189" -> "7191"  [ label = "AST: "] 
+  "7189" -> "7192"  [ label = "AST: "] 
+  "7189" -> "7192"  [ label = "CFG: "] 
+  "7190" -> "7192"  [ label = "DDG: p"] 
+  "7189" -> "7190"  [ label = "DDG: "] 
+}

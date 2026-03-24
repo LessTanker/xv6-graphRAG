@@ -1,0 +1,12 @@
+digraph "ilock" {  
+"1027" [label = <(METHOD,ilock)<SUB>44</SUB>> ]
+"1028" [label = <(PARAM,struct inode*)<SUB>44</SUB>> ]
+"1029" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1030" [label = <(METHOD_RETURN,void)<SUB>44</SUB>> ]
+  "1027" -> "1028"  [ label = "AST: "] 
+  "1027" -> "1029"  [ label = "AST: "] 
+  "1027" -> "1030"  [ label = "AST: "] 
+  "1027" -> "1030"  [ label = "CFG: "] 
+  "1028" -> "1030"  [ label = "DDG: "] 
+  "1027" -> "1028"  [ label = "DDG: "] 
+}

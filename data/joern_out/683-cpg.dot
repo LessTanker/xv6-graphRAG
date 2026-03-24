@@ -1,0 +1,38 @@
+digraph "&lt;global&gt;" {  
+"32486" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"32487" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>1</SUB>> ]
+"32488" [label = <(METHOD,main)<SUB>8</SUB>> ]
+"32489" [label = <(PARAM,void)<SUB>9</SUB>> ]
+"32490" [label = <(BLOCK,{
+  if(fork() &gt; 0)
+    pause(5);  // Let child ...,{
+  if(fork() &gt; 0)
+    pause(5);  // Let child ...)<SUB>10</SUB>> ]
+"32491" [label = <(CONTROL_STRUCTURE,IF,if (fork() &gt; 0))<SUB>11</SUB>> ]
+"32492" [label = <(&lt;operator&gt;.greaterThan,fork() &gt; 0)<SUB>11</SUB>> ]
+"32493" [label = <(fork,fork())<SUB>11</SUB>> ]
+"32494" [label = <(LITERAL,0,fork() &gt; 0)<SUB>11</SUB>> ]
+"32495" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>12</SUB>> ]
+"32496" [label = <(pause,pause(5))<SUB>12</SUB>> ]
+"32497" [label = <(LITERAL,5,pause(5))<SUB>12</SUB>> ]
+"32498" [label = <(exit,exit(0))<SUB>13</SUB>> ]
+"32499" [label = <(LITERAL,0,exit(0))<SUB>13</SUB>> ]
+"32500" [label = <(METHOD_RETURN,int)<SUB>8</SUB>> ]
+"32502" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "32486" -> "32487"  [ label = "AST: "] 
+  "32486" -> "32502"  [ label = "AST: "] 
+  "32487" -> "32488"  [ label = "AST: "] 
+  "32488" -> "32489"  [ label = "AST: "] 
+  "32488" -> "32490"  [ label = "AST: "] 
+  "32488" -> "32500"  [ label = "AST: "] 
+  "32490" -> "32491"  [ label = "AST: "] 
+  "32490" -> "32498"  [ label = "AST: "] 
+  "32491" -> "32492"  [ label = "AST: "] 
+  "32491" -> "32495"  [ label = "AST: "] 
+  "32492" -> "32493"  [ label = "AST: "] 
+  "32492" -> "32494"  [ label = "AST: "] 
+  "32495" -> "32496"  [ label = "AST: "] 
+  "32496" -> "32497"  [ label = "AST: "] 
+  "32498" -> "32499"  [ label = "AST: "] 
+  "32486" -> "32502"  [ label = "CFG: "] 
+}

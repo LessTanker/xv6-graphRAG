@@ -1,0 +1,16 @@
+digraph "strcpy" {  
+"22786" [label = <(METHOD,strcpy)<SUB>30</SUB>> ]
+"22787" [label = <(PARAM,char*)<SUB>30</SUB>> ]
+"22788" [label = <(PARAM,const char*)<SUB>30</SUB>> ]
+"22789" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22790" [label = <(METHOD_RETURN,char*)<SUB>30</SUB>> ]
+  "22786" -> "22787"  [ label = "AST: "] 
+  "22786" -> "22788"  [ label = "AST: "] 
+  "22786" -> "22789"  [ label = "AST: "] 
+  "22786" -> "22790"  [ label = "AST: "] 
+  "22786" -> "22790"  [ label = "CFG: "] 
+  "22787" -> "22790"  [ label = "DDG: "] 
+  "22788" -> "22790"  [ label = "DDG: "] 
+  "22786" -> "22787"  [ label = "DDG: "] 
+  "22786" -> "22788"  [ label = "DDG: "] 
+}

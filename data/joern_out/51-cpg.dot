@@ -1,0 +1,12 @@
+digraph "log_write" {  
+"1117" [label = <(METHOD,log_write)<SUB>65</SUB>> ]
+"1118" [label = <(PARAM,struct buf*)<SUB>65</SUB>> ]
+"1119" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1120" [label = <(METHOD_RETURN,void)<SUB>65</SUB>> ]
+  "1117" -> "1118"  [ label = "AST: "] 
+  "1117" -> "1119"  [ label = "AST: "] 
+  "1117" -> "1120"  [ label = "AST: "] 
+  "1117" -> "1120"  [ label = "CFG: "] 
+  "1118" -> "1120"  [ label = "DDG: "] 
+  "1117" -> "1118"  [ label = "DDG: "] 
+}

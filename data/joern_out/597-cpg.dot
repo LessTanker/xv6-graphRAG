@@ -1,0 +1,12 @@
+digraph "sbrklazy" {  
+"22853" [label = <(METHOD,sbrklazy)<SUB>41</SUB>> ]
+"22854" [label = <(PARAM,int)<SUB>41</SUB>> ]
+"22855" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22856" [label = <(METHOD_RETURN,char*)<SUB>41</SUB>> ]
+  "22853" -> "22854"  [ label = "AST: "] 
+  "22853" -> "22855"  [ label = "AST: "] 
+  "22853" -> "22856"  [ label = "AST: "] 
+  "22853" -> "22856"  [ label = "CFG: "] 
+  "22854" -> "22856"  [ label = "DDG: "] 
+  "22853" -> "22854"  [ label = "DDG: "] 
+}

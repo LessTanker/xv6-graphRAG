@@ -1,0 +1,8 @@
+digraph "LSR_RX_READY" {  
+"33524" [label = <(METHOD,LSR_RX_READY)<SUB>37</SUB>> ]
+"33525" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33526" [label = <(METHOD_RETURN,ANY)> ]
+  "33524" -> "33525"  [ label = "AST: "] 
+  "33524" -> "33526"  [ label = "AST: "] 
+  "33524" -> "33526"  [ label = "CFG: "] 
+}

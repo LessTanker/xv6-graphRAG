@@ -1,0 +1,30 @@
+digraph "sys_getpid" {  
+"12228" [label = <(METHOD,sys_getpid)<SUB>19</SUB>> ]
+"12229" [label = <(PARAM,void)<SUB>20</SUB>> ]
+"12230" [label = <(BLOCK,{
+  return myproc()-&gt;pid;
+},{
+  return myproc()-&gt;pid;
+})<SUB>21</SUB>> ]
+"12231" [label = <(RETURN,return myproc()-&gt;pid;,return myproc()-&gt;pid;)<SUB>22</SUB>> ]
+"12232" [label = <(&lt;operator&gt;.indirectFieldAccess,myproc()-&gt;pid)<SUB>22</SUB>> ]
+"12233" [label = <(myproc,myproc())<SUB>22</SUB>> ]
+"12234" [label = <(FIELD_IDENTIFIER,pid,pid)<SUB>22</SUB>> ]
+"12235" [label = <(METHOD_RETURN,uint64)<SUB>19</SUB>> ]
+  "12228" -> "12229"  [ label = "AST: "] 
+  "12228" -> "12230"  [ label = "AST: "] 
+  "12228" -> "12235"  [ label = "AST: "] 
+  "12230" -> "12231"  [ label = "AST: "] 
+  "12231" -> "12232"  [ label = "AST: "] 
+  "12232" -> "12233"  [ label = "AST: "] 
+  "12232" -> "12234"  [ label = "AST: "] 
+  "12231" -> "12235"  [ label = "CFG: "] 
+  "12232" -> "12231"  [ label = "CFG: "] 
+  "12233" -> "12234"  [ label = "CFG: "] 
+  "12234" -> "12232"  [ label = "CFG: "] 
+  "12228" -> "12233"  [ label = "CFG: "] 
+  "12231" -> "12235"  [ label = "DDG: &lt;RET&gt;"] 
+  "12229" -> "12235"  [ label = "DDG: "] 
+  "12228" -> "12229"  [ label = "DDG: "] 
+  "12228" -> "12231"  [ label = "DDG: "] 
+}

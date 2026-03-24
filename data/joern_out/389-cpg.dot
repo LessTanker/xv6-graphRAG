@@ -1,0 +1,26 @@
+digraph "sys_fork" {  
+"12237" [label = <(METHOD,sys_fork)<SUB>25</SUB>> ]
+"12238" [label = <(PARAM,void)<SUB>26</SUB>> ]
+"12239" [label = <(BLOCK,{
+  return kfork();
+},{
+  return kfork();
+})<SUB>27</SUB>> ]
+"12240" [label = <(RETURN,return kfork();,return kfork();)<SUB>28</SUB>> ]
+"12241" [label = <(kfork,kfork())<SUB>28</SUB>> ]
+"12242" [label = <(METHOD_RETURN,uint64)<SUB>25</SUB>> ]
+  "12237" -> "12238"  [ label = "AST: "] 
+  "12237" -> "12239"  [ label = "AST: "] 
+  "12237" -> "12242"  [ label = "AST: "] 
+  "12239" -> "12240"  [ label = "AST: "] 
+  "12240" -> "12241"  [ label = "AST: "] 
+  "12240" -> "12242"  [ label = "CFG: "] 
+  "12241" -> "12240"  [ label = "CFG: "] 
+  "12237" -> "12241"  [ label = "CFG: "] 
+  "12240" -> "12242"  [ label = "DDG: &lt;RET&gt;"] 
+  "12238" -> "12242"  [ label = "DDG: "] 
+  "12241" -> "12242"  [ label = "DDG: kfork()"] 
+  "12237" -> "12238"  [ label = "DDG: "] 
+  "12241" -> "12240"  [ label = "DDG: kfork()"] 
+  "12237" -> "12241"  [ label = "DDG: "] 
+}

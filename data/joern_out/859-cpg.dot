@@ -1,0 +1,12 @@
+digraph "min" {  
+"33641" [label = <(METHOD,min)<SUB>252</SUB>> ]
+"33642" [label = <(PARAM,p1)> ]
+"33643" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33644" [label = <(METHOD_RETURN,ANY)> ]
+  "33641" -> "33642"  [ label = "AST: "] 
+  "33641" -> "33643"  [ label = "AST: "] 
+  "33641" -> "33644"  [ label = "AST: "] 
+  "33641" -> "33644"  [ label = "CFG: "] 
+  "33642" -> "33644"  [ label = "DDG: p1"] 
+  "33641" -> "33642"  [ label = "DDG: "] 
+}

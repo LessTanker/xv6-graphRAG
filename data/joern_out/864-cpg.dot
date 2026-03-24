@@ -1,0 +1,8 @@
+digraph "BUFSZ" {  
+"33661" [label = <(METHOD,BUFSZ)<SUB>8</SUB>> ]
+"33662" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33663" [label = <(METHOD_RETURN,ANY)> ]
+  "33661" -> "33662"  [ label = "AST: "] 
+  "33661" -> "33663"  [ label = "AST: "] 
+  "33661" -> "33663"  [ label = "CFG: "] 
+}

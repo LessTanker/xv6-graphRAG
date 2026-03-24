@@ -1,0 +1,26 @@
+digraph "r_mie" {  
+"9192" [label = <(METHOD,r_mie)<SUB>98</SUB>> ]
+"9193" [label = <(BLOCK,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, mie&quot; : &quot;...,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, mie&quot; : &quot;...)<SUB>100</SUB>> ]
+"9194" [label = <(LOCAL,uint64 x: uint64)<SUB>101</SUB>> ]
+"9195" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, mie&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, mie&quot; : &quot;=r&quot; (x) );)<SUB>102</SUB>> ]
+"9196" [label = <(RETURN,return x;,return x;)<SUB>103</SUB>> ]
+"9197" [label = <(IDENTIFIER,x,return x;)<SUB>103</SUB>> ]
+"9198" [label = <(METHOD_RETURN,uint64)<SUB>98</SUB>> ]
+  "9192" -> "9193"  [ label = "AST: "] 
+  "9192" -> "9198"  [ label = "AST: "] 
+  "9193" -> "9194"  [ label = "AST: "] 
+  "9193" -> "9195"  [ label = "AST: "] 
+  "9193" -> "9196"  [ label = "AST: "] 
+  "9196" -> "9197"  [ label = "AST: "] 
+  "9195" -> "9196"  [ label = "CFG: "] 
+  "9196" -> "9198"  [ label = "CFG: "] 
+  "9192" -> "9195"  [ label = "CFG: "] 
+  "9196" -> "9198"  [ label = "DDG: &lt;RET&gt;"] 
+  "9197" -> "9196"  [ label = "DDG: x"] 
+  "9192" -> "9196"  [ label = "DDG: "] 
+  "9192" -> "9197"  [ label = "DDG: "] 
+}

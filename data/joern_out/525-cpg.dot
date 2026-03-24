@@ -1,0 +1,36 @@
+digraph "panic" {  
+"20840" [label = <(METHOD,panic)<SUB>180</SUB>> ]
+"20841" [label = <(PARAM,char *s)<SUB>181</SUB>> ]
+"20842" [label = <(BLOCK,{
+  fprintf(2, &quot;%s\n&quot;, s);
+  exit(1);
+},{
+  fprintf(2, &quot;%s\n&quot;, s);
+  exit(1);
+})<SUB>182</SUB>> ]
+"20843" [label = <(fprintf,fprintf(2, &quot;%s\n&quot;, s))<SUB>183</SUB>> ]
+"20844" [label = <(LITERAL,2,fprintf(2, &quot;%s\n&quot;, s))<SUB>183</SUB>> ]
+"20845" [label = <(LITERAL,&quot;%s\n&quot;,fprintf(2, &quot;%s\n&quot;, s))<SUB>183</SUB>> ]
+"20846" [label = <(IDENTIFIER,s,fprintf(2, &quot;%s\n&quot;, s))<SUB>183</SUB>> ]
+"20847" [label = <(exit,exit(1))<SUB>184</SUB>> ]
+"20848" [label = <(LITERAL,1,exit(1))<SUB>184</SUB>> ]
+"20849" [label = <(METHOD_RETURN,void)<SUB>180</SUB>> ]
+  "20840" -> "20841"  [ label = "AST: "] 
+  "20840" -> "20842"  [ label = "AST: "] 
+  "20840" -> "20849"  [ label = "AST: "] 
+  "20842" -> "20843"  [ label = "AST: "] 
+  "20842" -> "20847"  [ label = "AST: "] 
+  "20843" -> "20844"  [ label = "AST: "] 
+  "20843" -> "20845"  [ label = "AST: "] 
+  "20843" -> "20846"  [ label = "AST: "] 
+  "20847" -> "20848"  [ label = "AST: "] 
+  "20843" -> "20847"  [ label = "CFG: "] 
+  "20847" -> "20849"  [ label = "CFG: "] 
+  "20840" -> "20843"  [ label = "CFG: "] 
+  "20843" -> "20849"  [ label = "DDG: s"] 
+  "20843" -> "20849"  [ label = "DDG: fprintf(2, &quot;%s\n&quot;, s)"] 
+  "20840" -> "20841"  [ label = "DDG: "] 
+  "20840" -> "20843"  [ label = "DDG: "] 
+  "20841" -> "20843"  [ label = "DDG: s"] 
+  "20840" -> "20847"  [ label = "DDG: "] 
+}

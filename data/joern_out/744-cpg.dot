@@ -1,0 +1,8 @@
+digraph "NDIRECT" {  
+"33257" [label = <(METHOD,NDIRECT)<SUB>27</SUB>> ]
+"33258" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33259" [label = <(METHOD_RETURN,ANY)> ]
+  "33257" -> "33258"  [ label = "AST: "] 
+  "33257" -> "33259"  [ label = "AST: "] 
+  "33257" -> "33259"  [ label = "CFG: "] 
+}

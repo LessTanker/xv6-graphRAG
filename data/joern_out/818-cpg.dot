@@ -1,0 +1,8 @@
+digraph "SBRK_EAGER" {  
+"33505" [label = <(METHOD,SBRK_EAGER)<SUB>1</SUB>> ]
+"33506" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33507" [label = <(METHOD_RETURN,ANY)> ]
+  "33505" -> "33506"  [ label = "AST: "] 
+  "33505" -> "33507"  [ label = "AST: "] 
+  "33505" -> "33507"  [ label = "CFG: "] 
+}

@@ -1,0 +1,16 @@
+digraph "open" {  
+"22714" [label = <(METHOD,open)<SUB>15</SUB>> ]
+"22715" [label = <(PARAM,const char*)<SUB>15</SUB>> ]
+"22716" [label = <(PARAM,int)<SUB>15</SUB>> ]
+"22717" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22718" [label = <(METHOD_RETURN,int)<SUB>15</SUB>> ]
+  "22714" -> "22715"  [ label = "AST: "] 
+  "22714" -> "22716"  [ label = "AST: "] 
+  "22714" -> "22717"  [ label = "AST: "] 
+  "22714" -> "22718"  [ label = "AST: "] 
+  "22714" -> "22718"  [ label = "CFG: "] 
+  "22715" -> "22718"  [ label = "DDG: "] 
+  "22716" -> "22718"  [ label = "DDG: "] 
+  "22714" -> "22715"  [ label = "DDG: "] 
+  "22714" -> "22716"  [ label = "DDG: "] 
+}

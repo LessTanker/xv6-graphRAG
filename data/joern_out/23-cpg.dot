@@ -1,0 +1,12 @@
+digraph "bunpin" {  
+"945" [label = <(METHOD,bunpin)<SUB>18</SUB>> ]
+"946" [label = <(PARAM,struct buf*)<SUB>18</SUB>> ]
+"947" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"948" [label = <(METHOD_RETURN,void)<SUB>18</SUB>> ]
+  "945" -> "946"  [ label = "AST: "] 
+  "945" -> "947"  [ label = "AST: "] 
+  "945" -> "948"  [ label = "AST: "] 
+  "945" -> "948"  [ label = "CFG: "] 
+  "946" -> "948"  [ label = "DDG: "] 
+  "945" -> "946"  [ label = "DDG: "] 
+}

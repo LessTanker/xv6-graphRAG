@@ -1,0 +1,12 @@
+digraph "ialloc" {  
+"16236" [label = <(METHOD,ialloc)<SUB>41</SUB>> ]
+"16237" [label = <(PARAM,ushort type)<SUB>41</SUB>> ]
+"16238" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"16239" [label = <(METHOD_RETURN,uint)<SUB>41</SUB>> ]
+  "16236" -> "16237"  [ label = "AST: "] 
+  "16236" -> "16238"  [ label = "AST: "] 
+  "16236" -> "16239"  [ label = "AST: "] 
+  "16236" -> "16239"  [ label = "CFG: "] 
+  "16237" -> "16239"  [ label = "DDG: type"] 
+  "16236" -> "16237"  [ label = "DDG: "] 
+}

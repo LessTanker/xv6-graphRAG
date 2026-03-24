@@ -1226,3 +1226,87 @@
 2026-03-20 11:09:14 - CommunityManager - INFO - Logger 'CommunityManager' initialized
 2026-03-20 11:09:14 - CommunityManager - INFO - CommunityManager initialized with edges_path=data/graph_edges.json, chunks_path=data/chunks_metadata.json, output_path=data/communities.json, prefer_static_partition=False
 2026-03-20 11:09:14 - CommunityManager - INFO - 测试CommunityManager的logger
+[2026-03-23 13:13:41] [INFO] CommunityManager: CommunityManager initialized with edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, output_path=/home/lesstanker/self/OS-expert/data/communities.json, prefer_static_partition=False
+[2026-03-23 13:13:41] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:13:41] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:13:41] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:13:41] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:13:41] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:13:41] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:13:41] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:13:41] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:13:41] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 13:13:41] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 13:13:41] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:13:41] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:13:41] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:13:41] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:13:41] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:13:41] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:13:41] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:13:41] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:13:41] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 13:13:41] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 13:16:25] [INFO] CommunityManager: CommunityManager initialized with edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, output_path=/home/lesstanker/self/OS-expert/data/communities.json, prefer_static_partition=False
+[2026-03-23 13:16:25] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:16:25] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:16:25] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:16:25] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:16:25] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:16:25] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:16:25] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:16:25] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:16:25] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 13:16:25] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 13:16:25] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:16:25] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:16:25] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:16:25] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:16:25] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:16:25] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:16:25] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:16:25] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:16:25] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 13:16:25] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 13:19:40] [INFO] CommunityManager: CommunityManager initialized with edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, output_path=/home/lesstanker/self/OS-expert/data/communities.json, prefer_static_partition=False
+[2026-03-23 13:19:40] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:19:40] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:19:40] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:19:40] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:19:40] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:19:40] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:19:40] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:19:40] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:19:40] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 13:19:40] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 13:19:40] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:19:40] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:19:40] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:19:40] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:19:40] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 13:19:40] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 13:19:40] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 13:19:40] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 13:19:40] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 13:19:40] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 14:17:22] [INFO] CommunityManager: CommunityManager initialized with edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, output_path=/home/lesstanker/self/OS-expert/data/communities.json, prefer_static_partition=False
+[2026-03-23 14:17:22] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 14:17:22] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 14:17:22] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 14:17:22] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 14:17:22] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 14:17:22] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 14:17:22] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 14:17:22] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 14:17:22] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 14:17:22] [INFO] CommunityManager: Community summarization completed: 0 summaries generated
+[2026-03-23 14:17:22] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 14:17:22] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 14:17:22] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 14:17:22] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 14:17:22] [INFO] CommunityManager: Starting community detection pipeline
+[2026-03-23 14:17:22] [INFO] CommunityManager: Loaded edges from /home/lesstanker/self/OS-expert/data/graph_edges.json
+[2026-03-23 14:17:22] [INFO] CommunityManager: Graphs built with 0 nodes and 0 edges
+[2026-03-23 14:17:22] [WARNING] CommunityManager: Empty graph detected, returning empty communities
+[2026-03-23 14:17:22] [INFO] CommunityManager: Starting LLM summarization for 0 community(ies)...
+[2026-03-23 14:17:22] [INFO] CommunityManager: Community summarization completed: 0 summaries generated

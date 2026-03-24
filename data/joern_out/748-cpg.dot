@@ -1,0 +1,8 @@
+digraph "DIRSIZ" {  
+"33269" [label = <(METHOD,DIRSIZ)<SUB>54</SUB>> ]
+"33270" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33271" [label = <(METHOD_RETURN,ANY)> ]
+  "33269" -> "33270"  [ label = "AST: "] 
+  "33269" -> "33271"  [ label = "AST: "] 
+  "33269" -> "33271"  [ label = "CFG: "] 
+}

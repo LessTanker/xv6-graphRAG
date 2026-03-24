@@ -1,0 +1,8 @@
+digraph "SYS_chdir" {  
+"33438" [label = <(METHOD,SYS_chdir)<SUB>10</SUB>> ]
+"33439" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33440" [label = <(METHOD_RETURN,ANY)> ]
+  "33438" -> "33439"  [ label = "AST: "] 
+  "33438" -> "33440"  [ label = "AST: "] 
+  "33438" -> "33440"  [ label = "CFG: "] 
+}

@@ -1,0 +1,16 @@
+digraph "gets" {  
+"22811" [label = <(METHOD,gets)<SUB>34</SUB>> ]
+"22812" [label = <(PARAM,char*)<SUB>34</SUB>> ]
+"22813" [label = <(PARAM,int max)<SUB>34</SUB>> ]
+"22814" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22815" [label = <(METHOD_RETURN,char*)<SUB>34</SUB>> ]
+  "22811" -> "22812"  [ label = "AST: "] 
+  "22811" -> "22813"  [ label = "AST: "] 
+  "22811" -> "22814"  [ label = "AST: "] 
+  "22811" -> "22815"  [ label = "AST: "] 
+  "22811" -> "22815"  [ label = "CFG: "] 
+  "22812" -> "22815"  [ label = "DDG: "] 
+  "22813" -> "22815"  [ label = "DDG: max"] 
+  "22811" -> "22812"  [ label = "DDG: "] 
+  "22811" -> "22813"  [ label = "DDG: "] 
+}

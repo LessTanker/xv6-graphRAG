@@ -1,0 +1,19 @@
+digraph "w_tp" {  
+"9413" [label = <(METHOD,w_tp)<SUB>325</SUB>> ]
+"9414" [label = <(PARAM,uint64 x)<SUB>326</SUB>> ]
+"9415" [label = <(BLOCK,{
+  asm volatile(&quot;mv tp, %0&quot; : : &quot;r&quot; (x));
+},{
+  asm volatile(&quot;mv tp, %0&quot; : : &quot;r&quot; (x));
+})<SUB>327</SUB>> ]
+"9416" [label = <(UNKNOWN,asm volatile(&quot;mv tp, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;mv tp, %0&quot; : : &quot;r&quot; (x));)<SUB>328</SUB>> ]
+"9417" [label = <(METHOD_RETURN,void)<SUB>325</SUB>> ]
+  "9413" -> "9414"  [ label = "AST: "] 
+  "9413" -> "9415"  [ label = "AST: "] 
+  "9413" -> "9417"  [ label = "AST: "] 
+  "9415" -> "9416"  [ label = "AST: "] 
+  "9416" -> "9417"  [ label = "CFG: "] 
+  "9413" -> "9416"  [ label = "CFG: "] 
+  "9414" -> "9417"  [ label = "DDG: x"] 
+  "9413" -> "9414"  [ label = "DDG: "] 
+}

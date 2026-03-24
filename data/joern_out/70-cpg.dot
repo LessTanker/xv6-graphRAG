@@ -1,0 +1,12 @@
+digraph "setkilled" {  
+"1219" [label = <(METHOD,setkilled)<SUB>90</SUB>> ]
+"1220" [label = <(PARAM,struct proc*)<SUB>90</SUB>> ]
+"1221" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1222" [label = <(METHOD_RETURN,void)<SUB>90</SUB>> ]
+  "1219" -> "1220"  [ label = "AST: "] 
+  "1219" -> "1221"  [ label = "AST: "] 
+  "1219" -> "1222"  [ label = "AST: "] 
+  "1219" -> "1222"  [ label = "CFG: "] 
+  "1220" -> "1222"  [ label = "DDG: "] 
+  "1219" -> "1220"  [ label = "DDG: "] 
+}

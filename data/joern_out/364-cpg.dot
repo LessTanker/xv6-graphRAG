@@ -1,0 +1,12 @@
+digraph "sys_close" {  
+"10512" [label = <(METHOD,sys_close)<SUB>103</SUB>> ]
+"10513" [label = <(PARAM,void)<SUB>103</SUB>> ]
+"10514" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10515" [label = <(METHOD_RETURN,uint64)<SUB>103</SUB>> ]
+  "10512" -> "10513"  [ label = "AST: "] 
+  "10512" -> "10514"  [ label = "AST: "] 
+  "10512" -> "10515"  [ label = "AST: "] 
+  "10512" -> "10515"  [ label = "CFG: "] 
+  "10513" -> "10515"  [ label = "DDG: "] 
+  "10512" -> "10513"  [ label = "DDG: "] 
+}

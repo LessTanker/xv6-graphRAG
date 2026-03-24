@@ -1,0 +1,8 @@
+digraph "SYS_mkdir" {  
+"33471" [label = <(METHOD,SYS_mkdir)<SUB>21</SUB>> ]
+"33472" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33473" [label = <(METHOD_RETURN,ANY)> ]
+  "33471" -> "33472"  [ label = "AST: "] 
+  "33471" -> "33473"  [ label = "AST: "] 
+  "33471" -> "33473"  [ label = "CFG: "] 
+}

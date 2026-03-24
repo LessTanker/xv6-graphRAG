@@ -1,0 +1,12 @@
+digraph "ireclaim" {  
+"1091" [label = <(METHOD,ireclaim)<SUB>56</SUB>> ]
+"1092" [label = <(PARAM,int)<SUB>56</SUB>> ]
+"1093" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1094" [label = <(METHOD_RETURN,void)<SUB>56</SUB>> ]
+  "1091" -> "1092"  [ label = "AST: "] 
+  "1091" -> "1093"  [ label = "AST: "] 
+  "1091" -> "1094"  [ label = "AST: "] 
+  "1091" -> "1094"  [ label = "CFG: "] 
+  "1092" -> "1094"  [ label = "DDG: "] 
+  "1091" -> "1092"  [ label = "DDG: "] 
+}

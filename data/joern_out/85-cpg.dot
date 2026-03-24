@@ -1,0 +1,16 @@
+digraph "initlock" {  
+"1306" [label = <(METHOD,initlock)<SUB>111</SUB>> ]
+"1307" [label = <(PARAM,struct spinlock*)<SUB>111</SUB>> ]
+"1308" [label = <(PARAM,char*)<SUB>111</SUB>> ]
+"1309" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1310" [label = <(METHOD_RETURN,void)<SUB>111</SUB>> ]
+  "1306" -> "1307"  [ label = "AST: "] 
+  "1306" -> "1308"  [ label = "AST: "] 
+  "1306" -> "1309"  [ label = "AST: "] 
+  "1306" -> "1310"  [ label = "AST: "] 
+  "1306" -> "1310"  [ label = "CFG: "] 
+  "1307" -> "1310"  [ label = "DDG: "] 
+  "1308" -> "1310"  [ label = "DDG: "] 
+  "1306" -> "1307"  [ label = "DDG: "] 
+  "1306" -> "1308"  [ label = "DDG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "proc_mapstacks" {  
+"1193" [label = <(METHOD,proc_mapstacks)<SUB>85</SUB>> ]
+"1194" [label = <(PARAM,pagetable_t)<SUB>85</SUB>> ]
+"1195" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1196" [label = <(METHOD_RETURN,void)<SUB>85</SUB>> ]
+  "1193" -> "1194"  [ label = "AST: "] 
+  "1193" -> "1195"  [ label = "AST: "] 
+  "1193" -> "1196"  [ label = "AST: "] 
+  "1193" -> "1196"  [ label = "CFG: "] 
+  "1194" -> "1196"  [ label = "DDG: pagetable_t"] 
+  "1193" -> "1194"  [ label = "DDG: "] 
+}

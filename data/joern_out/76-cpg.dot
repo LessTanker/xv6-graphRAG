@@ -1,0 +1,12 @@
+digraph "kwait" {  
+"1254" [label = <(METHOD,kwait)<SUB>98</SUB>> ]
+"1255" [label = <(PARAM,uint64)<SUB>98</SUB>> ]
+"1256" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1257" [label = <(METHOD_RETURN,int)<SUB>98</SUB>> ]
+  "1254" -> "1255"  [ label = "AST: "] 
+  "1254" -> "1256"  [ label = "AST: "] 
+  "1254" -> "1257"  [ label = "AST: "] 
+  "1254" -> "1257"  [ label = "CFG: "] 
+  "1255" -> "1257"  [ label = "DDG: uint64"] 
+  "1254" -> "1255"  [ label = "DDG: "] 
+}

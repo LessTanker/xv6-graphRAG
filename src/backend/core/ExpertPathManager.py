@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import TYPE_CHECKING, DefaultDict, Dict, List, Optional, Set, Tuple
 
 # Local module imports
-from backend import config, utils
-from backend.core.LLMClient import LLMClient
-from backend.logger import get_file_logger
+from .. import config, utils
+from .LLMClient import LLMClient
+from ..logger import get_file_logger
 
 
 REL_CALLS = "CALLS"

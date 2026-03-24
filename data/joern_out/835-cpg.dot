@@ -1,0 +1,8 @@
+digraph "VIRTIO_RING_F_INDIRECT_DESC" {  
+"33557" [label = <(METHOD,VIRTIO_RING_F_INDIRECT_DESC)<SUB>45</SUB>> ]
+"33558" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33559" [label = <(METHOD_RETURN,ANY)> ]
+  "33557" -> "33558"  [ label = "AST: "] 
+  "33557" -> "33559"  [ label = "AST: "] 
+  "33557" -> "33559"  [ label = "CFG: "] 
+}

@@ -1,0 +1,19 @@
+digraph "w_sepc" {  
+"9206" [label = <(METHOD,w_sepc)<SUB>115</SUB>> ]
+"9207" [label = <(PARAM,uint64 x)<SUB>116</SUB>> ]
+"9208" [label = <(BLOCK,{
+  asm volatile(&quot;csrw sepc, %0&quot; : : &quot;r&quot; (x));
+},{
+  asm volatile(&quot;csrw sepc, %0&quot; : : &quot;r&quot; (x));
+})<SUB>117</SUB>> ]
+"9209" [label = <(UNKNOWN,asm volatile(&quot;csrw sepc, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw sepc, %0&quot; : : &quot;r&quot; (x));)<SUB>118</SUB>> ]
+"9210" [label = <(METHOD_RETURN,void)<SUB>115</SUB>> ]
+  "9206" -> "9207"  [ label = "AST: "] 
+  "9206" -> "9208"  [ label = "AST: "] 
+  "9206" -> "9210"  [ label = "AST: "] 
+  "9208" -> "9209"  [ label = "AST: "] 
+  "9209" -> "9210"  [ label = "CFG: "] 
+  "9206" -> "9209"  [ label = "CFG: "] 
+  "9207" -> "9210"  [ label = "DDG: x"] 
+  "9206" -> "9207"  [ label = "DDG: "] 
+}

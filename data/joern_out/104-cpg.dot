@@ -1,0 +1,16 @@
+digraph "fetchaddr" {  
+"1421" [label = <(METHOD,fetchaddr)<SUB>136</SUB>> ]
+"1422" [label = <(PARAM,uint64)<SUB>136</SUB>> ]
+"1423" [label = <(PARAM,uint64*)<SUB>136</SUB>> ]
+"1424" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1425" [label = <(METHOD_RETURN,int)<SUB>136</SUB>> ]
+  "1421" -> "1422"  [ label = "AST: "] 
+  "1421" -> "1423"  [ label = "AST: "] 
+  "1421" -> "1424"  [ label = "AST: "] 
+  "1421" -> "1425"  [ label = "AST: "] 
+  "1421" -> "1425"  [ label = "CFG: "] 
+  "1422" -> "1425"  [ label = "DDG: uint64"] 
+  "1423" -> "1425"  [ label = "DDG: "] 
+  "1421" -> "1422"  [ label = "DDG: "] 
+  "1421" -> "1423"  [ label = "DDG: "] 
+}

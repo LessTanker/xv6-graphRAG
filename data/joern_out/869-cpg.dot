@@ -1,0 +1,8 @@
+digraph "REDIR" {  
+"33678" [label = <(METHOD,REDIR)<SUB>9</SUB>> ]
+"33679" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33680" [label = <(METHOD_RETURN,ANY)> ]
+  "33678" -> "33679"  [ label = "AST: "] 
+  "33678" -> "33680"  [ label = "AST: "] 
+  "33678" -> "33680"  [ label = "CFG: "] 
+}

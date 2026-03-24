@@ -1,0 +1,112 @@
+digraph "main" {  
+"19121" [label = <(METHOD,main)<SUB>336</SUB>> ]
+"19122" [label = <(BLOCK,{
+  while(1){
+    int pid = fork();
+    if(pid ...,{
+  while(1){
+    int pid = fork();
+    if(pid ...)<SUB>338</SUB>> ]
+"19123" [label = <(CONTROL_STRUCTURE,WHILE,while (1))<SUB>339</SUB>> ]
+"19124" [label = <(LITERAL,1,while (1))<SUB>339</SUB>> ]
+"19125" [label = <(BLOCK,{
+    int pid = fork();
+    if(pid == 0){
+     ...,{
+    int pid = fork();
+    if(pid == 0){
+     ...)<SUB>339</SUB>> ]
+"19126" [label = <(LOCAL,int pid: int)<SUB>340</SUB>> ]
+"19127" [label = <(&lt;operator&gt;.assignment,pid = fork())<SUB>340</SUB>> ]
+"19128" [label = <(IDENTIFIER,pid,pid = fork())<SUB>340</SUB>> ]
+"19129" [label = <(fork,fork())<SUB>340</SUB>> ]
+"19130" [label = <(CONTROL_STRUCTURE,IF,if (pid == 0))<SUB>341</SUB>> ]
+"19131" [label = <(&lt;operator&gt;.equals,pid == 0)<SUB>341</SUB>> ]
+"19132" [label = <(IDENTIFIER,pid,pid == 0)<SUB>341</SUB>> ]
+"19133" [label = <(LITERAL,0,pid == 0)<SUB>341</SUB>> ]
+"19134" [label = <(BLOCK,{
+      iter();
+      exit(0);
+    },{
+      iter();
+      exit(0);
+    })<SUB>341</SUB>> ]
+"19135" [label = <(iter,iter())<SUB>342</SUB>> ]
+"19136" [label = <(exit,exit(0))<SUB>343</SUB>> ]
+"19137" [label = <(LITERAL,0,exit(0))<SUB>343</SUB>> ]
+"19138" [label = <(CONTROL_STRUCTURE,IF,if (pid &gt; 0))<SUB>345</SUB>> ]
+"19139" [label = <(&lt;operator&gt;.greaterThan,pid &gt; 0)<SUB>345</SUB>> ]
+"19140" [label = <(IDENTIFIER,pid,pid &gt; 0)<SUB>345</SUB>> ]
+"19141" [label = <(LITERAL,0,pid &gt; 0)<SUB>345</SUB>> ]
+"19142" [label = <(BLOCK,{
+      wait(0);
+    },{
+      wait(0);
+    })<SUB>345</SUB>> ]
+"19143" [label = <(wait,wait(0))<SUB>346</SUB>> ]
+"19144" [label = <(LITERAL,0,wait(0))<SUB>346</SUB>> ]
+"19145" [label = <(pause,pause(20))<SUB>348</SUB>> ]
+"19146" [label = <(LITERAL,20,pause(20))<SUB>348</SUB>> ]
+"19147" [label = <(&lt;operator&gt;.assignmentPlus,rand_next += 1)<SUB>349</SUB>> ]
+"19148" [label = <(IDENTIFIER,rand_next,rand_next += 1)<SUB>349</SUB>> ]
+"19149" [label = <(LITERAL,1,rand_next += 1)<SUB>349</SUB>> ]
+"19150" [label = <(METHOD_RETURN,int)<SUB>336</SUB>> ]
+  "19121" -> "19122"  [ label = "AST: "] 
+  "19121" -> "19150"  [ label = "AST: "] 
+  "19122" -> "19123"  [ label = "AST: "] 
+  "19123" -> "19124"  [ label = "AST: "] 
+  "19123" -> "19125"  [ label = "AST: "] 
+  "19125" -> "19126"  [ label = "AST: "] 
+  "19125" -> "19127"  [ label = "AST: "] 
+  "19125" -> "19130"  [ label = "AST: "] 
+  "19125" -> "19138"  [ label = "AST: "] 
+  "19125" -> "19145"  [ label = "AST: "] 
+  "19125" -> "19147"  [ label = "AST: "] 
+  "19127" -> "19128"  [ label = "AST: "] 
+  "19127" -> "19129"  [ label = "AST: "] 
+  "19130" -> "19131"  [ label = "AST: "] 
+  "19130" -> "19134"  [ label = "AST: "] 
+  "19131" -> "19132"  [ label = "AST: "] 
+  "19131" -> "19133"  [ label = "AST: "] 
+  "19134" -> "19135"  [ label = "AST: "] 
+  "19134" -> "19136"  [ label = "AST: "] 
+  "19136" -> "19137"  [ label = "AST: "] 
+  "19138" -> "19139"  [ label = "AST: "] 
+  "19138" -> "19142"  [ label = "AST: "] 
+  "19139" -> "19140"  [ label = "AST: "] 
+  "19139" -> "19141"  [ label = "AST: "] 
+  "19142" -> "19143"  [ label = "AST: "] 
+  "19143" -> "19144"  [ label = "AST: "] 
+  "19145" -> "19146"  [ label = "AST: "] 
+  "19147" -> "19148"  [ label = "AST: "] 
+  "19147" -> "19149"  [ label = "AST: "] 
+  "19127" -> "19131"  [ label = "CFG: "] 
+  "19145" -> "19147"  [ label = "CFG: "] 
+  "19147" -> "19150"  [ label = "CFG: "] 
+  "19147" -> "19129"  [ label = "CFG: "] 
+  "19129" -> "19127"  [ label = "CFG: "] 
+  "19131" -> "19135"  [ label = "CFG: "] 
+  "19131" -> "19139"  [ label = "CFG: "] 
+  "19139" -> "19143"  [ label = "CFG: "] 
+  "19139" -> "19145"  [ label = "CFG: "] 
+  "19135" -> "19136"  [ label = "CFG: "] 
+  "19136" -> "19139"  [ label = "CFG: "] 
+  "19143" -> "19145"  [ label = "CFG: "] 
+  "19121" -> "19150"  [ label = "CFG: "] 
+  "19121" -> "19129"  [ label = "CFG: "] 
+  "19147" -> "19150"  [ label = "DDG: rand_next"] 
+  "19121" -> "19124"  [ label = "DDG: "] 
+  "19121" -> "19127"  [ label = "DDG: "] 
+  "19121" -> "19147"  [ label = "DDG: "] 
+  "19121" -> "19145"  [ label = "DDG: "] 
+  "19127" -> "19131"  [ label = "DDG: pid"] 
+  "19121" -> "19131"  [ label = "DDG: "] 
+  "19121" -> "19135"  [ label = "DDG: "] 
+  "19131" -> "19139"  [ label = "DDG: pid"] 
+  "19121" -> "19139"  [ label = "DDG: "] 
+  "19121" -> "19136"  [ label = "DDG: "] 
+  "19121" -> "19143"  [ label = "DDG: "] 
+  "19131" -> "19136"  [ label = "CDG: "] 
+  "19131" -> "19135"  [ label = "CDG: "] 
+  "19139" -> "19143"  [ label = "CDG: "] 
+}

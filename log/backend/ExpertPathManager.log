@@ -21,3 +21,31 @@
 2026-03-18 22:20:09,260 - ExpertPathManager - INFO - Processed 7 final expert paths
 2026-03-18 22:20:09,260 - ExpertPathManager - INFO - Saving 7 expert paths to /home/lesstanker/self/OS-expert/data/expert_path.json
 2026-03-18 22:20:09,261 - ExpertPathManager - INFO - Expert paths saved successfully
+[2026-03-23 13:13:41] [INFO] ExpertPathManager: ExpertPathManager initialized with chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, output_path=/home/lesstanker/self/OS-expert/data/expert_path.json
+[2026-03-23 13:13:41] [INFO] ExpertPathManager: Preparing data: loading chunks and edges...
+[2026-03-23 13:13:41] [INFO] ExpertPathManager: Loaded 0 chunks and 0 edges
+[2026-03-23 13:13:41] [INFO] ExpertPathManager: Building function call graph...
+[2026-03-23 13:13:41] [WARNING] ExpertPathManager: No function chunks found
+[2026-03-23 13:13:41] [INFO] ExpertPathManager: Data preparation completed
+[2026-03-23 13:13:41] [ERROR] ExpertPathManager: No function chunks available. Call prepare_data() first.
+[2026-03-23 13:16:25] [INFO] ExpertPathManager: ExpertPathManager initialized with chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, output_path=/home/lesstanker/self/OS-expert/data/expert_path.json
+[2026-03-23 13:16:25] [INFO] ExpertPathManager: Preparing data: loading chunks and edges...
+[2026-03-23 13:16:25] [INFO] ExpertPathManager: Loaded 0 chunks and 0 edges
+[2026-03-23 13:16:25] [INFO] ExpertPathManager: Building function call graph...
+[2026-03-23 13:16:25] [WARNING] ExpertPathManager: No function chunks found
+[2026-03-23 13:16:25] [INFO] ExpertPathManager: Data preparation completed
+[2026-03-23 13:16:25] [ERROR] ExpertPathManager: No function chunks available. Call prepare_data() first.
+[2026-03-23 13:19:40] [INFO] ExpertPathManager: ExpertPathManager initialized with chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, output_path=/home/lesstanker/self/OS-expert/data/expert_path.json
+[2026-03-23 13:19:40] [INFO] ExpertPathManager: Preparing data: loading chunks and edges...
+[2026-03-23 13:19:40] [INFO] ExpertPathManager: Loaded 0 chunks and 0 edges
+[2026-03-23 13:19:40] [INFO] ExpertPathManager: Building function call graph...
+[2026-03-23 13:19:40] [WARNING] ExpertPathManager: No function chunks found
+[2026-03-23 13:19:40] [INFO] ExpertPathManager: Data preparation completed
+[2026-03-23 13:19:40] [ERROR] ExpertPathManager: No function chunks available. Call prepare_data() first.
+[2026-03-23 14:17:22] [INFO] ExpertPathManager: ExpertPathManager initialized with chunks_path=/home/lesstanker/self/OS-expert/data/chunks_metadata.json, edges_path=/home/lesstanker/self/OS-expert/data/graph_edges.json, output_path=/home/lesstanker/self/OS-expert/data/expert_path.json
+[2026-03-23 14:17:22] [INFO] ExpertPathManager: Preparing data: loading chunks and edges...
+[2026-03-23 14:17:22] [INFO] ExpertPathManager: Loaded 0 chunks and 0 edges
+[2026-03-23 14:17:22] [INFO] ExpertPathManager: Building function call graph...
+[2026-03-23 14:17:22] [WARNING] ExpertPathManager: No function chunks found
+[2026-03-23 14:17:22] [INFO] ExpertPathManager: Data preparation completed
+[2026-03-23 14:17:22] [ERROR] ExpertPathManager: No function chunks available. Call prepare_data() first.

@@ -1,0 +1,17 @@
+digraph "&lt;clinit&gt;" {  
+"1658" [label = <(METHOD,&lt;clinit&gt;)<SUB>6</SUB>> ]
+"1659" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1660" [label = <(&lt;operator&gt;.arrayInitializer,elf[12])<SUB>8</SUB>> ]
+"1661" [label = <(LITERAL,12,elf[12])<SUB>8</SUB>> ]
+"1662" [label = <(MODIFIER,STATIC)> ]
+"1663" [label = <(METHOD_RETURN,ANY)> ]
+  "1658" -> "1659"  [ label = "AST: "] 
+  "1658" -> "1662"  [ label = "AST: "] 
+  "1658" -> "1663"  [ label = "AST: "] 
+  "1659" -> "1660"  [ label = "AST: "] 
+  "1660" -> "1661"  [ label = "AST: "] 
+  "1660" -> "1663"  [ label = "CFG: "] 
+  "1658" -> "1660"  [ label = "CFG: "] 
+  "1660" -> "1663"  [ label = "DDG: elf[12]"] 
+  "1658" -> "1660"  [ label = "DDG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "begin_op" {  
+"1122" [label = <(METHOD,begin_op)<SUB>66</SUB>> ]
+"1123" [label = <(PARAM,void)<SUB>66</SUB>> ]
+"1124" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1125" [label = <(METHOD_RETURN,void)<SUB>66</SUB>> ]
+  "1122" -> "1123"  [ label = "AST: "] 
+  "1122" -> "1124"  [ label = "AST: "] 
+  "1122" -> "1125"  [ label = "AST: "] 
+  "1122" -> "1125"  [ label = "CFG: "] 
+  "1123" -> "1125"  [ label = "DDG: "] 
+  "1122" -> "1123"  [ label = "DDG: "] 
+}

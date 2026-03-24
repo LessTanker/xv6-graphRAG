@@ -1,0 +1,12 @@
+digraph "iupdate" {  
+"1047" [label = <(METHOD,iupdate)<SUB>48</SUB>> ]
+"1048" [label = <(PARAM,struct inode*)<SUB>48</SUB>> ]
+"1049" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1050" [label = <(METHOD_RETURN,void)<SUB>48</SUB>> ]
+  "1047" -> "1048"  [ label = "AST: "] 
+  "1047" -> "1049"  [ label = "AST: "] 
+  "1047" -> "1050"  [ label = "AST: "] 
+  "1047" -> "1050"  [ label = "CFG: "] 
+  "1048" -> "1050"  [ label = "DDG: "] 
+  "1047" -> "1048"  [ label = "DDG: "] 
+}

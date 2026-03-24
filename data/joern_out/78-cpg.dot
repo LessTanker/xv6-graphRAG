@@ -1,0 +1,12 @@
+digraph "yield" {  
+"1264" [label = <(METHOD,yield)<SUB>100</SUB>> ]
+"1265" [label = <(PARAM,void)<SUB>100</SUB>> ]
+"1266" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1267" [label = <(METHOD_RETURN,void)<SUB>100</SUB>> ]
+  "1264" -> "1265"  [ label = "AST: "] 
+  "1264" -> "1266"  [ label = "AST: "] 
+  "1264" -> "1267"  [ label = "AST: "] 
+  "1264" -> "1267"  [ label = "CFG: "] 
+  "1265" -> "1267"  [ label = "DDG: "] 
+  "1264" -> "1265"  [ label = "DDG: "] 
+}

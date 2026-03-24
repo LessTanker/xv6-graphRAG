@@ -1,0 +1,12 @@
+digraph "acquire" {  
+"1296" [label = <(METHOD,acquire)<SUB>109</SUB>> ]
+"1297" [label = <(PARAM,struct spinlock*)<SUB>109</SUB>> ]
+"1298" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1299" [label = <(METHOD_RETURN,void)<SUB>109</SUB>> ]
+  "1296" -> "1297"  [ label = "AST: "] 
+  "1296" -> "1298"  [ label = "AST: "] 
+  "1296" -> "1299"  [ label = "AST: "] 
+  "1296" -> "1299"  [ label = "CFG: "] 
+  "1297" -> "1299"  [ label = "DDG: "] 
+  "1296" -> "1297"  [ label = "DDG: "] 
+}

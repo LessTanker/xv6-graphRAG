@@ -11,9 +11,9 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 # Local module imports
-from backend import config, utils
-from backend.core.LLMClient import LLMClient
-from backend.logger import get_file_logger
+from .. import config, utils
+from .LLMClient import LLMClient
+from ..logger import get_file_logger
 
 
 # Configure logging for QueryProcessor using unified logger

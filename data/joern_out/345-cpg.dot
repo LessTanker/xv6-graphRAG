@@ -1,0 +1,12 @@
+digraph "sys_exit" {  
+"10417" [label = <(METHOD,sys_exit)<SUB>84</SUB>> ]
+"10418" [label = <(PARAM,void)<SUB>84</SUB>> ]
+"10419" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10420" [label = <(METHOD_RETURN,uint64)<SUB>84</SUB>> ]
+  "10417" -> "10418"  [ label = "AST: "] 
+  "10417" -> "10419"  [ label = "AST: "] 
+  "10417" -> "10420"  [ label = "AST: "] 
+  "10417" -> "10420"  [ label = "CFG: "] 
+  "10418" -> "10420"  [ label = "DDG: "] 
+  "10417" -> "10418"  [ label = "DDG: "] 
+}

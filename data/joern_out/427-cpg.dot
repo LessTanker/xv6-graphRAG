@@ -1,0 +1,28 @@
+digraph "kvminit" {  
+"14680" [label = <(METHOD,kvminit)<SUB>65</SUB>> ]
+"14681" [label = <(PARAM,void)<SUB>66</SUB>> ]
+"14682" [label = <(BLOCK,{
+  kernel_pagetable = kvmmake();
+},{
+  kernel_pagetable = kvmmake();
+})<SUB>67</SUB>> ]
+"14683" [label = <(&lt;operator&gt;.assignment,kernel_pagetable = kvmmake())<SUB>68</SUB>> ]
+"14684" [label = <(IDENTIFIER,kernel_pagetable,kernel_pagetable = kvmmake())<SUB>68</SUB>> ]
+"14685" [label = <(kvmmake,kvmmake())<SUB>68</SUB>> ]
+"14686" [label = <(METHOD_RETURN,void)<SUB>65</SUB>> ]
+  "14680" -> "14681"  [ label = "AST: "] 
+  "14680" -> "14682"  [ label = "AST: "] 
+  "14680" -> "14686"  [ label = "AST: "] 
+  "14682" -> "14683"  [ label = "AST: "] 
+  "14683" -> "14684"  [ label = "AST: "] 
+  "14683" -> "14685"  [ label = "AST: "] 
+  "14683" -> "14686"  [ label = "CFG: "] 
+  "14685" -> "14683"  [ label = "CFG: "] 
+  "14680" -> "14685"  [ label = "CFG: "] 
+  "14681" -> "14686"  [ label = "DDG: "] 
+  "14683" -> "14686"  [ label = "DDG: kvmmake()"] 
+  "14683" -> "14686"  [ label = "DDG: kernel_pagetable = kvmmake()"] 
+  "14683" -> "14686"  [ label = "DDG: kernel_pagetable"] 
+  "14680" -> "14681"  [ label = "DDG: "] 
+  "14680" -> "14683"  [ label = "DDG: "] 
+}

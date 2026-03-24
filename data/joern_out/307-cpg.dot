@@ -1,0 +1,13 @@
+digraph "sfence_vma" {  
+"9427" [label = <(METHOD,sfence_vma)<SUB>340</SUB>> ]
+"9428" [label = <(BLOCK,{
+  // the zero, zero means flush all TLB entri...,{
+  // the zero, zero means flush all TLB entri...)<SUB>342</SUB>> ]
+"9429" [label = <(UNKNOWN,asm volatile(&quot;sfence.vma zero, zero&quot;);,asm volatile(&quot;sfence.vma zero, zero&quot;);)<SUB>344</SUB>> ]
+"9430" [label = <(METHOD_RETURN,void)<SUB>340</SUB>> ]
+  "9427" -> "9428"  [ label = "AST: "] 
+  "9427" -> "9430"  [ label = "AST: "] 
+  "9428" -> "9429"  [ label = "AST: "] 
+  "9429" -> "9430"  [ label = "CFG: "] 
+  "9427" -> "9429"  [ label = "CFG: "] 
+}

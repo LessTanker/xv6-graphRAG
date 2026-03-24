@@ -1,0 +1,12 @@
+digraph "virtio_disk_init" {  
+"1620" [label = <(METHOD,virtio_disk_init)<SUB>180</SUB>> ]
+"1621" [label = <(PARAM,void)<SUB>180</SUB>> ]
+"1622" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1623" [label = <(METHOD_RETURN,void)<SUB>180</SUB>> ]
+  "1620" -> "1621"  [ label = "AST: "] 
+  "1620" -> "1622"  [ label = "AST: "] 
+  "1620" -> "1623"  [ label = "AST: "] 
+  "1620" -> "1623"  [ label = "CFG: "] 
+  "1621" -> "1623"  [ label = "DDG: "] 
+  "1620" -> "1621"  [ label = "DDG: "] 
+}

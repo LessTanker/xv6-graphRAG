@@ -1,0 +1,12 @@
+digraph "plicinithart" {  
+"1605" [label = <(METHOD,plicinithart)<SUB>175</SUB>> ]
+"1606" [label = <(PARAM,void)<SUB>175</SUB>> ]
+"1607" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1608" [label = <(METHOD_RETURN,void)<SUB>175</SUB>> ]
+  "1605" -> "1606"  [ label = "AST: "] 
+  "1605" -> "1607"  [ label = "AST: "] 
+  "1605" -> "1608"  [ label = "AST: "] 
+  "1605" -> "1608"  [ label = "CFG: "] 
+  "1606" -> "1608"  [ label = "DDG: "] 
+  "1605" -> "1606"  [ label = "DDG: "] 
+}

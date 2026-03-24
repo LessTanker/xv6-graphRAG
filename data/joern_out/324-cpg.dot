@@ -1,0 +1,8 @@
+digraph "timerinit" {  
+"9800" [label = <(METHOD,timerinit)<SUB>8</SUB>> ]
+"9801" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"9802" [label = <(METHOD_RETURN,void)<SUB>8</SUB>> ]
+  "9800" -> "9801"  [ label = "AST: "] 
+  "9800" -> "9802"  [ label = "AST: "] 
+  "9800" -> "9802"  [ label = "CFG: "] 
+}

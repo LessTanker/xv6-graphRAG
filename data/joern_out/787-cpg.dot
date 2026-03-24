@@ -1,0 +1,8 @@
+digraph "MIE_STIE" {  
+"33411" [label = <(METHOD,MIE_STIE)<SUB>97</SUB>> ]
+"33412" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33413" [label = <(METHOD_RETURN,ANY)> ]
+  "33411" -> "33412"  [ label = "AST: "] 
+  "33411" -> "33413"  [ label = "AST: "] 
+  "33411" -> "33413"  [ label = "CFG: "] 
+}

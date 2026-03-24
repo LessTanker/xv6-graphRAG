@@ -1,0 +1,12 @@
+digraph "syscalls" {  
+"10517" [label = <(METHOD,syscalls)<SUB>107</SUB>> ]
+"10518" [label = <(PARAM,void)<SUB>107</SUB>> ]
+"10519" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10520" [label = <(METHOD_RETURN,uint64)<SUB>107</SUB>> ]
+  "10517" -> "10518"  [ label = "AST: "] 
+  "10517" -> "10519"  [ label = "AST: "] 
+  "10517" -> "10520"  [ label = "AST: "] 
+  "10517" -> "10520"  [ label = "CFG: "] 
+  "10518" -> "10520"  [ label = "DDG: "] 
+  "10517" -> "10518"  [ label = "DDG: "] 
+}

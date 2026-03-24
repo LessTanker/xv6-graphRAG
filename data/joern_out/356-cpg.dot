@@ -1,0 +1,12 @@
+digraph "sys_pause" {  
+"10472" [label = <(METHOD,sys_pause)<SUB>95</SUB>> ]
+"10473" [label = <(PARAM,void)<SUB>95</SUB>> ]
+"10474" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10475" [label = <(METHOD_RETURN,uint64)<SUB>95</SUB>> ]
+  "10472" -> "10473"  [ label = "AST: "] 
+  "10472" -> "10474"  [ label = "AST: "] 
+  "10472" -> "10475"  [ label = "AST: "] 
+  "10472" -> "10475"  [ label = "CFG: "] 
+  "10473" -> "10475"  [ label = "DDG: "] 
+  "10472" -> "10473"  [ label = "DDG: "] 
+}

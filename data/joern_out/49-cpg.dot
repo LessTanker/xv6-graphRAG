@@ -1,0 +1,12 @@
+digraph "kinit" {  
+"1106" [label = <(METHOD,kinit)<SUB>61</SUB>> ]
+"1107" [label = <(PARAM,void)<SUB>61</SUB>> ]
+"1108" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1109" [label = <(METHOD_RETURN,void)<SUB>61</SUB>> ]
+  "1106" -> "1107"  [ label = "AST: "] 
+  "1106" -> "1108"  [ label = "AST: "] 
+  "1106" -> "1109"  [ label = "AST: "] 
+  "1106" -> "1109"  [ label = "CFG: "] 
+  "1107" -> "1109"  [ label = "DDG: "] 
+  "1106" -> "1107"  [ label = "DDG: "] 
+}

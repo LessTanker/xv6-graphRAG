@@ -1,0 +1,8 @@
+digraph "VIRTIO_BLK_F_CONFIG_WCE" {  
+"33545" [label = <(METHOD,VIRTIO_BLK_F_CONFIG_WCE)<SUB>42</SUB>> ]
+"33546" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33547" [label = <(METHOD_RETURN,ANY)> ]
+  "33545" -> "33546"  [ label = "AST: "] 
+  "33545" -> "33547"  [ label = "AST: "] 
+  "33545" -> "33547"  [ label = "CFG: "] 
+}

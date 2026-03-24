@@ -1,0 +1,29 @@
+digraph "main" {  
+"17582" [label = <(METHOD,main)<SUB>51</SUB>> ]
+"17583" [label = <(PARAM,void)<SUB>52</SUB>> ]
+"17584" [label = <(BLOCK,{
+  forktest();
+  exit(0);
+},{
+  forktest();
+  exit(0);
+})<SUB>53</SUB>> ]
+"17585" [label = <(forktest,forktest())<SUB>54</SUB>> ]
+"17586" [label = <(exit,exit(0))<SUB>55</SUB>> ]
+"17587" [label = <(LITERAL,0,exit(0))<SUB>55</SUB>> ]
+"17588" [label = <(METHOD_RETURN,int)<SUB>51</SUB>> ]
+  "17582" -> "17583"  [ label = "AST: "] 
+  "17582" -> "17584"  [ label = "AST: "] 
+  "17582" -> "17588"  [ label = "AST: "] 
+  "17584" -> "17585"  [ label = "AST: "] 
+  "17584" -> "17586"  [ label = "AST: "] 
+  "17586" -> "17587"  [ label = "AST: "] 
+  "17585" -> "17586"  [ label = "CFG: "] 
+  "17586" -> "17588"  [ label = "CFG: "] 
+  "17582" -> "17585"  [ label = "CFG: "] 
+  "17583" -> "17588"  [ label = "DDG: "] 
+  "17585" -> "17588"  [ label = "DDG: forktest()"] 
+  "17582" -> "17583"  [ label = "DDG: "] 
+  "17582" -> "17585"  [ label = "DDG: "] 
+  "17582" -> "17586"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "ReadReg" {  
+"33518" [label = <(METHOD,ReadReg)<SUB>18</SUB>> ]
+"33519" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33520" [label = <(METHOD_RETURN,ANY)> ]
+  "33518" -> "33519"  [ label = "AST: "] 
+  "33518" -> "33520"  [ label = "AST: "] 
+  "33518" -> "33520"  [ label = "CFG: "] 
+}

@@ -4,8 +4,8 @@ import urllib.request
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 # Local module imports
-from backend import config
-from backend.logger import get_file_logger
+from .. import config
+from ..logger import get_file_logger
 
 
 class LLMClient:

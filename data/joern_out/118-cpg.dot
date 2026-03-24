@@ -1,0 +1,12 @@
+digraph "uvmcreate" {  
+"1503" [label = <(METHOD,uvmcreate)<SUB>158</SUB>> ]
+"1504" [label = <(PARAM,void)<SUB>158</SUB>> ]
+"1505" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1506" [label = <(METHOD_RETURN,pagetable_t)<SUB>158</SUB>> ]
+  "1503" -> "1504"  [ label = "AST: "] 
+  "1503" -> "1505"  [ label = "AST: "] 
+  "1503" -> "1506"  [ label = "AST: "] 
+  "1503" -> "1506"  [ label = "CFG: "] 
+  "1504" -> "1506"  [ label = "DDG: "] 
+  "1503" -> "1504"  [ label = "DDG: "] 
+}

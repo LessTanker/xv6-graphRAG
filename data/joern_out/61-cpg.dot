@@ -1,0 +1,12 @@
+digraph "cpuid" {  
+"1173" [label = <(METHOD,cpuid)<SUB>81</SUB>> ]
+"1174" [label = <(PARAM,void)<SUB>81</SUB>> ]
+"1175" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1176" [label = <(METHOD_RETURN,int)<SUB>81</SUB>> ]
+  "1173" -> "1174"  [ label = "AST: "] 
+  "1173" -> "1175"  [ label = "AST: "] 
+  "1173" -> "1176"  [ label = "AST: "] 
+  "1173" -> "1176"  [ label = "CFG: "] 
+  "1174" -> "1176"  [ label = "DDG: "] 
+  "1173" -> "1174"  [ label = "DDG: "] 
+}

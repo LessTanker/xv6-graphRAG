@@ -1,0 +1,8 @@
+digraph "TRAMPOLINE" {  
+"33365" [label = <(METHOD,TRAMPOLINE)<SUB>44</SUB>> ]
+"33366" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33367" [label = <(METHOD_RETURN,ANY)> ]
+  "33365" -> "33366"  [ label = "AST: "] 
+  "33365" -> "33367"  [ label = "AST: "] 
+  "33365" -> "33367"  [ label = "CFG: "] 
+}

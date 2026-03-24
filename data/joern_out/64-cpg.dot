@@ -1,0 +1,12 @@
+digraph "growproc" {  
+"1188" [label = <(METHOD,growproc)<SUB>84</SUB>> ]
+"1189" [label = <(PARAM,int)<SUB>84</SUB>> ]
+"1190" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1191" [label = <(METHOD_RETURN,int)<SUB>84</SUB>> ]
+  "1188" -> "1189"  [ label = "AST: "] 
+  "1188" -> "1190"  [ label = "AST: "] 
+  "1188" -> "1191"  [ label = "AST: "] 
+  "1188" -> "1191"  [ label = "CFG: "] 
+  "1189" -> "1191"  [ label = "DDG: "] 
+  "1188" -> "1189"  [ label = "DDG: "] 
+}

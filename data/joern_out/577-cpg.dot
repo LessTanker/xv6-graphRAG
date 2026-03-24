@@ -1,0 +1,16 @@
+digraph "link" {  
+"22738" [label = <(METHOD,link)<SUB>19</SUB>> ]
+"22739" [label = <(PARAM,const char*)<SUB>19</SUB>> ]
+"22740" [label = <(PARAM,const char*)<SUB>19</SUB>> ]
+"22741" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22742" [label = <(METHOD_RETURN,int)<SUB>19</SUB>> ]
+  "22738" -> "22739"  [ label = "AST: "] 
+  "22738" -> "22740"  [ label = "AST: "] 
+  "22738" -> "22741"  [ label = "AST: "] 
+  "22738" -> "22742"  [ label = "AST: "] 
+  "22738" -> "22742"  [ label = "CFG: "] 
+  "22739" -> "22742"  [ label = "DDG: "] 
+  "22740" -> "22742"  [ label = "DDG: "] 
+  "22738" -> "22739"  [ label = "DDG: "] 
+  "22738" -> "22740"  [ label = "DDG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "sys_write" {  
+"10487" [label = <(METHOD,sys_write)<SUB>98</SUB>> ]
+"10488" [label = <(PARAM,void)<SUB>98</SUB>> ]
+"10489" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10490" [label = <(METHOD_RETURN,uint64)<SUB>98</SUB>> ]
+  "10487" -> "10488"  [ label = "AST: "] 
+  "10487" -> "10489"  [ label = "AST: "] 
+  "10487" -> "10490"  [ label = "AST: "] 
+  "10487" -> "10490"  [ label = "CFG: "] 
+  "10488" -> "10490"  [ label = "DDG: "] 
+  "10487" -> "10488"  [ label = "DDG: "] 
+}

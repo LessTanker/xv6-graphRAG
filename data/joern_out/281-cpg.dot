@@ -1,0 +1,26 @@
+digraph "r_medeleg" {  
+"9220" [label = <(METHOD,r_medeleg)<SUB>130</SUB>> ]
+"9221" [label = <(BLOCK,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, medeleg&quot;...,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, medeleg&quot;...)<SUB>132</SUB>> ]
+"9222" [label = <(LOCAL,uint64 x: uint64)<SUB>133</SUB>> ]
+"9223" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, medeleg&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, medeleg&quot; : &quot;=r&quot; (x) );)<SUB>134</SUB>> ]
+"9224" [label = <(RETURN,return x;,return x;)<SUB>135</SUB>> ]
+"9225" [label = <(IDENTIFIER,x,return x;)<SUB>135</SUB>> ]
+"9226" [label = <(METHOD_RETURN,uint64)<SUB>130</SUB>> ]
+  "9220" -> "9221"  [ label = "AST: "] 
+  "9220" -> "9226"  [ label = "AST: "] 
+  "9221" -> "9222"  [ label = "AST: "] 
+  "9221" -> "9223"  [ label = "AST: "] 
+  "9221" -> "9224"  [ label = "AST: "] 
+  "9224" -> "9225"  [ label = "AST: "] 
+  "9223" -> "9224"  [ label = "CFG: "] 
+  "9224" -> "9226"  [ label = "CFG: "] 
+  "9220" -> "9223"  [ label = "CFG: "] 
+  "9224" -> "9226"  [ label = "DDG: &lt;RET&gt;"] 
+  "9225" -> "9224"  [ label = "DDG: x"] 
+  "9220" -> "9224"  [ label = "DDG: "] 
+  "9220" -> "9225"  [ label = "DDG: "] 
+}

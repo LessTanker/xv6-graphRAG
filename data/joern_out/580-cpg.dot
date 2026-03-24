@@ -1,0 +1,12 @@
+digraph "dup" {  
+"22754" [label = <(METHOD,dup)<SUB>22</SUB>> ]
+"22755" [label = <(PARAM,int)<SUB>22</SUB>> ]
+"22756" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22757" [label = <(METHOD_RETURN,int)<SUB>22</SUB>> ]
+  "22754" -> "22755"  [ label = "AST: "] 
+  "22754" -> "22756"  [ label = "AST: "] 
+  "22754" -> "22757"  [ label = "AST: "] 
+  "22754" -> "22757"  [ label = "CFG: "] 
+  "22755" -> "22757"  [ label = "DDG: "] 
+  "22754" -> "22755"  [ label = "DDG: "] 
+}

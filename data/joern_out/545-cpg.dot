@@ -1,0 +1,16 @@
+digraph "main" {  
+"21881" [label = <(METHOD,main)<SUB>15</SUB>> ]
+"21882" [label = <(PARAM,int argc)<SUB>15</SUB>> ]
+"21883" [label = <(PARAM,char **argv)<SUB>15</SUB>> ]
+"21884" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"21885" [label = <(METHOD_RETURN,int)<SUB>15</SUB>> ]
+  "21881" -> "21882"  [ label = "AST: "] 
+  "21881" -> "21883"  [ label = "AST: "] 
+  "21881" -> "21884"  [ label = "AST: "] 
+  "21881" -> "21885"  [ label = "AST: "] 
+  "21881" -> "21885"  [ label = "CFG: "] 
+  "21882" -> "21885"  [ label = "DDG: argc"] 
+  "21883" -> "21885"  [ label = "DDG: argv"] 
+  "21881" -> "21882"  [ label = "DDG: "] 
+  "21881" -> "21883"  [ label = "DDG: "] 
+}

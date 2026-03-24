@@ -1,0 +1,8 @@
+digraph "SYS_fstat" {  
+"33435" [label = <(METHOD,SYS_fstat)<SUB>9</SUB>> ]
+"33436" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33437" [label = <(METHOD_RETURN,ANY)> ]
+  "33435" -> "33436"  [ label = "AST: "] 
+  "33435" -> "33437"  [ label = "AST: "] 
+  "33435" -> "33437"  [ label = "CFG: "] 
+}

@@ -1,0 +1,19 @@
+digraph "w_satp" {  
+"9302" [label = <(METHOD,w_satp)<SUB>229</SUB>> ]
+"9303" [label = <(PARAM,uint64 x)<SUB>230</SUB>> ]
+"9304" [label = <(BLOCK,{
+  asm volatile(&quot;csrw satp, %0&quot; : : &quot;r&quot; (x));
+},{
+  asm volatile(&quot;csrw satp, %0&quot; : : &quot;r&quot; (x));
+})<SUB>231</SUB>> ]
+"9305" [label = <(UNKNOWN,asm volatile(&quot;csrw satp, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw satp, %0&quot; : : &quot;r&quot; (x));)<SUB>232</SUB>> ]
+"9306" [label = <(METHOD_RETURN,void)<SUB>229</SUB>> ]
+  "9302" -> "9303"  [ label = "AST: "] 
+  "9302" -> "9304"  [ label = "AST: "] 
+  "9302" -> "9306"  [ label = "AST: "] 
+  "9304" -> "9305"  [ label = "AST: "] 
+  "9305" -> "9306"  [ label = "CFG: "] 
+  "9302" -> "9305"  [ label = "CFG: "] 
+  "9303" -> "9306"  [ label = "DDG: x"] 
+  "9302" -> "9303"  [ label = "DDG: "] 
+}

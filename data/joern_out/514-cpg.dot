@@ -1,0 +1,46 @@
+digraph "printf" {  
+"20335" [label = <(METHOD,printf)<SUB>125</SUB>> ]
+"20336" [label = <(PARAM,const char *fmt...)<SUB>126</SUB>> ]
+"20337" [label = <(BLOCK,{
+  va_list ap;
+
+  va_start(ap, fmt);
+  vprintf...,{
+  va_list ap;
+
+  va_start(ap, fmt);
+  vprintf...)<SUB>127</SUB>> ]
+"20338" [label = <(LOCAL,va_list ap: va_list)<SUB>128</SUB>> ]
+"20339" [label = <(va_start,va_start(ap, fmt))<SUB>130</SUB>> ]
+"20340" [label = <(IDENTIFIER,ap,va_start(ap, fmt))<SUB>130</SUB>> ]
+"20341" [label = <(IDENTIFIER,fmt,va_start(ap, fmt))<SUB>130</SUB>> ]
+"20342" [label = <(vprintf,vprintf(1, fmt, ap))<SUB>131</SUB>> ]
+"20343" [label = <(LITERAL,1,vprintf(1, fmt, ap))<SUB>131</SUB>> ]
+"20344" [label = <(IDENTIFIER,fmt,vprintf(1, fmt, ap))<SUB>131</SUB>> ]
+"20345" [label = <(IDENTIFIER,ap,vprintf(1, fmt, ap))<SUB>131</SUB>> ]
+"20346" [label = <(METHOD_RETURN,void)<SUB>125</SUB>> ]
+  "20335" -> "20336"  [ label = "AST: "] 
+  "20335" -> "20337"  [ label = "AST: "] 
+  "20335" -> "20346"  [ label = "AST: "] 
+  "20337" -> "20338"  [ label = "AST: "] 
+  "20337" -> "20339"  [ label = "AST: "] 
+  "20337" -> "20342"  [ label = "AST: "] 
+  "20339" -> "20340"  [ label = "AST: "] 
+  "20339" -> "20341"  [ label = "AST: "] 
+  "20342" -> "20343"  [ label = "AST: "] 
+  "20342" -> "20344"  [ label = "AST: "] 
+  "20342" -> "20345"  [ label = "AST: "] 
+  "20339" -> "20342"  [ label = "CFG: "] 
+  "20342" -> "20346"  [ label = "CFG: "] 
+  "20335" -> "20339"  [ label = "CFG: "] 
+  "20339" -> "20346"  [ label = "DDG: va_start(ap, fmt)"] 
+  "20342" -> "20346"  [ label = "DDG: fmt"] 
+  "20342" -> "20346"  [ label = "DDG: ap"] 
+  "20342" -> "20346"  [ label = "DDG: vprintf(1, fmt, ap)"] 
+  "20335" -> "20336"  [ label = "DDG: "] 
+  "20335" -> "20339"  [ label = "DDG: "] 
+  "20336" -> "20339"  [ label = "DDG: fmt"] 
+  "20335" -> "20342"  [ label = "DDG: "] 
+  "20339" -> "20342"  [ label = "DDG: fmt"] 
+  "20339" -> "20342"  [ label = "DDG: ap"] 
+}

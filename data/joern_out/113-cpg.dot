@@ -1,0 +1,12 @@
+digraph "uartgetc" {  
+"1470" [label = <(METHOD,uartgetc)<SUB>151</SUB>> ]
+"1471" [label = <(PARAM,void)<SUB>151</SUB>> ]
+"1472" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1473" [label = <(METHOD_RETURN,int)<SUB>151</SUB>> ]
+  "1470" -> "1471"  [ label = "AST: "] 
+  "1470" -> "1472"  [ label = "AST: "] 
+  "1470" -> "1473"  [ label = "AST: "] 
+  "1470" -> "1473"  [ label = "CFG: "] 
+  "1471" -> "1473"  [ label = "DDG: "] 
+  "1470" -> "1471"  [ label = "DDG: "] 
+}

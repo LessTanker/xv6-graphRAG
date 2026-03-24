@@ -1,0 +1,12 @@
+digraph "fileinit" {  
+"980" [label = <(METHOD,fileinit)<SUB>32</SUB>> ]
+"981" [label = <(PARAM,void)<SUB>32</SUB>> ]
+"982" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"983" [label = <(METHOD_RETURN,void)<SUB>32</SUB>> ]
+  "980" -> "981"  [ label = "AST: "] 
+  "980" -> "982"  [ label = "AST: "] 
+  "980" -> "983"  [ label = "AST: "] 
+  "980" -> "983"  [ label = "CFG: "] 
+  "981" -> "983"  [ label = "DDG: "] 
+  "980" -> "981"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "LSR_TX_IDLE" {  
+"33521" [label = <(METHOD,LSR_TX_IDLE)<SUB>38</SUB>> ]
+"33522" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33523" [label = <(METHOD_RETURN,ANY)> ]
+  "33521" -> "33522"  [ label = "AST: "] 
+  "33521" -> "33523"  [ label = "AST: "] 
+  "33521" -> "33523"  [ label = "CFG: "] 
+}

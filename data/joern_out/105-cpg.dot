@@ -1,0 +1,8 @@
+digraph "syscall" {  
+"1427" [label = <(METHOD,syscall)<SUB>137</SUB>> ]
+"1428" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1429" [label = <(METHOD_RETURN,void)<SUB>137</SUB>> ]
+  "1427" -> "1428"  [ label = "AST: "] 
+  "1427" -> "1429"  [ label = "AST: "] 
+  "1427" -> "1429"  [ label = "CFG: "] 
+}

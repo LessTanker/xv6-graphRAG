@@ -1,0 +1,51 @@
+digraph "fprintf" {  
+"20321" [label = <(METHOD,fprintf)<SUB>116</SUB>> ]
+"20322" [label = <(PARAM,int fd)<SUB>117</SUB>> ]
+"20323" [label = <(PARAM,const char *fmt...)<SUB>117</SUB>> ]
+"20324" [label = <(BLOCK,{
+  va_list ap;
+
+  va_start(ap, fmt);
+  vprintf...,{
+  va_list ap;
+
+  va_start(ap, fmt);
+  vprintf...)<SUB>118</SUB>> ]
+"20325" [label = <(LOCAL,va_list ap: va_list)<SUB>119</SUB>> ]
+"20326" [label = <(va_start,va_start(ap, fmt))<SUB>121</SUB>> ]
+"20327" [label = <(IDENTIFIER,ap,va_start(ap, fmt))<SUB>121</SUB>> ]
+"20328" [label = <(IDENTIFIER,fmt,va_start(ap, fmt))<SUB>121</SUB>> ]
+"20329" [label = <(vprintf,vprintf(fd, fmt, ap))<SUB>122</SUB>> ]
+"20330" [label = <(IDENTIFIER,fd,vprintf(fd, fmt, ap))<SUB>122</SUB>> ]
+"20331" [label = <(IDENTIFIER,fmt,vprintf(fd, fmt, ap))<SUB>122</SUB>> ]
+"20332" [label = <(IDENTIFIER,ap,vprintf(fd, fmt, ap))<SUB>122</SUB>> ]
+"20333" [label = <(METHOD_RETURN,void)<SUB>116</SUB>> ]
+  "20321" -> "20322"  [ label = "AST: "] 
+  "20321" -> "20323"  [ label = "AST: "] 
+  "20321" -> "20324"  [ label = "AST: "] 
+  "20321" -> "20333"  [ label = "AST: "] 
+  "20324" -> "20325"  [ label = "AST: "] 
+  "20324" -> "20326"  [ label = "AST: "] 
+  "20324" -> "20329"  [ label = "AST: "] 
+  "20326" -> "20327"  [ label = "AST: "] 
+  "20326" -> "20328"  [ label = "AST: "] 
+  "20329" -> "20330"  [ label = "AST: "] 
+  "20329" -> "20331"  [ label = "AST: "] 
+  "20329" -> "20332"  [ label = "AST: "] 
+  "20326" -> "20329"  [ label = "CFG: "] 
+  "20329" -> "20333"  [ label = "CFG: "] 
+  "20321" -> "20326"  [ label = "CFG: "] 
+  "20326" -> "20333"  [ label = "DDG: va_start(ap, fmt)"] 
+  "20329" -> "20333"  [ label = "DDG: fd"] 
+  "20329" -> "20333"  [ label = "DDG: fmt"] 
+  "20329" -> "20333"  [ label = "DDG: ap"] 
+  "20329" -> "20333"  [ label = "DDG: vprintf(fd, fmt, ap)"] 
+  "20321" -> "20322"  [ label = "DDG: "] 
+  "20321" -> "20323"  [ label = "DDG: "] 
+  "20321" -> "20326"  [ label = "DDG: "] 
+  "20323" -> "20326"  [ label = "DDG: fmt"] 
+  "20322" -> "20329"  [ label = "DDG: fd"] 
+  "20321" -> "20329"  [ label = "DDG: "] 
+  "20326" -> "20329"  [ label = "DDG: fmt"] 
+  "20326" -> "20329"  [ label = "DDG: ap"] 
+}

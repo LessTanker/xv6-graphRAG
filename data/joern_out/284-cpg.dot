@@ -1,0 +1,17 @@
+digraph "w_mideleg" {  
+"9242" [label = <(METHOD,w_mideleg)<SUB>153</SUB>> ]
+"9243" [label = <(PARAM,uint64 x)<SUB>154</SUB>> ]
+"9244" [label = <(BLOCK,{
+  asm volatile(&quot;csrw mideleg, %0&quot; : : &quot;r&quot; (x)...,{
+  asm volatile(&quot;csrw mideleg, %0&quot; : : &quot;r&quot; (x)...)<SUB>155</SUB>> ]
+"9245" [label = <(UNKNOWN,asm volatile(&quot;csrw mideleg, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw mideleg, %0&quot; : : &quot;r&quot; (x));)<SUB>156</SUB>> ]
+"9246" [label = <(METHOD_RETURN,void)<SUB>153</SUB>> ]
+  "9242" -> "9243"  [ label = "AST: "] 
+  "9242" -> "9244"  [ label = "AST: "] 
+  "9242" -> "9246"  [ label = "AST: "] 
+  "9244" -> "9245"  [ label = "AST: "] 
+  "9245" -> "9246"  [ label = "CFG: "] 
+  "9242" -> "9245"  [ label = "CFG: "] 
+  "9243" -> "9246"  [ label = "DDG: x"] 
+  "9242" -> "9243"  [ label = "DDG: "] 
+}

@@ -1,0 +1,16 @@
+digraph "&lt;operators&gt;.assignmentXor" {  
+"33664" [label = <(METHOD,&lt;operators&gt;.assignmentXor)> ]
+"33665" [label = <(PARAM,p1)> ]
+"33666" [label = <(PARAM,p2)> ]
+"33667" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33668" [label = <(METHOD_RETURN,ANY)> ]
+  "33664" -> "33665"  [ label = "AST: "] 
+  "33664" -> "33667"  [ label = "AST: "] 
+  "33664" -> "33666"  [ label = "AST: "] 
+  "33664" -> "33668"  [ label = "AST: "] 
+  "33664" -> "33668"  [ label = "CFG: "] 
+  "33665" -> "33668"  [ label = "DDG: p1"] 
+  "33666" -> "33668"  [ label = "DDG: p2"] 
+  "33664" -> "33665"  [ label = "DDG: "] 
+  "33664" -> "33666"  [ label = "DDG: "] 
+}

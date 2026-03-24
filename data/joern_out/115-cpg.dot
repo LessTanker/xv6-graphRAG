@@ -1,0 +1,12 @@
+digraph "kvminithart" {  
+"1480" [label = <(METHOD,kvminithart)<SUB>155</SUB>> ]
+"1481" [label = <(PARAM,void)<SUB>155</SUB>> ]
+"1482" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1483" [label = <(METHOD_RETURN,void)<SUB>155</SUB>> ]
+  "1480" -> "1481"  [ label = "AST: "] 
+  "1480" -> "1482"  [ label = "AST: "] 
+  "1480" -> "1483"  [ label = "AST: "] 
+  "1480" -> "1483"  [ label = "CFG: "] 
+  "1481" -> "1483"  [ label = "DDG: "] 
+  "1480" -> "1481"  [ label = "DDG: "] 
+}

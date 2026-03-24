@@ -1,0 +1,16 @@
+digraph "&lt;operator&gt;.indirectIndexAccess" {  
+"33113" [label = <(METHOD,&lt;operator&gt;.indirectIndexAccess)> ]
+"33114" [label = <(PARAM,p1)> ]
+"33115" [label = <(PARAM,p2)> ]
+"33116" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33117" [label = <(METHOD_RETURN,ANY)> ]
+  "33113" -> "33114"  [ label = "AST: "] 
+  "33113" -> "33116"  [ label = "AST: "] 
+  "33113" -> "33115"  [ label = "AST: "] 
+  "33113" -> "33117"  [ label = "AST: "] 
+  "33113" -> "33117"  [ label = "CFG: "] 
+  "33114" -> "33117"  [ label = "DDG: p1"] 
+  "33115" -> "33117"  [ label = "DDG: p2"] 
+  "33113" -> "33114"  [ label = "DDG: "] 
+  "33113" -> "33115"  [ label = "DDG: "] 
+}

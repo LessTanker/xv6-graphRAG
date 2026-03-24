@@ -1,0 +1,12 @@
+digraph "brelse" {  
+"930" [label = <(METHOD,brelse)<SUB>15</SUB>> ]
+"931" [label = <(PARAM,struct buf*)<SUB>15</SUB>> ]
+"932" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"933" [label = <(METHOD_RETURN,void)<SUB>15</SUB>> ]
+  "930" -> "931"  [ label = "AST: "] 
+  "930" -> "932"  [ label = "AST: "] 
+  "930" -> "933"  [ label = "AST: "] 
+  "930" -> "933"  [ label = "CFG: "] 
+  "931" -> "933"  [ label = "DDG: "] 
+  "930" -> "931"  [ label = "DDG: "] 
+}

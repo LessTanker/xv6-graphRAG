@@ -1,0 +1,12 @@
+digraph "kalloc" {  
+"1096" [label = <(METHOD,kalloc)<SUB>59</SUB>> ]
+"1097" [label = <(PARAM,void)<SUB>59</SUB>> ]
+"1098" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1099" [label = <(METHOD_RETURN,void*)<SUB>59</SUB>> ]
+  "1096" -> "1097"  [ label = "AST: "] 
+  "1096" -> "1098"  [ label = "AST: "] 
+  "1096" -> "1099"  [ label = "AST: "] 
+  "1096" -> "1099"  [ label = "CFG: "] 
+  "1097" -> "1099"  [ label = "DDG: "] 
+  "1096" -> "1097"  [ label = "DDG: "] 
+}

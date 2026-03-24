@@ -1,0 +1,8 @@
+digraph "SYS_open" {  
+"33456" [label = <(METHOD,SYS_open)<SUB>16</SUB>> ]
+"33457" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33458" [label = <(METHOD_RETURN,ANY)> ]
+  "33456" -> "33457"  [ label = "AST: "] 
+  "33456" -> "33458"  [ label = "AST: "] 
+  "33456" -> "33458"  [ label = "CFG: "] 
+}

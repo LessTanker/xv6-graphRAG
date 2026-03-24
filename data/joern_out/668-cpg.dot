@@ -1,0 +1,12 @@
+digraph "f" {  
+"30746" [label = <(METHOD,f)<SUB>2752</SUB>> ]
+"30747" [label = <(PARAM,char *)<SUB>2752</SUB>> ]
+"30748" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"30749" [label = <(METHOD_RETURN,void)<SUB>2752</SUB>> ]
+  "30746" -> "30747"  [ label = "AST: "] 
+  "30746" -> "30748"  [ label = "AST: "] 
+  "30746" -> "30749"  [ label = "AST: "] 
+  "30746" -> "30749"  [ label = "CFG: "] 
+  "30747" -> "30749"  [ label = "DDG: "] 
+  "30746" -> "30747"  [ label = "DDG: "] 
+}

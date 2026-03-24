@@ -1,0 +1,12 @@
+digraph "procinit" {  
+"1228" [label = <(METHOD,procinit)<SUB>93</SUB>> ]
+"1229" [label = <(PARAM,void)<SUB>93</SUB>> ]
+"1230" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1231" [label = <(METHOD_RETURN,void)<SUB>93</SUB>> ]
+  "1228" -> "1229"  [ label = "AST: "] 
+  "1228" -> "1230"  [ label = "AST: "] 
+  "1228" -> "1231"  [ label = "AST: "] 
+  "1228" -> "1231"  [ label = "CFG: "] 
+  "1229" -> "1231"  [ label = "DDG: "] 
+  "1228" -> "1229"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "SYS_link" {  
+"33468" [label = <(METHOD,SYS_link)<SUB>20</SUB>> ]
+"33469" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33470" [label = <(METHOD_RETURN,ANY)> ]
+  "33468" -> "33469"  [ label = "AST: "] 
+  "33468" -> "33470"  [ label = "AST: "] 
+  "33468" -> "33470"  [ label = "CFG: "] 
+}

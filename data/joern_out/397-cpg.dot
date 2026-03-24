@@ -1,0 +1,8 @@
+digraph "devintr" {  
+"12456" [label = <(METHOD,devintr)<SUB>17</SUB>> ]
+"12457" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"12458" [label = <(METHOD_RETURN,int)<SUB>17</SUB>> ]
+  "12456" -> "12457"  [ label = "AST: "] 
+  "12456" -> "12458"  [ label = "AST: "] 
+  "12456" -> "12458"  [ label = "CFG: "] 
+}

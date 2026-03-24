@@ -1,0 +1,12 @@
+digraph "forkret" {  
+"7184" [label = <(METHOD,forkret)<SUB>18</SUB>> ]
+"7185" [label = <(PARAM,void)<SUB>18</SUB>> ]
+"7186" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"7187" [label = <(METHOD_RETURN,void)<SUB>18</SUB>> ]
+  "7184" -> "7185"  [ label = "AST: "] 
+  "7184" -> "7186"  [ label = "AST: "] 
+  "7184" -> "7187"  [ label = "AST: "] 
+  "7184" -> "7187"  [ label = "CFG: "] 
+  "7185" -> "7187"  [ label = "DDG: "] 
+  "7184" -> "7185"  [ label = "DDG: "] 
+}

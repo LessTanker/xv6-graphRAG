@@ -1,0 +1,16 @@
+digraph "__sync_lock_test_and_set" {  
+"33390" [label = <(METHOD,__sync_lock_test_and_set)> ]
+"33391" [label = <(PARAM,p1)> ]
+"33392" [label = <(PARAM,p2)> ]
+"33393" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33394" [label = <(METHOD_RETURN,ANY)> ]
+  "33390" -> "33391"  [ label = "AST: "] 
+  "33390" -> "33393"  [ label = "AST: "] 
+  "33390" -> "33392"  [ label = "AST: "] 
+  "33390" -> "33394"  [ label = "AST: "] 
+  "33390" -> "33394"  [ label = "CFG: "] 
+  "33391" -> "33394"  [ label = "DDG: p1"] 
+  "33392" -> "33394"  [ label = "DDG: p2"] 
+  "33390" -> "33391"  [ label = "DDG: "] 
+  "33390" -> "33392"  [ label = "DDG: "] 
+}

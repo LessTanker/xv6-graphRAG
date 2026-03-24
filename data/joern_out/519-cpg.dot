@@ -1,0 +1,12 @@
+digraph "fork1" {  
+"20459" [label = <(METHOD,fork1)<SUB>52</SUB>> ]
+"20460" [label = <(PARAM,void)<SUB>52</SUB>> ]
+"20461" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"20462" [label = <(METHOD_RETURN,int)<SUB>52</SUB>> ]
+  "20459" -> "20460"  [ label = "AST: "] 
+  "20459" -> "20461"  [ label = "AST: "] 
+  "20459" -> "20462"  [ label = "AST: "] 
+  "20459" -> "20462"  [ label = "CFG: "] 
+  "20460" -> "20462"  [ label = "DDG: "] 
+  "20459" -> "20460"  [ label = "DDG: "] 
+}

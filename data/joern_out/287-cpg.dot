@@ -1,0 +1,26 @@
+digraph "r_stimecmp" {  
+"9262" [label = <(METHOD,r_stimecmp)<SUB>176</SUB>> ]
+"9263" [label = <(BLOCK,{
+  uint64 x;
+  // asm volatile(&quot;csrr %0, stime...,{
+  uint64 x;
+  // asm volatile(&quot;csrr %0, stime...)<SUB>178</SUB>> ]
+"9264" [label = <(LOCAL,uint64 x: uint64)<SUB>179</SUB>> ]
+"9265" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, 0x14d&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, 0x14d&quot; : &quot;=r&quot; (x) );)<SUB>181</SUB>> ]
+"9266" [label = <(RETURN,return x;,return x;)<SUB>182</SUB>> ]
+"9267" [label = <(IDENTIFIER,x,return x;)<SUB>182</SUB>> ]
+"9268" [label = <(METHOD_RETURN,uint64)<SUB>176</SUB>> ]
+  "9262" -> "9263"  [ label = "AST: "] 
+  "9262" -> "9268"  [ label = "AST: "] 
+  "9263" -> "9264"  [ label = "AST: "] 
+  "9263" -> "9265"  [ label = "AST: "] 
+  "9263" -> "9266"  [ label = "AST: "] 
+  "9266" -> "9267"  [ label = "AST: "] 
+  "9265" -> "9266"  [ label = "CFG: "] 
+  "9266" -> "9268"  [ label = "CFG: "] 
+  "9262" -> "9265"  [ label = "CFG: "] 
+  "9266" -> "9268"  [ label = "DDG: &lt;RET&gt;"] 
+  "9267" -> "9266"  [ label = "DDG: x"] 
+  "9262" -> "9266"  [ label = "DDG: "] 
+  "9262" -> "9267"  [ label = "DDG: "] 
+}

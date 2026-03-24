@@ -1,0 +1,47 @@
+digraph "sys_wait" {  
+"12244" [label = <(METHOD,sys_wait)<SUB>31</SUB>> ]
+"12245" [label = <(PARAM,void)<SUB>32</SUB>> ]
+"12246" [label = <(BLOCK,{
+  uint64 p;
+  argaddr(0, &amp;p);
+  return kwait(...,{
+  uint64 p;
+  argaddr(0, &amp;p);
+  return kwait(...)<SUB>33</SUB>> ]
+"12247" [label = <(LOCAL,uint64 p: uint64)<SUB>34</SUB>> ]
+"12248" [label = <(argaddr,argaddr(0, &amp;p))<SUB>35</SUB>> ]
+"12249" [label = <(LITERAL,0,argaddr(0, &amp;p))<SUB>35</SUB>> ]
+"12250" [label = <(&lt;operator&gt;.addressOf,&amp;p)<SUB>35</SUB>> ]
+"12251" [label = <(IDENTIFIER,p,argaddr(0, &amp;p))<SUB>35</SUB>> ]
+"12252" [label = <(RETURN,return kwait(p);,return kwait(p);)<SUB>36</SUB>> ]
+"12253" [label = <(kwait,kwait(p))<SUB>36</SUB>> ]
+"12254" [label = <(IDENTIFIER,p,kwait(p))<SUB>36</SUB>> ]
+"12255" [label = <(METHOD_RETURN,uint64)<SUB>31</SUB>> ]
+  "12244" -> "12245"  [ label = "AST: "] 
+  "12244" -> "12246"  [ label = "AST: "] 
+  "12244" -> "12255"  [ label = "AST: "] 
+  "12246" -> "12247"  [ label = "AST: "] 
+  "12246" -> "12248"  [ label = "AST: "] 
+  "12246" -> "12252"  [ label = "AST: "] 
+  "12248" -> "12249"  [ label = "AST: "] 
+  "12248" -> "12250"  [ label = "AST: "] 
+  "12250" -> "12251"  [ label = "AST: "] 
+  "12252" -> "12253"  [ label = "AST: "] 
+  "12253" -> "12254"  [ label = "AST: "] 
+  "12248" -> "12253"  [ label = "CFG: "] 
+  "12252" -> "12255"  [ label = "CFG: "] 
+  "12250" -> "12248"  [ label = "CFG: "] 
+  "12253" -> "12252"  [ label = "CFG: "] 
+  "12244" -> "12250"  [ label = "CFG: "] 
+  "12252" -> "12255"  [ label = "DDG: &lt;RET&gt;"] 
+  "12245" -> "12255"  [ label = "DDG: "] 
+  "12248" -> "12255"  [ label = "DDG: &amp;p"] 
+  "12248" -> "12255"  [ label = "DDG: argaddr(0, &amp;p)"] 
+  "12253" -> "12255"  [ label = "DDG: p"] 
+  "12253" -> "12255"  [ label = "DDG: kwait(p)"] 
+  "12244" -> "12245"  [ label = "DDG: "] 
+  "12253" -> "12252"  [ label = "DDG: kwait(p)"] 
+  "12244" -> "12248"  [ label = "DDG: "] 
+  "12248" -> "12253"  [ label = "DDG: &amp;p"] 
+  "12244" -> "12253"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "SYS_wait" {  
+"33420" [label = <(METHOD,SYS_wait)<SUB>4</SUB>> ]
+"33421" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33422" [label = <(METHOD_RETURN,ANY)> ]
+  "33420" -> "33421"  [ label = "AST: "] 
+  "33420" -> "33422"  [ label = "AST: "] 
+  "33420" -> "33422"  [ label = "CFG: "] 
+}

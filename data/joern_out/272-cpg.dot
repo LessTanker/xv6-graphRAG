@@ -1,0 +1,17 @@
+digraph "w_sstatus" {  
+"9158" [label = <(METHOD,w_sstatus)<SUB>58</SUB>> ]
+"9159" [label = <(PARAM,uint64 x)<SUB>59</SUB>> ]
+"9160" [label = <(BLOCK,{
+  asm volatile(&quot;csrw sstatus, %0&quot; : : &quot;r&quot; (x)...,{
+  asm volatile(&quot;csrw sstatus, %0&quot; : : &quot;r&quot; (x)...)<SUB>60</SUB>> ]
+"9161" [label = <(UNKNOWN,asm volatile(&quot;csrw sstatus, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw sstatus, %0&quot; : : &quot;r&quot; (x));)<SUB>61</SUB>> ]
+"9162" [label = <(METHOD_RETURN,void)<SUB>58</SUB>> ]
+  "9158" -> "9159"  [ label = "AST: "] 
+  "9158" -> "9160"  [ label = "AST: "] 
+  "9158" -> "9162"  [ label = "AST: "] 
+  "9160" -> "9161"  [ label = "AST: "] 
+  "9161" -> "9162"  [ label = "CFG: "] 
+  "9158" -> "9161"  [ label = "CFG: "] 
+  "9159" -> "9162"  [ label = "DDG: x"] 
+  "9158" -> "9159"  [ label = "DDG: "] 
+}

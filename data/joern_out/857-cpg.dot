@@ -1,0 +1,16 @@
+digraph "index" {  
+"33630" [label = <(METHOD,index)> ]
+"33631" [label = <(PARAM,p1)> ]
+"33632" [label = <(PARAM,p2)> ]
+"33633" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33634" [label = <(METHOD_RETURN,ANY)> ]
+  "33630" -> "33631"  [ label = "AST: "] 
+  "33630" -> "33633"  [ label = "AST: "] 
+  "33630" -> "33632"  [ label = "AST: "] 
+  "33630" -> "33634"  [ label = "AST: "] 
+  "33630" -> "33634"  [ label = "CFG: "] 
+  "33631" -> "33634"  [ label = "DDG: p1"] 
+  "33632" -> "33634"  [ label = "DDG: p2"] 
+  "33630" -> "33631"  [ label = "DDG: "] 
+  "33630" -> "33632"  [ label = "DDG: "] 
+}

@@ -1,0 +1,26 @@
+digraph "r_satp" {  
+"9308" [label = <(METHOD,r_satp)<SUB>235</SUB>> ]
+"9309" [label = <(BLOCK,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, satp&quot; : ...,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, satp&quot; : ...)<SUB>237</SUB>> ]
+"9310" [label = <(LOCAL,uint64 x: uint64)<SUB>238</SUB>> ]
+"9311" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, satp&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, satp&quot; : &quot;=r&quot; (x) );)<SUB>239</SUB>> ]
+"9312" [label = <(RETURN,return x;,return x;)<SUB>240</SUB>> ]
+"9313" [label = <(IDENTIFIER,x,return x;)<SUB>240</SUB>> ]
+"9314" [label = <(METHOD_RETURN,uint64)<SUB>235</SUB>> ]
+  "9308" -> "9309"  [ label = "AST: "] 
+  "9308" -> "9314"  [ label = "AST: "] 
+  "9309" -> "9310"  [ label = "AST: "] 
+  "9309" -> "9311"  [ label = "AST: "] 
+  "9309" -> "9312"  [ label = "AST: "] 
+  "9312" -> "9313"  [ label = "AST: "] 
+  "9311" -> "9312"  [ label = "CFG: "] 
+  "9312" -> "9314"  [ label = "CFG: "] 
+  "9308" -> "9311"  [ label = "CFG: "] 
+  "9312" -> "9314"  [ label = "DDG: &lt;RET&gt;"] 
+  "9313" -> "9312"  [ label = "DDG: x"] 
+  "9308" -> "9312"  [ label = "DDG: "] 
+  "9308" -> "9313"  [ label = "DDG: "] 
+}

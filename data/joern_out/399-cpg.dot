@@ -1,0 +1,32 @@
+digraph "trapinithart" {  
+"12469" [label = <(METHOD,trapinithart)<SUB>26</SUB>> ]
+"12470" [label = <(PARAM,void)<SUB>27</SUB>> ]
+"12471" [label = <(BLOCK,{
+  w_stvec((uint64)kernelvec);
+},{
+  w_stvec((uint64)kernelvec);
+})<SUB>28</SUB>> ]
+"12472" [label = <(w_stvec,w_stvec((uint64)kernelvec))<SUB>29</SUB>> ]
+"12473" [label = <(&lt;operator&gt;.cast,(uint64)kernelvec)<SUB>29</SUB>> ]
+"12474" [label = <(UNKNOWN,uint64,uint64)<SUB>29</SUB>> ]
+"12475" [label = <(IDENTIFIER,kernelvec,(uint64)kernelvec)<SUB>29</SUB>> ]
+"12476" [label = <(METHOD_RETURN,void)<SUB>26</SUB>> ]
+  "12469" -> "12470"  [ label = "AST: "] 
+  "12469" -> "12471"  [ label = "AST: "] 
+  "12469" -> "12476"  [ label = "AST: "] 
+  "12471" -> "12472"  [ label = "AST: "] 
+  "12472" -> "12473"  [ label = "AST: "] 
+  "12473" -> "12474"  [ label = "AST: "] 
+  "12473" -> "12475"  [ label = "AST: "] 
+  "12472" -> "12476"  [ label = "CFG: "] 
+  "12473" -> "12472"  [ label = "CFG: "] 
+  "12474" -> "12473"  [ label = "CFG: "] 
+  "12469" -> "12474"  [ label = "CFG: "] 
+  "12470" -> "12476"  [ label = "DDG: "] 
+  "12472" -> "12476"  [ label = "DDG: (uint64)kernelvec"] 
+  "12472" -> "12476"  [ label = "DDG: w_stvec((uint64)kernelvec)"] 
+  "12473" -> "12476"  [ label = "DDG: kernelvec"] 
+  "12469" -> "12470"  [ label = "DDG: "] 
+  "12469" -> "12472"  [ label = "DDG: "] 
+  "12469" -> "12473"  [ label = "DDG: "] 
+}

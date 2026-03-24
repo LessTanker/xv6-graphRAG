@@ -1,0 +1,8 @@
+digraph "SYS_pause" {  
+"33450" [label = <(METHOD,SYS_pause)<SUB>14</SUB>> ]
+"33451" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33452" [label = <(METHOD_RETURN,ANY)> ]
+  "33450" -> "33451"  [ label = "AST: "] 
+  "33450" -> "33452"  [ label = "AST: "] 
+  "33450" -> "33452"  [ label = "CFG: "] 
+}

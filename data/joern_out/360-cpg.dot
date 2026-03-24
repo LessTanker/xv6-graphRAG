@@ -1,0 +1,12 @@
+digraph "sys_mknod" {  
+"10492" [label = <(METHOD,sys_mknod)<SUB>99</SUB>> ]
+"10493" [label = <(PARAM,void)<SUB>99</SUB>> ]
+"10494" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10495" [label = <(METHOD_RETURN,uint64)<SUB>99</SUB>> ]
+  "10492" -> "10493"  [ label = "AST: "] 
+  "10492" -> "10494"  [ label = "AST: "] 
+  "10492" -> "10495"  [ label = "AST: "] 
+  "10492" -> "10495"  [ label = "CFG: "] 
+  "10493" -> "10495"  [ label = "DDG: "] 
+  "10492" -> "10493"  [ label = "DDG: "] 
+}

@@ -1,0 +1,12 @@
+digraph "PLIC_SENABLE" {  
+"33307" [label = <(METHOD,PLIC_SENABLE)<SUB>32</SUB>> ]
+"33308" [label = <(PARAM,p1)> ]
+"33309" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33310" [label = <(METHOD_RETURN,ANY)> ]
+  "33307" -> "33308"  [ label = "AST: "] 
+  "33307" -> "33309"  [ label = "AST: "] 
+  "33307" -> "33310"  [ label = "AST: "] 
+  "33307" -> "33310"  [ label = "CFG: "] 
+  "33308" -> "33310"  [ label = "DDG: p1"] 
+  "33307" -> "33308"  [ label = "DDG: "] 
+}

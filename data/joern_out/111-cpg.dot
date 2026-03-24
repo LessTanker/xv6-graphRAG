@@ -1,0 +1,16 @@
+digraph "uartwrite" {  
+"1459" [label = <(METHOD,uartwrite)<SUB>149</SUB>> ]
+"1460" [label = <(PARAM,char [])<SUB>149</SUB>> ]
+"1461" [label = <(PARAM,int)<SUB>149</SUB>> ]
+"1462" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1463" [label = <(METHOD_RETURN,void)<SUB>149</SUB>> ]
+  "1459" -> "1460"  [ label = "AST: "] 
+  "1459" -> "1461"  [ label = "AST: "] 
+  "1459" -> "1462"  [ label = "AST: "] 
+  "1459" -> "1463"  [ label = "AST: "] 
+  "1459" -> "1463"  [ label = "CFG: "] 
+  "1460" -> "1463"  [ label = "DDG: "] 
+  "1461" -> "1463"  [ label = "DDG: "] 
+  "1459" -> "1460"  [ label = "DDG: "] 
+  "1459" -> "1461"  [ label = "DDG: "] 
+}

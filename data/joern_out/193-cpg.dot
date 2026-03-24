@@ -1,0 +1,16 @@
+digraph "freerange" {  
+"5058" [label = <(METHOD,freerange)<SUB>12</SUB>> ]
+"5059" [label = <(PARAM,void *pa_start)<SUB>12</SUB>> ]
+"5060" [label = <(PARAM,void *pa_end)<SUB>12</SUB>> ]
+"5061" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"5062" [label = <(METHOD_RETURN,void)<SUB>12</SUB>> ]
+  "5058" -> "5059"  [ label = "AST: "] 
+  "5058" -> "5060"  [ label = "AST: "] 
+  "5058" -> "5061"  [ label = "AST: "] 
+  "5058" -> "5062"  [ label = "AST: "] 
+  "5058" -> "5062"  [ label = "CFG: "] 
+  "5059" -> "5062"  [ label = "DDG: pa_start"] 
+  "5060" -> "5062"  [ label = "DDG: pa_end"] 
+  "5058" -> "5059"  [ label = "DDG: "] 
+  "5058" -> "5060"  [ label = "DDG: "] 
+}

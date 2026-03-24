@@ -1,0 +1,12 @@
+digraph "sys_getpid" {  
+"10462" [label = <(METHOD,sys_getpid)<SUB>93</SUB>> ]
+"10463" [label = <(PARAM,void)<SUB>93</SUB>> ]
+"10464" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10465" [label = <(METHOD_RETURN,uint64)<SUB>93</SUB>> ]
+  "10462" -> "10463"  [ label = "AST: "] 
+  "10462" -> "10464"  [ label = "AST: "] 
+  "10462" -> "10465"  [ label = "AST: "] 
+  "10462" -> "10465"  [ label = "CFG: "] 
+  "10463" -> "10465"  [ label = "DDG: "] 
+  "10462" -> "10463"  [ label = "DDG: "] 
+}

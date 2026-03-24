@@ -1,0 +1,17 @@
+digraph "w_mcounteren" {  
+"9332" [label = <(METHOD,w_mcounteren)<SUB>262</SUB>> ]
+"9333" [label = <(PARAM,uint64 x)<SUB>263</SUB>> ]
+"9334" [label = <(BLOCK,{
+  asm volatile(&quot;csrw mcounteren, %0&quot; : : &quot;r&quot; ...,{
+  asm volatile(&quot;csrw mcounteren, %0&quot; : : &quot;r&quot; ...)<SUB>264</SUB>> ]
+"9335" [label = <(UNKNOWN,asm volatile(&quot;csrw mcounteren, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw mcounteren, %0&quot; : : &quot;r&quot; (x));)<SUB>265</SUB>> ]
+"9336" [label = <(METHOD_RETURN,void)<SUB>262</SUB>> ]
+  "9332" -> "9333"  [ label = "AST: "] 
+  "9332" -> "9334"  [ label = "AST: "] 
+  "9332" -> "9336"  [ label = "AST: "] 
+  "9334" -> "9335"  [ label = "AST: "] 
+  "9335" -> "9336"  [ label = "CFG: "] 
+  "9332" -> "9335"  [ label = "CFG: "] 
+  "9333" -> "9336"  [ label = "DDG: x"] 
+  "9332" -> "9333"  [ label = "DDG: "] 
+}

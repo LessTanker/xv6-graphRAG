@@ -1,0 +1,16 @@
+digraph "rsect" {  
+"16230" [label = <(METHOD,rsect)<SUB>40</SUB>> ]
+"16231" [label = <(PARAM,uint sec)<SUB>40</SUB>> ]
+"16232" [label = <(PARAM,void *buf)<SUB>40</SUB>> ]
+"16233" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"16234" [label = <(METHOD_RETURN,void)<SUB>40</SUB>> ]
+  "16230" -> "16231"  [ label = "AST: "] 
+  "16230" -> "16232"  [ label = "AST: "] 
+  "16230" -> "16233"  [ label = "AST: "] 
+  "16230" -> "16234"  [ label = "AST: "] 
+  "16230" -> "16234"  [ label = "CFG: "] 
+  "16231" -> "16234"  [ label = "DDG: sec"] 
+  "16232" -> "16234"  [ label = "DDG: buf"] 
+  "16230" -> "16231"  [ label = "DDG: "] 
+  "16230" -> "16232"  [ label = "DDG: "] 
+}

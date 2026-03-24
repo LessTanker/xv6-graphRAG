@@ -1,0 +1,12 @@
+digraph "holdingsleep" {  
+"1337" [label = <(METHOD,holdingsleep)<SUB>119</SUB>> ]
+"1338" [label = <(PARAM,struct sleeplock*)<SUB>119</SUB>> ]
+"1339" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1340" [label = <(METHOD_RETURN,int)<SUB>119</SUB>> ]
+  "1337" -> "1338"  [ label = "AST: "] 
+  "1337" -> "1339"  [ label = "AST: "] 
+  "1337" -> "1340"  [ label = "AST: "] 
+  "1337" -> "1340"  [ label = "CFG: "] 
+  "1338" -> "1340"  [ label = "DDG: "] 
+  "1337" -> "1338"  [ label = "DDG: "] 
+}

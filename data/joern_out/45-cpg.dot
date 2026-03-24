@@ -1,0 +1,12 @@
+digraph "itrunc" {  
+"1086" [label = <(METHOD,itrunc)<SUB>55</SUB>> ]
+"1087" [label = <(PARAM,struct inode*)<SUB>55</SUB>> ]
+"1088" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1089" [label = <(METHOD_RETURN,void)<SUB>55</SUB>> ]
+  "1086" -> "1087"  [ label = "AST: "] 
+  "1086" -> "1088"  [ label = "AST: "] 
+  "1086" -> "1089"  [ label = "AST: "] 
+  "1086" -> "1089"  [ label = "CFG: "] 
+  "1087" -> "1089"  [ label = "DDG: "] 
+  "1086" -> "1087"  [ label = "DDG: "] 
+}

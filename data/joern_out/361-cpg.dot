@@ -1,0 +1,12 @@
+digraph "sys_unlink" {  
+"10497" [label = <(METHOD,sys_unlink)<SUB>100</SUB>> ]
+"10498" [label = <(PARAM,void)<SUB>100</SUB>> ]
+"10499" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10500" [label = <(METHOD_RETURN,uint64)<SUB>100</SUB>> ]
+  "10497" -> "10498"  [ label = "AST: "] 
+  "10497" -> "10499"  [ label = "AST: "] 
+  "10497" -> "10500"  [ label = "AST: "] 
+  "10497" -> "10500"  [ label = "CFG: "] 
+  "10498" -> "10500"  [ label = "DDG: "] 
+  "10497" -> "10498"  [ label = "DDG: "] 
+}

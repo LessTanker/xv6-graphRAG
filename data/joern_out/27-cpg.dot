@@ -1,0 +1,16 @@
+digraph "kexec" {  
+"965" [label = <(METHOD,kexec)<SUB>26</SUB>> ]
+"966" [label = <(PARAM,char*)<SUB>26</SUB>> ]
+"967" [label = <(PARAM,char**)<SUB>26</SUB>> ]
+"968" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"969" [label = <(METHOD_RETURN,int)<SUB>26</SUB>> ]
+  "965" -> "966"  [ label = "AST: "] 
+  "965" -> "967"  [ label = "AST: "] 
+  "965" -> "968"  [ label = "AST: "] 
+  "965" -> "969"  [ label = "AST: "] 
+  "965" -> "969"  [ label = "CFG: "] 
+  "966" -> "969"  [ label = "DDG: "] 
+  "967" -> "969"  [ label = "DDG: "] 
+  "965" -> "966"  [ label = "DDG: "] 
+  "965" -> "967"  [ label = "DDG: "] 
+}

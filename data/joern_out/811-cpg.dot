@@ -1,0 +1,8 @@
+digraph "T_FILE" {  
+"33484" [label = <(METHOD,T_FILE)<SUB>2</SUB>> ]
+"33485" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33486" [label = <(METHOD_RETURN,ANY)> ]
+  "33484" -> "33485"  [ label = "AST: "] 
+  "33484" -> "33486"  [ label = "AST: "] 
+  "33484" -> "33486"  [ label = "CFG: "] 
+}

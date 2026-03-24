@@ -1,0 +1,8 @@
+digraph "SYS_sbrk" {  
+"33447" [label = <(METHOD,SYS_sbrk)<SUB>13</SUB>> ]
+"33448" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33449" [label = <(METHOD_RETURN,ANY)> ]
+  "33447" -> "33448"  [ label = "AST: "] 
+  "33447" -> "33449"  [ label = "AST: "] 
+  "33447" -> "33449"  [ label = "CFG: "] 
+}

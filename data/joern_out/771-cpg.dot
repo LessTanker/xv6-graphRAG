@@ -1,0 +1,8 @@
+digraph "NPROC" {  
+"33356" [label = <(METHOD,NPROC)<SUB>1</SUB>> ]
+"33357" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33358" [label = <(METHOD_RETURN,ANY)> ]
+  "33356" -> "33357"  [ label = "AST: "] 
+  "33356" -> "33358"  [ label = "AST: "] 
+  "33356" -> "33358"  [ label = "CFG: "] 
+}

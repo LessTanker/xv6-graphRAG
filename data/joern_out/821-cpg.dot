@@ -1,0 +1,12 @@
+digraph "WriteReg" {  
+"33514" [label = <(METHOD,WriteReg)<SUB>19</SUB>> ]
+"33515" [label = <(PARAM,p1)> ]
+"33516" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33517" [label = <(METHOD_RETURN,ANY)> ]
+  "33514" -> "33515"  [ label = "AST: "] 
+  "33514" -> "33516"  [ label = "AST: "] 
+  "33514" -> "33517"  [ label = "AST: "] 
+  "33514" -> "33517"  [ label = "CFG: "] 
+  "33515" -> "33517"  [ label = "DDG: p1"] 
+  "33514" -> "33515"  [ label = "DDG: "] 
+}

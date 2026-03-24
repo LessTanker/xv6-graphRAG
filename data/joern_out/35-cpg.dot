@@ -1,0 +1,8 @@
+digraph "iinit" {  
+"1023" [label = <(METHOD,iinit)<SUB>43</SUB>> ]
+"1024" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1025" [label = <(METHOD_RETURN,void)<SUB>43</SUB>> ]
+  "1023" -> "1024"  [ label = "AST: "] 
+  "1023" -> "1025"  [ label = "AST: "] 
+  "1023" -> "1025"  [ label = "CFG: "] 
+}

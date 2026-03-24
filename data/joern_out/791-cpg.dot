@@ -1,0 +1,8 @@
+digraph "SYS_pipe" {  
+"33423" [label = <(METHOD,SYS_pipe)<SUB>5</SUB>> ]
+"33424" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33425" [label = <(METHOD_RETURN,ANY)> ]
+  "33423" -> "33424"  [ label = "AST: "] 
+  "33423" -> "33425"  [ label = "AST: "] 
+  "33423" -> "33425"  [ label = "CFG: "] 
+}

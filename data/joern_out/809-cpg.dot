@@ -1,0 +1,12 @@
+digraph "syscalls[num]" {  
+"33477" [label = <(METHOD,syscalls[num])> ]
+"33478" [label = <(PARAM,p1)> ]
+"33479" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33480" [label = <(METHOD_RETURN,ANY)> ]
+  "33477" -> "33478"  [ label = "AST: "] 
+  "33477" -> "33479"  [ label = "AST: "] 
+  "33477" -> "33480"  [ label = "AST: "] 
+  "33477" -> "33480"  [ label = "CFG: "] 
+  "33478" -> "33480"  [ label = "DDG: p1"] 
+  "33477" -> "33478"  [ label = "DDG: "] 
+}

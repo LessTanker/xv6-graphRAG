@@ -1,0 +1,12 @@
+digraph "sys_uptime" {  
+"10477" [label = <(METHOD,sys_uptime)<SUB>96</SUB>> ]
+"10478" [label = <(PARAM,void)<SUB>96</SUB>> ]
+"10479" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10480" [label = <(METHOD_RETURN,uint64)<SUB>96</SUB>> ]
+  "10477" -> "10478"  [ label = "AST: "] 
+  "10477" -> "10479"  [ label = "AST: "] 
+  "10477" -> "10480"  [ label = "AST: "] 
+  "10477" -> "10480"  [ label = "CFG: "] 
+  "10478" -> "10480"  [ label = "DDG: "] 
+  "10477" -> "10478"  [ label = "DDG: "] 
+}

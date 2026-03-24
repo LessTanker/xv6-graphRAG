@@ -1,0 +1,12 @@
+digraph "fsinit" {  
+"1005" [label = <(METHOD,fsinit)<SUB>38</SUB>> ]
+"1006" [label = <(PARAM,int)<SUB>38</SUB>> ]
+"1007" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1008" [label = <(METHOD_RETURN,void)<SUB>38</SUB>> ]
+  "1005" -> "1006"  [ label = "AST: "] 
+  "1005" -> "1007"  [ label = "AST: "] 
+  "1005" -> "1008"  [ label = "AST: "] 
+  "1005" -> "1008"  [ label = "CFG: "] 
+  "1006" -> "1008"  [ label = "DDG: "] 
+  "1005" -> "1006"  [ label = "DDG: "] 
+}

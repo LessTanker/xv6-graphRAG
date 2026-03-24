@@ -1,0 +1,12 @@
+digraph "plic_claim" {  
+"1610" [label = <(METHOD,plic_claim)<SUB>176</SUB>> ]
+"1611" [label = <(PARAM,void)<SUB>176</SUB>> ]
+"1612" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1613" [label = <(METHOD_RETURN,int)<SUB>176</SUB>> ]
+  "1610" -> "1611"  [ label = "AST: "] 
+  "1610" -> "1612"  [ label = "AST: "] 
+  "1610" -> "1613"  [ label = "AST: "] 
+  "1610" -> "1613"  [ label = "CFG: "] 
+  "1611" -> "1613"  [ label = "DDG: "] 
+  "1610" -> "1611"  [ label = "DDG: "] 
+}

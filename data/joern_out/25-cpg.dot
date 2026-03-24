@@ -1,0 +1,12 @@
+digraph "consoleintr" {  
+"955" [label = <(METHOD,consoleintr)<SUB>22</SUB>> ]
+"956" [label = <(PARAM,int)<SUB>22</SUB>> ]
+"957" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"958" [label = <(METHOD_RETURN,void)<SUB>22</SUB>> ]
+  "955" -> "956"  [ label = "AST: "] 
+  "955" -> "957"  [ label = "AST: "] 
+  "955" -> "958"  [ label = "AST: "] 
+  "955" -> "958"  [ label = "CFG: "] 
+  "956" -> "958"  [ label = "DDG: "] 
+  "955" -> "956"  [ label = "DDG: "] 
+}

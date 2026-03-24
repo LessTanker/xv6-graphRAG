@@ -1,0 +1,17 @@
+digraph "w_menvcfg" {  
+"9284" [label = <(METHOD,w_menvcfg)<SUB>202</SUB>> ]
+"9285" [label = <(PARAM,uint64 x)<SUB>203</SUB>> ]
+"9286" [label = <(BLOCK,{
+  // asm volatile(&quot;csrw menvcfg, %0&quot; : : &quot;r&quot; ...,{
+  // asm volatile(&quot;csrw menvcfg, %0&quot; : : &quot;r&quot; ...)<SUB>204</SUB>> ]
+"9287" [label = <(UNKNOWN,asm volatile(&quot;csrw 0x30a, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw 0x30a, %0&quot; : : &quot;r&quot; (x));)<SUB>206</SUB>> ]
+"9288" [label = <(METHOD_RETURN,void)<SUB>202</SUB>> ]
+  "9284" -> "9285"  [ label = "AST: "] 
+  "9284" -> "9286"  [ label = "AST: "] 
+  "9284" -> "9288"  [ label = "AST: "] 
+  "9286" -> "9287"  [ label = "AST: "] 
+  "9287" -> "9288"  [ label = "CFG: "] 
+  "9284" -> "9287"  [ label = "CFG: "] 
+  "9285" -> "9288"  [ label = "DDG: x"] 
+  "9284" -> "9285"  [ label = "DDG: "] 
+}

@@ -1,0 +1,16 @@
+digraph "namecmp" {  
+"1052" [label = <(METHOD,namecmp)<SUB>49</SUB>> ]
+"1053" [label = <(PARAM,const char*)<SUB>49</SUB>> ]
+"1054" [label = <(PARAM,const char*)<SUB>49</SUB>> ]
+"1055" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1056" [label = <(METHOD_RETURN,int)<SUB>49</SUB>> ]
+  "1052" -> "1053"  [ label = "AST: "] 
+  "1052" -> "1054"  [ label = "AST: "] 
+  "1052" -> "1055"  [ label = "AST: "] 
+  "1052" -> "1056"  [ label = "AST: "] 
+  "1052" -> "1056"  [ label = "CFG: "] 
+  "1053" -> "1056"  [ label = "DDG: "] 
+  "1054" -> "1056"  [ label = "DDG: "] 
+  "1052" -> "1053"  [ label = "DDG: "] 
+  "1052" -> "1054"  [ label = "DDG: "] 
+}

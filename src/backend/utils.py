@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Set, Tuple
 
 # Local module imports
-from backend import config
+from . import config
 
 
 def load_json(path: Path) -> Any:

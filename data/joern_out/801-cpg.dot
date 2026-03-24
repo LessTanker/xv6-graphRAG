@@ -1,0 +1,8 @@
+digraph "SYS_uptime" {  
+"33453" [label = <(METHOD,SYS_uptime)<SUB>15</SUB>> ]
+"33454" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33455" [label = <(METHOD_RETURN,ANY)> ]
+  "33453" -> "33454"  [ label = "AST: "] 
+  "33453" -> "33455"  [ label = "AST: "] 
+  "33453" -> "33455"  [ label = "CFG: "] 
+}

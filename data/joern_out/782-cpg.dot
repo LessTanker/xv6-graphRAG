@@ -1,0 +1,12 @@
+digraph "__sync_lock_release" {  
+"33395" [label = <(METHOD,__sync_lock_release)> ]
+"33396" [label = <(PARAM,p1)> ]
+"33397" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33398" [label = <(METHOD_RETURN,ANY)> ]
+  "33395" -> "33396"  [ label = "AST: "] 
+  "33395" -> "33397"  [ label = "AST: "] 
+  "33395" -> "33398"  [ label = "AST: "] 
+  "33395" -> "33398"  [ label = "CFG: "] 
+  "33396" -> "33398"  [ label = "DDG: p1"] 
+  "33395" -> "33396"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "SYS_write" {  
+"33459" [label = <(METHOD,SYS_write)<SUB>17</SUB>> ]
+"33460" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33461" [label = <(METHOD_RETURN,ANY)> ]
+  "33459" -> "33460"  [ label = "AST: "] 
+  "33459" -> "33461"  [ label = "AST: "] 
+  "33459" -> "33461"  [ label = "CFG: "] 
+}

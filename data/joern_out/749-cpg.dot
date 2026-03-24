@@ -1,0 +1,8 @@
+digraph "T_DIR" {  
+"33272" [label = <(METHOD,T_DIR)<SUB>1</SUB>> ]
+"33273" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33274" [label = <(METHOD_RETURN,ANY)> ]
+  "33272" -> "33273"  [ label = "AST: "] 
+  "33272" -> "33274"  [ label = "AST: "] 
+  "33272" -> "33274"  [ label = "CFG: "] 
+}

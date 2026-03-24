@@ -1,0 +1,12 @@
+digraph "malloc" {  
+"22869" [label = <(METHOD,malloc)<SUB>48</SUB>> ]
+"22870" [label = <(PARAM,uint)<SUB>48</SUB>> ]
+"22871" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22872" [label = <(METHOD_RETURN,void*)<SUB>48</SUB>> ]
+  "22869" -> "22870"  [ label = "AST: "] 
+  "22869" -> "22871"  [ label = "AST: "] 
+  "22869" -> "22872"  [ label = "AST: "] 
+  "22869" -> "22872"  [ label = "CFG: "] 
+  "22870" -> "22872"  [ label = "DDG: uint"] 
+  "22869" -> "22870"  [ label = "DDG: "] 
+}

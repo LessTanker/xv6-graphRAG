@@ -1,0 +1,8 @@
+digraph "LOGBLOCKS" {  
+"33289" [label = <(METHOD,LOGBLOCKS)<SUB>10</SUB>> ]
+"33290" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33291" [label = <(METHOD_RETURN,ANY)> ]
+  "33289" -> "33290"  [ label = "AST: "] 
+  "33289" -> "33291"  [ label = "AST: "] 
+  "33289" -> "33291"  [ label = "CFG: "] 
+}

@@ -1,0 +1,49 @@
+digraph "sys_kill" {  
+"12395" [label = <(METHOD,sys_kill)<SUB>89</SUB>> ]
+"12396" [label = <(PARAM,void)<SUB>90</SUB>> ]
+"12397" [label = <(BLOCK,{
+  int pid;
+
+  argint(0, &amp;pid);
+  return kkill...,{
+  int pid;
+
+  argint(0, &amp;pid);
+  return kkill...)<SUB>91</SUB>> ]
+"12398" [label = <(LOCAL,int pid: int)<SUB>92</SUB>> ]
+"12399" [label = <(argint,argint(0, &amp;pid))<SUB>94</SUB>> ]
+"12400" [label = <(LITERAL,0,argint(0, &amp;pid))<SUB>94</SUB>> ]
+"12401" [label = <(&lt;operator&gt;.addressOf,&amp;pid)<SUB>94</SUB>> ]
+"12402" [label = <(IDENTIFIER,pid,argint(0, &amp;pid))<SUB>94</SUB>> ]
+"12403" [label = <(RETURN,return kkill(pid);,return kkill(pid);)<SUB>95</SUB>> ]
+"12404" [label = <(kkill,kkill(pid))<SUB>95</SUB>> ]
+"12405" [label = <(IDENTIFIER,pid,kkill(pid))<SUB>95</SUB>> ]
+"12406" [label = <(METHOD_RETURN,uint64)<SUB>89</SUB>> ]
+  "12395" -> "12396"  [ label = "AST: "] 
+  "12395" -> "12397"  [ label = "AST: "] 
+  "12395" -> "12406"  [ label = "AST: "] 
+  "12397" -> "12398"  [ label = "AST: "] 
+  "12397" -> "12399"  [ label = "AST: "] 
+  "12397" -> "12403"  [ label = "AST: "] 
+  "12399" -> "12400"  [ label = "AST: "] 
+  "12399" -> "12401"  [ label = "AST: "] 
+  "12401" -> "12402"  [ label = "AST: "] 
+  "12403" -> "12404"  [ label = "AST: "] 
+  "12404" -> "12405"  [ label = "AST: "] 
+  "12399" -> "12404"  [ label = "CFG: "] 
+  "12403" -> "12406"  [ label = "CFG: "] 
+  "12401" -> "12399"  [ label = "CFG: "] 
+  "12404" -> "12403"  [ label = "CFG: "] 
+  "12395" -> "12401"  [ label = "CFG: "] 
+  "12403" -> "12406"  [ label = "DDG: &lt;RET&gt;"] 
+  "12396" -> "12406"  [ label = "DDG: "] 
+  "12399" -> "12406"  [ label = "DDG: &amp;pid"] 
+  "12399" -> "12406"  [ label = "DDG: argint(0, &amp;pid)"] 
+  "12404" -> "12406"  [ label = "DDG: pid"] 
+  "12404" -> "12406"  [ label = "DDG: kkill(pid)"] 
+  "12395" -> "12396"  [ label = "DDG: "] 
+  "12404" -> "12403"  [ label = "DDG: kkill(pid)"] 
+  "12395" -> "12399"  [ label = "DDG: "] 
+  "12399" -> "12404"  [ label = "DDG: &amp;pid"] 
+  "12395" -> "12404"  [ label = "DDG: "] 
+}

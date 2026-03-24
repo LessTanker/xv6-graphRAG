@@ -1,0 +1,12 @@
+digraph "release" {  
+"1312" [label = <(METHOD,release)<SUB>112</SUB>> ]
+"1313" [label = <(PARAM,struct spinlock*)<SUB>112</SUB>> ]
+"1314" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1315" [label = <(METHOD_RETURN,void)<SUB>112</SUB>> ]
+  "1312" -> "1313"  [ label = "AST: "] 
+  "1312" -> "1314"  [ label = "AST: "] 
+  "1312" -> "1315"  [ label = "AST: "] 
+  "1312" -> "1315"  [ label = "CFG: "] 
+  "1313" -> "1315"  [ label = "DDG: "] 
+  "1312" -> "1313"  [ label = "DDG: "] 
+}

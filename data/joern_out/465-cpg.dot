@@ -1,0 +1,32 @@
+digraph "die" {  
+"17233" [label = <(METHOD,die)<SUB>298</SUB>> ]
+"17234" [label = <(PARAM,const char *s)<SUB>299</SUB>> ]
+"17235" [label = <(BLOCK,{
+  perror(s);
+  exit(1);
+},{
+  perror(s);
+  exit(1);
+})<SUB>300</SUB>> ]
+"17236" [label = <(perror,perror(s))<SUB>301</SUB>> ]
+"17237" [label = <(IDENTIFIER,s,perror(s))<SUB>301</SUB>> ]
+"17238" [label = <(exit,exit(1))<SUB>302</SUB>> ]
+"17239" [label = <(LITERAL,1,exit(1))<SUB>302</SUB>> ]
+"17240" [label = <(METHOD_RETURN,void)<SUB>298</SUB>> ]
+  "17233" -> "17234"  [ label = "AST: "] 
+  "17233" -> "17235"  [ label = "AST: "] 
+  "17233" -> "17240"  [ label = "AST: "] 
+  "17235" -> "17236"  [ label = "AST: "] 
+  "17235" -> "17238"  [ label = "AST: "] 
+  "17236" -> "17237"  [ label = "AST: "] 
+  "17238" -> "17239"  [ label = "AST: "] 
+  "17236" -> "17238"  [ label = "CFG: "] 
+  "17238" -> "17240"  [ label = "CFG: "] 
+  "17233" -> "17236"  [ label = "CFG: "] 
+  "17236" -> "17240"  [ label = "DDG: s"] 
+  "17236" -> "17240"  [ label = "DDG: perror(s)"] 
+  "17233" -> "17234"  [ label = "DDG: "] 
+  "17234" -> "17236"  [ label = "DDG: s"] 
+  "17233" -> "17236"  [ label = "DDG: "] 
+  "17233" -> "17238"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "IPB" {  
+"33254" [label = <(METHOD,IPB)<SUB>42</SUB>> ]
+"33255" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33256" [label = <(METHOD_RETURN,ANY)> ]
+  "33254" -> "33255"  [ label = "AST: "] 
+  "33254" -> "33256"  [ label = "AST: "] 
+  "33254" -> "33256"  [ label = "CFG: "] 
+}

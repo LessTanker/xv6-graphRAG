@@ -1,0 +1,12 @@
+digraph "consputc" {  
+"960" [label = <(METHOD,consputc)<SUB>23</SUB>> ]
+"961" [label = <(PARAM,int)<SUB>23</SUB>> ]
+"962" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"963" [label = <(METHOD_RETURN,void)<SUB>23</SUB>> ]
+  "960" -> "961"  [ label = "AST: "] 
+  "960" -> "962"  [ label = "AST: "] 
+  "960" -> "963"  [ label = "AST: "] 
+  "960" -> "963"  [ label = "CFG: "] 
+  "961" -> "963"  [ label = "DDG: "] 
+  "960" -> "961"  [ label = "DDG: "] 
+}

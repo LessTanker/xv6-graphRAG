@@ -1,0 +1,12 @@
+digraph "sys_link" {  
+"10502" [label = <(METHOD,sys_link)<SUB>101</SUB>> ]
+"10503" [label = <(PARAM,void)<SUB>101</SUB>> ]
+"10504" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10505" [label = <(METHOD_RETURN,uint64)<SUB>101</SUB>> ]
+  "10502" -> "10503"  [ label = "AST: "] 
+  "10502" -> "10504"  [ label = "AST: "] 
+  "10502" -> "10505"  [ label = "AST: "] 
+  "10502" -> "10505"  [ label = "CFG: "] 
+  "10503" -> "10505"  [ label = "DDG: "] 
+  "10502" -> "10503"  [ label = "DDG: "] 
+}

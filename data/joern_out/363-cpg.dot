@@ -1,0 +1,12 @@
+digraph "sys_mkdir" {  
+"10507" [label = <(METHOD,sys_mkdir)<SUB>102</SUB>> ]
+"10508" [label = <(PARAM,void)<SUB>102</SUB>> ]
+"10509" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10510" [label = <(METHOD_RETURN,uint64)<SUB>102</SUB>> ]
+  "10507" -> "10508"  [ label = "AST: "] 
+  "10507" -> "10509"  [ label = "AST: "] 
+  "10507" -> "10510"  [ label = "AST: "] 
+  "10507" -> "10510"  [ label = "CFG: "] 
+  "10508" -> "10510"  [ label = "DDG: "] 
+  "10507" -> "10508"  [ label = "DDG: "] 
+}

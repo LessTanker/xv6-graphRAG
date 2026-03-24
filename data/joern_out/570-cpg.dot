@@ -1,0 +1,12 @@
+digraph "close" {  
+"22698" [label = <(METHOD,close)<SUB>12</SUB>> ]
+"22699" [label = <(PARAM,int)<SUB>12</SUB>> ]
+"22700" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22701" [label = <(METHOD_RETURN,int)<SUB>12</SUB>> ]
+  "22698" -> "22699"  [ label = "AST: "] 
+  "22698" -> "22700"  [ label = "AST: "] 
+  "22698" -> "22701"  [ label = "AST: "] 
+  "22698" -> "22701"  [ label = "CFG: "] 
+  "22699" -> "22701"  [ label = "DDG: "] 
+  "22698" -> "22699"  [ label = "DDG: "] 
+}

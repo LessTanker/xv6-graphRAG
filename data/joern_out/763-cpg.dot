@@ -1,0 +1,12 @@
+digraph "PLIC_SCLAIM" {  
+"33320" [label = <(METHOD,PLIC_SCLAIM)<SUB>34</SUB>> ]
+"33321" [label = <(PARAM,p1)> ]
+"33322" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33323" [label = <(METHOD_RETURN,ANY)> ]
+  "33320" -> "33321"  [ label = "AST: "] 
+  "33320" -> "33322"  [ label = "AST: "] 
+  "33320" -> "33323"  [ label = "AST: "] 
+  "33320" -> "33323"  [ label = "CFG: "] 
+  "33321" -> "33323"  [ label = "DDG: p1"] 
+  "33320" -> "33321"  [ label = "DDG: "] 
+}

@@ -1,0 +1,118 @@
+digraph "&lt;global&gt;" {  
+"17432" [label = <(METHOD,&lt;global&gt;)<SUB>1</SUB>> ]
+"17433" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>1</SUB>> ]
+"17434" [label = <(METHOD,main)<SUB>5</SUB>> ]
+"17435" [label = <(PARAM,int argc)<SUB>6</SUB>> ]
+"17436" [label = <(PARAM,char *argv[])<SUB>6</SUB>> ]
+"17437" [label = <(BLOCK,{
+  int i;
+
+  for(i = 1; i &lt; argc; i++){
+    wr...,{
+  int i;
+
+  for(i = 1; i &lt; argc; i++){
+    wr...)<SUB>7</SUB>> ]
+"17438" [label = <(LOCAL,int i: int)<SUB>8</SUB>> ]
+"17439" [label = <(CONTROL_STRUCTURE,FOR,for (i = 1;i &lt; argc;i++))<SUB>10</SUB>> ]
+"17440" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)<SUB>10</SUB>> ]
+"17441" [label = <(&lt;operator&gt;.assignment,i = 1)<SUB>10</SUB>> ]
+"17442" [label = <(IDENTIFIER,i,i = 1)<SUB>10</SUB>> ]
+"17443" [label = <(LITERAL,1,i = 1)<SUB>10</SUB>> ]
+"17444" [label = <(&lt;operator&gt;.lessThan,i &lt; argc)<SUB>10</SUB>> ]
+"17445" [label = <(IDENTIFIER,i,i &lt; argc)<SUB>10</SUB>> ]
+"17446" [label = <(IDENTIFIER,argc,i &lt; argc)<SUB>10</SUB>> ]
+"17447" [label = <(&lt;operator&gt;.postIncrement,i++)<SUB>10</SUB>> ]
+"17448" [label = <(IDENTIFIER,i,i++)<SUB>10</SUB>> ]
+"17449" [label = <(BLOCK,{
+    write(1, argv[i], strlen(argv[i]));
+    i...,{
+    write(1, argv[i], strlen(argv[i]));
+    i...)<SUB>10</SUB>> ]
+"17450" [label = <(write,write(1, argv[i], strlen(argv[i])))<SUB>11</SUB>> ]
+"17451" [label = <(LITERAL,1,write(1, argv[i], strlen(argv[i])))<SUB>11</SUB>> ]
+"17452" [label = <(&lt;operator&gt;.indirectIndexAccess,argv[i])<SUB>11</SUB>> ]
+"17453" [label = <(IDENTIFIER,argv,write(1, argv[i], strlen(argv[i])))<SUB>11</SUB>> ]
+"17454" [label = <(IDENTIFIER,i,write(1, argv[i], strlen(argv[i])))<SUB>11</SUB>> ]
+"17455" [label = <(strlen,strlen(argv[i]))<SUB>11</SUB>> ]
+"17456" [label = <(&lt;operator&gt;.indirectIndexAccess,argv[i])<SUB>11</SUB>> ]
+"17457" [label = <(IDENTIFIER,argv,strlen(argv[i]))<SUB>11</SUB>> ]
+"17458" [label = <(IDENTIFIER,i,strlen(argv[i]))<SUB>11</SUB>> ]
+"17459" [label = <(CONTROL_STRUCTURE,IF,if (i + 1 &lt; argc))<SUB>12</SUB>> ]
+"17460" [label = <(&lt;operator&gt;.lessThan,i + 1 &lt; argc)<SUB>12</SUB>> ]
+"17461" [label = <(&lt;operator&gt;.addition,i + 1)<SUB>12</SUB>> ]
+"17462" [label = <(IDENTIFIER,i,i + 1)<SUB>12</SUB>> ]
+"17463" [label = <(LITERAL,1,i + 1)<SUB>12</SUB>> ]
+"17464" [label = <(IDENTIFIER,argc,i + 1 &lt; argc)<SUB>12</SUB>> ]
+"17465" [label = <(BLOCK,{
+      write(1, &quot; &quot;, 1);
+    },{
+      write(1, &quot; &quot;, 1);
+    })<SUB>12</SUB>> ]
+"17466" [label = <(write,write(1, &quot; &quot;, 1))<SUB>13</SUB>> ]
+"17467" [label = <(LITERAL,1,write(1, &quot; &quot;, 1))<SUB>13</SUB>> ]
+"17468" [label = <(LITERAL,&quot; &quot;,write(1, &quot; &quot;, 1))<SUB>13</SUB>> ]
+"17469" [label = <(LITERAL,1,write(1, &quot; &quot;, 1))<SUB>13</SUB>> ]
+"17470" [label = <(CONTROL_STRUCTURE,ELSE,else)<SUB>14</SUB>> ]
+"17471" [label = <(BLOCK,{
+      write(1, &quot;\n&quot;, 1);
+    },{
+      write(1, &quot;\n&quot;, 1);
+    })<SUB>14</SUB>> ]
+"17472" [label = <(write,write(1, &quot;\n&quot;, 1))<SUB>15</SUB>> ]
+"17473" [label = <(LITERAL,1,write(1, &quot;\n&quot;, 1))<SUB>15</SUB>> ]
+"17474" [label = <(LITERAL,&quot;\n&quot;,write(1, &quot;\n&quot;, 1))<SUB>15</SUB>> ]
+"17475" [label = <(LITERAL,1,write(1, &quot;\n&quot;, 1))<SUB>15</SUB>> ]
+"17476" [label = <(exit,exit(0))<SUB>18</SUB>> ]
+"17477" [label = <(LITERAL,0,exit(0))<SUB>18</SUB>> ]
+"17478" [label = <(METHOD_RETURN,int)<SUB>5</SUB>> ]
+"17480" [label = <(METHOD_RETURN,ANY)<SUB>1</SUB>> ]
+  "17432" -> "17433"  [ label = "AST: "] 
+  "17432" -> "17480"  [ label = "AST: "] 
+  "17433" -> "17434"  [ label = "AST: "] 
+  "17434" -> "17435"  [ label = "AST: "] 
+  "17434" -> "17436"  [ label = "AST: "] 
+  "17434" -> "17437"  [ label = "AST: "] 
+  "17434" -> "17478"  [ label = "AST: "] 
+  "17437" -> "17438"  [ label = "AST: "] 
+  "17437" -> "17439"  [ label = "AST: "] 
+  "17437" -> "17476"  [ label = "AST: "] 
+  "17439" -> "17440"  [ label = "AST: "] 
+  "17439" -> "17444"  [ label = "AST: "] 
+  "17439" -> "17447"  [ label = "AST: "] 
+  "17439" -> "17449"  [ label = "AST: "] 
+  "17440" -> "17441"  [ label = "AST: "] 
+  "17441" -> "17442"  [ label = "AST: "] 
+  "17441" -> "17443"  [ label = "AST: "] 
+  "17444" -> "17445"  [ label = "AST: "] 
+  "17444" -> "17446"  [ label = "AST: "] 
+  "17447" -> "17448"  [ label = "AST: "] 
+  "17449" -> "17450"  [ label = "AST: "] 
+  "17449" -> "17459"  [ label = "AST: "] 
+  "17450" -> "17451"  [ label = "AST: "] 
+  "17450" -> "17452"  [ label = "AST: "] 
+  "17450" -> "17455"  [ label = "AST: "] 
+  "17452" -> "17453"  [ label = "AST: "] 
+  "17452" -> "17454"  [ label = "AST: "] 
+  "17455" -> "17456"  [ label = "AST: "] 
+  "17456" -> "17457"  [ label = "AST: "] 
+  "17456" -> "17458"  [ label = "AST: "] 
+  "17459" -> "17460"  [ label = "AST: "] 
+  "17459" -> "17465"  [ label = "AST: "] 
+  "17459" -> "17470"  [ label = "AST: "] 
+  "17460" -> "17461"  [ label = "AST: "] 
+  "17460" -> "17464"  [ label = "AST: "] 
+  "17461" -> "17462"  [ label = "AST: "] 
+  "17461" -> "17463"  [ label = "AST: "] 
+  "17465" -> "17466"  [ label = "AST: "] 
+  "17466" -> "17467"  [ label = "AST: "] 
+  "17466" -> "17468"  [ label = "AST: "] 
+  "17466" -> "17469"  [ label = "AST: "] 
+  "17470" -> "17471"  [ label = "AST: "] 
+  "17471" -> "17472"  [ label = "AST: "] 
+  "17472" -> "17473"  [ label = "AST: "] 
+  "17472" -> "17474"  [ label = "AST: "] 
+  "17472" -> "17475"  [ label = "AST: "] 
+  "17476" -> "17477"  [ label = "AST: "] 
+  "17432" -> "17480"  [ label = "CFG: "] 
+}

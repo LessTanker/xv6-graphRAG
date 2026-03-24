@@ -1,0 +1,12 @@
+digraph "userinit" {  
+"1249" [label = <(METHOD,userinit)<SUB>97</SUB>> ]
+"1250" [label = <(PARAM,void)<SUB>97</SUB>> ]
+"1251" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1252" [label = <(METHOD_RETURN,void)<SUB>97</SUB>> ]
+  "1249" -> "1250"  [ label = "AST: "] 
+  "1249" -> "1251"  [ label = "AST: "] 
+  "1249" -> "1252"  [ label = "AST: "] 
+  "1249" -> "1252"  [ label = "CFG: "] 
+  "1250" -> "1252"  [ label = "DDG: "] 
+  "1249" -> "1250"  [ label = "DDG: "] 
+}

@@ -1,0 +1,26 @@
+digraph "r_mhartid" {  
+"9122" [label = <(METHOD,r_mhartid)<SUB>4</SUB>> ]
+"9123" [label = <(BLOCK,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, mhartid&quot;...,{
+  uint64 x;
+  asm volatile(&quot;csrr %0, mhartid&quot;...)<SUB>6</SUB>> ]
+"9124" [label = <(LOCAL,uint64 x: uint64)<SUB>7</SUB>> ]
+"9125" [label = <(UNKNOWN,asm volatile(&quot;csrr %0, mhartid&quot; : &quot;=r&quot; (x) );,asm volatile(&quot;csrr %0, mhartid&quot; : &quot;=r&quot; (x) );)<SUB>8</SUB>> ]
+"9126" [label = <(RETURN,return x;,return x;)<SUB>9</SUB>> ]
+"9127" [label = <(IDENTIFIER,x,return x;)<SUB>9</SUB>> ]
+"9128" [label = <(METHOD_RETURN,uint64)<SUB>4</SUB>> ]
+  "9122" -> "9123"  [ label = "AST: "] 
+  "9122" -> "9128"  [ label = "AST: "] 
+  "9123" -> "9124"  [ label = "AST: "] 
+  "9123" -> "9125"  [ label = "AST: "] 
+  "9123" -> "9126"  [ label = "AST: "] 
+  "9126" -> "9127"  [ label = "AST: "] 
+  "9125" -> "9126"  [ label = "CFG: "] 
+  "9126" -> "9128"  [ label = "CFG: "] 
+  "9122" -> "9125"  [ label = "CFG: "] 
+  "9126" -> "9128"  [ label = "DDG: &lt;RET&gt;"] 
+  "9127" -> "9126"  [ label = "DDG: x"] 
+  "9122" -> "9126"  [ label = "DDG: "] 
+  "9122" -> "9127"  [ label = "DDG: "] 
+}

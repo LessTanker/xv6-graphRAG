@@ -1,0 +1,12 @@
+digraph "fileclose" {  
+"973" [label = <(METHOD,fileclose)<SUB>30</SUB>> ]
+"974" [label = <(PARAM,struct file*)<SUB>30</SUB>> ]
+"975" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"976" [label = <(METHOD_RETURN,void)<SUB>30</SUB>> ]
+  "973" -> "974"  [ label = "AST: "] 
+  "973" -> "975"  [ label = "AST: "] 
+  "973" -> "976"  [ label = "AST: "] 
+  "973" -> "976"  [ label = "CFG: "] 
+  "974" -> "976"  [ label = "DDG: "] 
+  "973" -> "974"  [ label = "DDG: "] 
+}

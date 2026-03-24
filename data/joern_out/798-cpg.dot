@@ -1,0 +1,8 @@
+digraph "SYS_getpid" {  
+"33444" [label = <(METHOD,SYS_getpid)<SUB>12</SUB>> ]
+"33445" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33446" [label = <(METHOD_RETURN,ANY)> ]
+  "33444" -> "33445"  [ label = "AST: "] 
+  "33444" -> "33446"  [ label = "AST: "] 
+  "33444" -> "33446"  [ label = "CFG: "] 
+}

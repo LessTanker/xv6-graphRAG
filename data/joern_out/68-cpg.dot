@@ -1,0 +1,12 @@
+digraph "kkill" {  
+"1209" [label = <(METHOD,kkill)<SUB>88</SUB>> ]
+"1210" [label = <(PARAM,int)<SUB>88</SUB>> ]
+"1211" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1212" [label = <(METHOD_RETURN,int)<SUB>88</SUB>> ]
+  "1209" -> "1210"  [ label = "AST: "] 
+  "1209" -> "1211"  [ label = "AST: "] 
+  "1209" -> "1212"  [ label = "AST: "] 
+  "1209" -> "1212"  [ label = "CFG: "] 
+  "1210" -> "1212"  [ label = "DDG: "] 
+  "1209" -> "1210"  [ label = "DDG: "] 
+}

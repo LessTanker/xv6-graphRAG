@@ -1,0 +1,17 @@
+digraph "w_stimecmp" {  
+"9270" [label = <(METHOD,w_stimecmp)<SUB>185</SUB>> ]
+"9271" [label = <(PARAM,uint64 x)<SUB>186</SUB>> ]
+"9272" [label = <(BLOCK,{
+  // asm volatile(&quot;csrw stimecmp, %0&quot; : : &quot;r&quot;...,{
+  // asm volatile(&quot;csrw stimecmp, %0&quot; : : &quot;r&quot;...)<SUB>187</SUB>> ]
+"9273" [label = <(UNKNOWN,asm volatile(&quot;csrw 0x14d, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw 0x14d, %0&quot; : : &quot;r&quot; (x));)<SUB>189</SUB>> ]
+"9274" [label = <(METHOD_RETURN,void)<SUB>185</SUB>> ]
+  "9270" -> "9271"  [ label = "AST: "] 
+  "9270" -> "9272"  [ label = "AST: "] 
+  "9270" -> "9274"  [ label = "AST: "] 
+  "9272" -> "9273"  [ label = "AST: "] 
+  "9273" -> "9274"  [ label = "CFG: "] 
+  "9270" -> "9273"  [ label = "CFG: "] 
+  "9271" -> "9274"  [ label = "DDG: x"] 
+  "9270" -> "9271"  [ label = "DDG: "] 
+}

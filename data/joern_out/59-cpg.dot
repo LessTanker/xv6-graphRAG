@@ -1,0 +1,12 @@
+digraph "panic" {  
+"1163" [label = <(METHOD,panic)<SUB>77</SUB>> ]
+"1164" [label = <(PARAM,char*)<SUB>77</SUB>> ]
+"1165" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1166" [label = <(METHOD_RETURN,void)<SUB>77</SUB>> ]
+  "1163" -> "1164"  [ label = "AST: "] 
+  "1163" -> "1165"  [ label = "AST: "] 
+  "1163" -> "1166"  [ label = "AST: "] 
+  "1163" -> "1166"  [ label = "CFG: "] 
+  "1164" -> "1166"  [ label = "DDG: "] 
+  "1163" -> "1164"  [ label = "DDG: "] 
+}

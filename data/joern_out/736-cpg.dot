@@ -1,0 +1,8 @@
+digraph "BSIZE" {  
+"33227" [label = <(METHOD,BSIZE)<SUB>6</SUB>> ]
+"33228" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33229" [label = <(METHOD_RETURN,ANY)> ]
+  "33227" -> "33228"  [ label = "AST: "] 
+  "33227" -> "33229"  [ label = "AST: "] 
+  "33227" -> "33229"  [ label = "CFG: "] 
+}

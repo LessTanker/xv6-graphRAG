@@ -1,0 +1,12 @@
+digraph "sys_fork" {  
+"10412" [label = <(METHOD,sys_fork)<SUB>83</SUB>> ]
+"10413" [label = <(PARAM,void)<SUB>83</SUB>> ]
+"10414" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10415" [label = <(METHOD_RETURN,uint64)<SUB>83</SUB>> ]
+  "10412" -> "10413"  [ label = "AST: "] 
+  "10412" -> "10414"  [ label = "AST: "] 
+  "10412" -> "10415"  [ label = "AST: "] 
+  "10412" -> "10415"  [ label = "CFG: "] 
+  "10413" -> "10415"  [ label = "DDG: "] 
+  "10412" -> "10413"  [ label = "DDG: "] 
+}

@@ -1,0 +1,8 @@
+digraph "FSMAGIC" {  
+"33230" [label = <(METHOD,FSMAGIC)<SUB>25</SUB>> ]
+"33231" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33232" [label = <(METHOD_RETURN,ANY)> ]
+  "33230" -> "33231"  [ label = "AST: "] 
+  "33230" -> "33232"  [ label = "AST: "] 
+  "33230" -> "33232"  [ label = "CFG: "] 
+}

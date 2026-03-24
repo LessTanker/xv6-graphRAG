@@ -1,0 +1,16 @@
+digraph "initsleeplock" {  
+"1342" [label = <(METHOD,initsleeplock)<SUB>120</SUB>> ]
+"1343" [label = <(PARAM,struct sleeplock*)<SUB>120</SUB>> ]
+"1344" [label = <(PARAM,char*)<SUB>120</SUB>> ]
+"1345" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1346" [label = <(METHOD_RETURN,void)<SUB>120</SUB>> ]
+  "1342" -> "1343"  [ label = "AST: "] 
+  "1342" -> "1344"  [ label = "AST: "] 
+  "1342" -> "1345"  [ label = "AST: "] 
+  "1342" -> "1346"  [ label = "AST: "] 
+  "1342" -> "1346"  [ label = "CFG: "] 
+  "1343" -> "1346"  [ label = "DDG: "] 
+  "1344" -> "1346"  [ label = "DDG: "] 
+  "1342" -> "1343"  [ label = "DDG: "] 
+  "1342" -> "1344"  [ label = "DDG: "] 
+}

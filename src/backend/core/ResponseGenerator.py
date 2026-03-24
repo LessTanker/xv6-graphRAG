@@ -1,13 +1,13 @@
 
 # Standard library imports
 import json
-from backend.logger import get_file_logger
+from ..logger import get_file_logger
 from datetime import datetime
 from typing import Any, Dict, List, Set, Tuple
 
 # Local module imports
-from backend import config, utils
-from backend.core.LLMClient import LLMClient
+from .. import config, utils
+from .LLMClient import LLMClient
 
 
 class ResponseGenerator:

@@ -1,0 +1,16 @@
+digraph "pipealloc" {  
+"1132" [label = <(METHOD,pipealloc)<SUB>70</SUB>> ]
+"1133" [label = <(PARAM,struct file**)<SUB>70</SUB>> ]
+"1134" [label = <(PARAM,struct file**)<SUB>70</SUB>> ]
+"1135" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1136" [label = <(METHOD_RETURN,int)<SUB>70</SUB>> ]
+  "1132" -> "1133"  [ label = "AST: "] 
+  "1132" -> "1134"  [ label = "AST: "] 
+  "1132" -> "1135"  [ label = "AST: "] 
+  "1132" -> "1136"  [ label = "AST: "] 
+  "1132" -> "1136"  [ label = "CFG: "] 
+  "1133" -> "1136"  [ label = "DDG: "] 
+  "1134" -> "1136"  [ label = "DDG: "] 
+  "1132" -> "1133"  [ label = "DDG: "] 
+  "1132" -> "1134"  [ label = "DDG: "] 
+}

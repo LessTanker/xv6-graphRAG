@@ -1,0 +1,8 @@
+digraph "main" {  
+"9796" [label = <(METHOD,main)<SUB>7</SUB>> ]
+"9797" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"9798" [label = <(METHOD_RETURN,void)<SUB>7</SUB>> ]
+  "9796" -> "9797"  [ label = "AST: "] 
+  "9796" -> "9798"  [ label = "AST: "] 
+  "9796" -> "9798"  [ label = "CFG: "] 
+}

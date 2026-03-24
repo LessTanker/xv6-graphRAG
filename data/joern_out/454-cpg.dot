@@ -1,0 +1,12 @@
+digraph "die" {  
+"16248" [label = <(METHOD,die)<SUB>43</SUB>> ]
+"16249" [label = <(PARAM,const char *)<SUB>43</SUB>> ]
+"16250" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"16251" [label = <(METHOD_RETURN,void)<SUB>43</SUB>> ]
+  "16248" -> "16249"  [ label = "AST: "] 
+  "16248" -> "16250"  [ label = "AST: "] 
+  "16248" -> "16251"  [ label = "AST: "] 
+  "16248" -> "16251"  [ label = "CFG: "] 
+  "16249" -> "16251"  [ label = "DDG: "] 
+  "16248" -> "16249"  [ label = "DDG: "] 
+}

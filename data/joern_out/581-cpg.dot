@@ -1,0 +1,12 @@
+digraph "getpid" {  
+"22759" [label = <(METHOD,getpid)<SUB>23</SUB>> ]
+"22760" [label = <(PARAM,void)<SUB>23</SUB>> ]
+"22761" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22762" [label = <(METHOD_RETURN,int)<SUB>23</SUB>> ]
+  "22759" -> "22760"  [ label = "AST: "] 
+  "22759" -> "22761"  [ label = "AST: "] 
+  "22759" -> "22762"  [ label = "AST: "] 
+  "22759" -> "22762"  [ label = "CFG: "] 
+  "22760" -> "22762"  [ label = "DDG: "] 
+  "22759" -> "22760"  [ label = "DDG: "] 
+}

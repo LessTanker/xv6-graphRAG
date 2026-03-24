@@ -1,0 +1,19 @@
+digraph "w_sie" {  
+"9186" [label = <(METHOD,w_sie)<SUB>90</SUB>> ]
+"9187" [label = <(PARAM,uint64 x)<SUB>91</SUB>> ]
+"9188" [label = <(BLOCK,{
+  asm volatile(&quot;csrw sie, %0&quot; : : &quot;r&quot; (x));
+},{
+  asm volatile(&quot;csrw sie, %0&quot; : : &quot;r&quot; (x));
+})<SUB>92</SUB>> ]
+"9189" [label = <(UNKNOWN,asm volatile(&quot;csrw sie, %0&quot; : : &quot;r&quot; (x));,asm volatile(&quot;csrw sie, %0&quot; : : &quot;r&quot; (x));)<SUB>93</SUB>> ]
+"9190" [label = <(METHOD_RETURN,void)<SUB>90</SUB>> ]
+  "9186" -> "9187"  [ label = "AST: "] 
+  "9186" -> "9188"  [ label = "AST: "] 
+  "9186" -> "9190"  [ label = "AST: "] 
+  "9188" -> "9189"  [ label = "AST: "] 
+  "9189" -> "9190"  [ label = "CFG: "] 
+  "9186" -> "9189"  [ label = "CFG: "] 
+  "9187" -> "9190"  [ label = "DDG: x"] 
+  "9186" -> "9187"  [ label = "DDG: "] 
+}

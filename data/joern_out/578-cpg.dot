@@ -1,0 +1,12 @@
+digraph "mkdir" {  
+"22744" [label = <(METHOD,mkdir)<SUB>20</SUB>> ]
+"22745" [label = <(PARAM,const char*)<SUB>20</SUB>> ]
+"22746" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22747" [label = <(METHOD_RETURN,int)<SUB>20</SUB>> ]
+  "22744" -> "22745"  [ label = "AST: "] 
+  "22744" -> "22746"  [ label = "AST: "] 
+  "22744" -> "22747"  [ label = "AST: "] 
+  "22744" -> "22747"  [ label = "CFG: "] 
+  "22745" -> "22747"  [ label = "DDG: "] 
+  "22744" -> "22745"  [ label = "DDG: "] 
+}

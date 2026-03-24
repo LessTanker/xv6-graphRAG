@@ -1,0 +1,12 @@
+digraph "sys_fstat" {  
+"10447" [label = <(METHOD,sys_fstat)<SUB>90</SUB>> ]
+"10448" [label = <(PARAM,void)<SUB>90</SUB>> ]
+"10449" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10450" [label = <(METHOD_RETURN,uint64)<SUB>90</SUB>> ]
+  "10447" -> "10448"  [ label = "AST: "] 
+  "10447" -> "10449"  [ label = "AST: "] 
+  "10447" -> "10450"  [ label = "AST: "] 
+  "10447" -> "10450"  [ label = "CFG: "] 
+  "10448" -> "10450"  [ label = "DDG: "] 
+  "10447" -> "10448"  [ label = "DDG: "] 
+}

@@ -1,6 +1,6 @@
 import json
 import logging
-from backend.logger import get_file_logger
+from ..logger import get_file_logger
 import re
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass
@@ -11,8 +11,8 @@ import faiss
 from sentence_transformers import SentenceTransformer
 
 # Local module imports
-from backend import config, utils
-from backend.core.LLMClient import LLMClient
+from .. import config, utils
+from .LLMClient import LLMClient
 
 
 @dataclass

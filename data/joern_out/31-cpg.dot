@@ -1,0 +1,16 @@
+digraph "filestat" {  
+"992" [label = <(METHOD,filestat)<SUB>34</SUB>> ]
+"993" [label = <(PARAM,struct file*)<SUB>34</SUB>> ]
+"994" [label = <(PARAM,uint64 addr)<SUB>34</SUB>> ]
+"995" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"996" [label = <(METHOD_RETURN,int)<SUB>34</SUB>> ]
+  "992" -> "993"  [ label = "AST: "] 
+  "992" -> "994"  [ label = "AST: "] 
+  "992" -> "995"  [ label = "AST: "] 
+  "992" -> "996"  [ label = "AST: "] 
+  "992" -> "996"  [ label = "CFG: "] 
+  "993" -> "996"  [ label = "DDG: "] 
+  "994" -> "996"  [ label = "DDG: addr"] 
+  "992" -> "993"  [ label = "DDG: "] 
+  "992" -> "994"  [ label = "DDG: "] 
+}

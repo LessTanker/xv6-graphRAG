@@ -1,0 +1,16 @@
+digraph "sleep" {  
+"1243" [label = <(METHOD,sleep)<SUB>96</SUB>> ]
+"1244" [label = <(PARAM,void*)<SUB>96</SUB>> ]
+"1245" [label = <(PARAM,struct spinlock*)<SUB>96</SUB>> ]
+"1246" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1247" [label = <(METHOD_RETURN,void)<SUB>96</SUB>> ]
+  "1243" -> "1244"  [ label = "AST: "] 
+  "1243" -> "1245"  [ label = "AST: "] 
+  "1243" -> "1246"  [ label = "AST: "] 
+  "1243" -> "1247"  [ label = "AST: "] 
+  "1243" -> "1247"  [ label = "CFG: "] 
+  "1244" -> "1247"  [ label = "DDG: "] 
+  "1245" -> "1247"  [ label = "DDG: "] 
+  "1243" -> "1244"  [ label = "DDG: "] 
+  "1243" -> "1245"  [ label = "DDG: "] 
+}

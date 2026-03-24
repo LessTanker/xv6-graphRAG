@@ -1,0 +1,12 @@
+digraph "recover_from_log" {  
+"5308" [label = <(METHOD,recover_from_log)<SUB>50</SUB>> ]
+"5309" [label = <(PARAM,void)<SUB>50</SUB>> ]
+"5310" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"5311" [label = <(METHOD_RETURN,void)<SUB>50</SUB>> ]
+  "5308" -> "5309"  [ label = "AST: "] 
+  "5308" -> "5310"  [ label = "AST: "] 
+  "5308" -> "5311"  [ label = "AST: "] 
+  "5308" -> "5311"  [ label = "CFG: "] 
+  "5309" -> "5311"  [ label = "DDG: "] 
+  "5308" -> "5309"  [ label = "DDG: "] 
+}

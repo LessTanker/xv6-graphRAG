@@ -1,0 +1,12 @@
+digraph "atoi" {  
+"22829" [label = <(METHOD,atoi)<SUB>37</SUB>> ]
+"22830" [label = <(PARAM,const char*)<SUB>37</SUB>> ]
+"22831" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22832" [label = <(METHOD_RETURN,int)<SUB>37</SUB>> ]
+  "22829" -> "22830"  [ label = "AST: "] 
+  "22829" -> "22831"  [ label = "AST: "] 
+  "22829" -> "22832"  [ label = "AST: "] 
+  "22829" -> "22832"  [ label = "CFG: "] 
+  "22830" -> "22832"  [ label = "DDG: "] 
+  "22829" -> "22830"  [ label = "DDG: "] 
+}

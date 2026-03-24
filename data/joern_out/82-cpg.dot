@@ -1,0 +1,16 @@
+digraph "swtch" {  
+"1290" [label = <(METHOD,swtch)<SUB>106</SUB>> ]
+"1291" [label = <(PARAM,struct context*)<SUB>106</SUB>> ]
+"1292" [label = <(PARAM,struct context*)<SUB>106</SUB>> ]
+"1293" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1294" [label = <(METHOD_RETURN,void)<SUB>106</SUB>> ]
+  "1290" -> "1291"  [ label = "AST: "] 
+  "1290" -> "1292"  [ label = "AST: "] 
+  "1290" -> "1293"  [ label = "AST: "] 
+  "1290" -> "1294"  [ label = "AST: "] 
+  "1290" -> "1294"  [ label = "CFG: "] 
+  "1291" -> "1294"  [ label = "DDG: "] 
+  "1292" -> "1294"  [ label = "DDG: "] 
+  "1290" -> "1291"  [ label = "DDG: "] 
+  "1290" -> "1292"  [ label = "DDG: "] 
+}

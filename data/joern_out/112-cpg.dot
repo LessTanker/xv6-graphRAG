@@ -1,0 +1,12 @@
+digraph "uartputc_sync" {  
+"1465" [label = <(METHOD,uartputc_sync)<SUB>150</SUB>> ]
+"1466" [label = <(PARAM,int)<SUB>150</SUB>> ]
+"1467" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1468" [label = <(METHOD_RETURN,void)<SUB>150</SUB>> ]
+  "1465" -> "1466"  [ label = "AST: "] 
+  "1465" -> "1467"  [ label = "AST: "] 
+  "1465" -> "1468"  [ label = "AST: "] 
+  "1465" -> "1468"  [ label = "CFG: "] 
+  "1466" -> "1468"  [ label = "DDG: "] 
+  "1465" -> "1466"  [ label = "DDG: "] 
+}

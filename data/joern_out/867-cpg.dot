@@ -1,0 +1,8 @@
+digraph "MAXARGS" {  
+"33672" [label = <(METHOD,MAXARGS)<SUB>14</SUB>> ]
+"33673" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33674" [label = <(METHOD_RETURN,ANY)> ]
+  "33672" -> "33673"  [ label = "AST: "] 
+  "33672" -> "33674"  [ label = "AST: "] 
+  "33672" -> "33674"  [ label = "CFG: "] 
+}

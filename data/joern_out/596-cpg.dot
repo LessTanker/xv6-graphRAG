@@ -1,0 +1,12 @@
+digraph "sbrk" {  
+"22848" [label = <(METHOD,sbrk)<SUB>40</SUB>> ]
+"22849" [label = <(PARAM,int)<SUB>40</SUB>> ]
+"22850" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22851" [label = <(METHOD_RETURN,char*)<SUB>40</SUB>> ]
+  "22848" -> "22849"  [ label = "AST: "] 
+  "22848" -> "22850"  [ label = "AST: "] 
+  "22848" -> "22851"  [ label = "AST: "] 
+  "22848" -> "22851"  [ label = "CFG: "] 
+  "22849" -> "22851"  [ label = "DDG: "] 
+  "22848" -> "22849"  [ label = "DDG: "] 
+}

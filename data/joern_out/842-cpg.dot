@@ -1,0 +1,8 @@
+digraph "UART0" {  
+"33578" [label = <(METHOD,UART0)<SUB>21</SUB>> ]
+"33579" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33580" [label = <(METHOD_RETURN,ANY)> ]
+  "33578" -> "33579"  [ label = "AST: "] 
+  "33578" -> "33580"  [ label = "AST: "] 
+  "33578" -> "33580"  [ label = "CFG: "] 
+}

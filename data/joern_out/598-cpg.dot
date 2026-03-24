@@ -1,0 +1,16 @@
+digraph "fprintf" {  
+"22858" [label = <(METHOD,fprintf)<SUB>44</SUB>> ]
+"22859" [label = <(PARAM,int)<SUB>44</SUB>> ]
+"22860" [label = <(PARAM,const char*...)<SUB>44</SUB>> ]
+"22861" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"22862" [label = <(METHOD_RETURN,void)<SUB>44</SUB>> ]
+  "22858" -> "22859"  [ label = "AST: "] 
+  "22858" -> "22860"  [ label = "AST: "] 
+  "22858" -> "22861"  [ label = "AST: "] 
+  "22858" -> "22862"  [ label = "AST: "] 
+  "22858" -> "22862"  [ label = "CFG: "] 
+  "22859" -> "22862"  [ label = "DDG: "] 
+  "22860" -> "22862"  [ label = "DDG: "] 
+  "22858" -> "22859"  [ label = "DDG: "] 
+  "22858" -> "22860"  [ label = "DDG: "] 
+}

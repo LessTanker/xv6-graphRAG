@@ -1,0 +1,8 @@
+digraph "O_WRONLY" {  
+"33496" [label = <(METHOD,O_WRONLY)<SUB>2</SUB>> ]
+"33497" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33498" [label = <(METHOD_RETURN,ANY)> ]
+  "33496" -> "33497"  [ label = "AST: "] 
+  "33496" -> "33498"  [ label = "AST: "] 
+  "33496" -> "33498"  [ label = "CFG: "] 
+}

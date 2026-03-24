@@ -1,0 +1,12 @@
+digraph "PTE_FLAGS" {  
+"33609" [label = <(METHOD,PTE_FLAGS)<SUB>369</SUB>> ]
+"33610" [label = <(PARAM,p1)> ]
+"33611" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33612" [label = <(METHOD_RETURN,ANY)> ]
+  "33609" -> "33610"  [ label = "AST: "] 
+  "33609" -> "33611"  [ label = "AST: "] 
+  "33609" -> "33612"  [ label = "AST: "] 
+  "33609" -> "33612"  [ label = "CFG: "] 
+  "33610" -> "33612"  [ label = "DDG: p1"] 
+  "33609" -> "33610"  [ label = "DDG: "] 
+}

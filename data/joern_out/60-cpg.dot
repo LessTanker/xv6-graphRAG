@@ -1,0 +1,12 @@
+digraph "printfinit" {  
+"1168" [label = <(METHOD,printfinit)<SUB>78</SUB>> ]
+"1169" [label = <(PARAM,void)<SUB>78</SUB>> ]
+"1170" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"1171" [label = <(METHOD_RETURN,void)<SUB>78</SUB>> ]
+  "1168" -> "1169"  [ label = "AST: "] 
+  "1168" -> "1170"  [ label = "AST: "] 
+  "1168" -> "1171"  [ label = "AST: "] 
+  "1168" -> "1171"  [ label = "CFG: "] 
+  "1169" -> "1171"  [ label = "DDG: "] 
+  "1168" -> "1169"  [ label = "DDG: "] 
+}

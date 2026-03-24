@@ -1,0 +1,12 @@
+digraph "sys_wait" {  
+"10422" [label = <(METHOD,sys_wait)<SUB>85</SUB>> ]
+"10423" [label = <(PARAM,void)<SUB>85</SUB>> ]
+"10424" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"10425" [label = <(METHOD_RETURN,uint64)<SUB>85</SUB>> ]
+  "10422" -> "10423"  [ label = "AST: "] 
+  "10422" -> "10424"  [ label = "AST: "] 
+  "10422" -> "10425"  [ label = "AST: "] 
+  "10422" -> "10425"  [ label = "CFG: "] 
+  "10423" -> "10425"  [ label = "DDG: "] 
+  "10422" -> "10423"  [ label = "DDG: "] 
+}

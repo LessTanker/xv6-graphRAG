@@ -1,0 +1,8 @@
+digraph "MAXOPBLOCKS" {  
+"33224" [label = <(METHOD,MAXOPBLOCKS)<SUB>9</SUB>> ]
+"33225" [label = <(BLOCK,&lt;empty&gt;,&lt;empty&gt;)> ]
+"33226" [label = <(METHOD_RETURN,ANY)> ]
+  "33224" -> "33225"  [ label = "AST: "] 
+  "33224" -> "33226"  [ label = "AST: "] 
+  "33224" -> "33226"  [ label = "CFG: "] 
+}
